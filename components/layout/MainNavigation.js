@@ -41,12 +41,6 @@ export default function MainNavigation() {
           >
             Categories
           </Link>
-          <Link
-            href="/"
-            className="block mt-4 lg:inline-block lg:mt-0 hover:text-white px-4 py-2 rounded hover:bg-blue-700 mr-2"
-          >
-            Menu 3
-          </Link>
         </div>
         <div className="relative mx-auto text-gray-600 lg:block hidden">
           <input
@@ -65,9 +59,7 @@ export default function MainNavigation() {
             Signup/Login
           </Link>
 
-          <CartButton className=" block text-md px-4  ml-2 py-2 rounded text-blue-700 font-bold hover:text-white mt-4 hover:bg-blue-700 lg:mt-0">
-            Cart
-          </CartButton>
+          <CartButton className=" block text-md px-4  ml-2 py-2 rounded text-blue-700 font-bold hover:text-white mt-4 hover:bg-blue-700 lg:mt-0" />
         </div>
       </div>
     </nav>
