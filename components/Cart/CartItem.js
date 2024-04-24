@@ -23,7 +23,7 @@ export default function CartItem(props) {
   }
 
   return (
-    <div className="flex space-x-3 rounded-lg m-4 p-4 shadow font-mono justify-around bg-pink-50">
+    <div className="flex space-x-3 m-4 p-4 font-mono justify-around ">
       <div className="flex space-x-20">
         <img src={imageUrl} alt={title} className=" h-auto w-2/12" />
 

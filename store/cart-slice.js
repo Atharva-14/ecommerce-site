@@ -3,7 +3,6 @@ const { createSlice } = require("@reduxjs/toolkit");
 const initialState = {
   books: [],
   totalQuantity: 0,
-  totalPrice: 0,
 };
 
 const cartSlice = createSlice({
