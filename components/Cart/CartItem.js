@@ -54,7 +54,7 @@ export default function CartItem(props) {
           </span>
         </div>
       </div>
-      <p className="font-medium text-xl">₹{total.toFixed(2)}</p>
+      <p className="font-bold text-xl">₹{price.toFixed(2)}</p>
     </div>
   );
 }

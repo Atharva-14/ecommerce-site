@@ -6,6 +6,8 @@ export default function Home({ allBooksData }) {
     <div className="mx-2 my-1 flex w-full">
       <div className="w-1/4">Filter</div>
       <div className="w-3/4">
+
+        
         {allBooksData.map((book) => (
           <BookCard
             key={book.id}

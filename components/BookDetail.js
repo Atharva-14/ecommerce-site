@@ -1,9 +1,8 @@
 import { cartActions } from "@/store/cart-slice";
-import { useRouter } from "next/router";
+import Link from "next/link";
 import { useDispatch } from "react-redux";
 
 export default function BookDetail({ props }) {
-  const router = useRouter();
   const dispatch = useDispatch();
   const { id, title, imageUrl, author, price, description } = props;
 
@@ -17,9 +16,6 @@ export default function BookDetail({ props }) {
         price,
       })
     );
-    setTimeout(() => {
-      router.push("/cart");
-    }, 900);
   }
 
   return (
@@ -41,12 +37,13 @@ export default function BookDetail({ props }) {
       </div>
       <div className="h-full flex flex-col space-y-4 bg-white p-5 text-center rounded border-gray-300 border-4">
         <p className="font-medium text-xl">₹{price}</p>
-        <button
+        <Link
+          href="/cart"
           className="border rounded-lg shadow border-gray-300 mx-auto p-1.5 hover:bg-gray-400 "
           onClick={addItemToCart}
         >
           Add to Cart
-        </button>
+        </Link>
       </div>
     </div>
   );

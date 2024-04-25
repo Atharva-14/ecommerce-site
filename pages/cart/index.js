@@ -10,13 +10,12 @@ export default function Cart() {
     0
   );
 
-  console.log(DUMMY_BOOKS_DATA.map((book) => book.category));
-
   return (
     <div className="p-4 w-full flex space-x-3 bg-gray-200">
       <div className="w-3/4 bg-white p-5">
         <p className="text-2xl font-medium">Shopping Cart</p>
-        <hr className="mt-6" />
+        <p className="pr-8 text-end">Price</p>
+        <hr />
         {cartQuantity ? (
           cartItems.map((book) => (
             <CartItem
@@ -33,10 +32,14 @@ export default function Cart() {
         ) : (
           <p className=" text-xl text-center my-5">Your Cart is empty</p>
         )}
+        <hr />
+        <p className="pr-8 pt-2 text-end text-lg">
+          SubTotal ({cartQuantity} item): <b>₹{totalCartValue.toFixed(2)}</b>
+        </p>
       </div>
       <div className="w-1/4 h-full flex flex-col space-y-4 bg-white p-5">
-        <p className="text-center font-medium text-lg">
-          SubTotal ({cartQuantity} item): ₹{totalCartValue.toFixed(2)}
+        <p className="text-center text-lg">
+          SubTotal ({cartQuantity} item): <b>₹{totalCartValue.toFixed(2)}</b>
         </p>
         {cartQuantity ? (
           <button className="border rounded-lg shadow border-gray-300 mx-auto p-1.5 hover:bg-gray-300 ">
