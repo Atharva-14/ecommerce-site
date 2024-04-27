@@ -1,10 +1,26 @@
 import BookDetail from "@/components/BookDetail";
 import { DUMMY_BOOKS_DATA } from "@/utils/data";
+import { notFound } from "next/navigation";
+
+export async function generateMetadata({ params }) {
+  const id = parseInt(params.book);
+
+  const book = DUMMY_BOOKS_DATA.find((book) => book.id === id);
+
+  if (!book) {
+    notFound();
+  }
+
+  return {
+    title: book.title,
+    description: book.description,
+  };
+}
 
 export default function Book(props) {
   return (
     <div>
-      <BookDetail props={props.book}/>
+      <BookDetail props={props.book} />
     </div>
   );
 }

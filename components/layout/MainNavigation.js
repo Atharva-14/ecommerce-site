@@ -1,7 +1,29 @@
 import Link from "next/link";
 import CartButton from "../Cart/CartButton";
+import { useState } from "react";
+import { DUMMY_BOOKS_DATA } from "@/utils/data";
+import { usePathname } from "next/navigation";
 
 export default function MainNavigation() {
+  const path = usePathname();
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+
+  const inactiveClass =
+    "block mt-4 lg:inline-block lg:mt-0 hover:text-white px-4 py-2 rounded hover:bg-blue-700 mr-2";
+
+  const activeClass =
+    "block mt-4 lg:inline-block lg:mt-0 text-white px-4 py-2 rounded bg-blue-700 mr-2";
+
+  function handleSearch() {
+    const filteredResults = DUMMY_BOOKS_DATA.filter(
+      (book) =>
+        book.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        book.author.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setSearchResults(filteredResults);
+  }
+
   return (
     <nav className="flex items-center justify-between flex-wrap bg-white py-4 lg:px-12 shadow border-solid border-t-2 border-blue-700">
       <div className="flex justify-between lg:w-auto w-full lg:border-b-0 pl-6 pr-2 border-solid border-b-2 border-gray-300 pb-5 lg:pb-0">
@@ -31,27 +53,47 @@ export default function MainNavigation() {
         <div className="text-md font-bold text-blue-700 lg:flex-grow">
           <Link
             href="/"
-            className="block mt-4 lg:inline-block lg:mt-0 hover:text-white px-4 py-2 rounded hover:bg-blue-700 mr-2"
+            className={path === "/" ? `${activeClass}` : `${inactiveClass}`}
           >
             Home
           </Link>
           <Link
             href="/categories"
-            className=" block mt-4 lg:inline-block lg:mt-0 hover:text-white px-4 py-2 rounded hover:bg-blue-700 mr-2"
+            className={
+              path === "/categories" ? `${activeClass}` : `${inactiveClass}`
+            }
           >
             Shop by Category
           </Link>
         </div>
-        <div className="relative mx-auto text-gray-600 lg:block hidden">
+        <div className="flex mx-auto text-gray-600 lg:block space-x-3">
           <input
             className="border-2 border-gray-300 bg-white h-10 pl-2 pr-8 rounded-lg text-sm focus:outline-none"
             type="search"
             name="search"
             placeholder="Search"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
           />
+          <button
+            className="px-2.5 py-1.5 bg-slate-300 rounded"
+            onClick={handleSearch}
+          >
+            Search
+          </button>
+          <ul className="mt-4 ">
+            {searchResults.map((book) => (
+              <li
+                key={book.id}
+                className="py-2 border-b border-gray-300 last:border-b-0"
+              >
+                {book.title} by {book.author}
+              </li>
+            ))}
+          </ul>
         </div>
 
-        <div className="flex ">
+        <div className="flex text-blue-700 text-md font-bold">
           <Link
             href="#"
             className="block text-md px-4 py-2 rounded text-blue-700 ml-2 font-bold hover:text-white mt-4 hover:bg-blue-700 lg:mt-0"
@@ -59,7 +101,7 @@ export default function MainNavigation() {
             Signup/Login
           </Link>
 
-          <CartButton className=" block text-md px-4  ml-2 py-2 rounded text-blue-700 font-bold hover:text-white mt-4 hover:bg-blue-700 lg:mt-0" />
+          <CartButton />
         </div>
       </div>
     </nav>
