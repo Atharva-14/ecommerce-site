@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 
 export default function Cart() {
   const [cartValue, setCartValue] = useState(0);
+  const [discountAmt, setDiscountAmt] = useState(0);
   const cartItems = useSelector((state) => state.cart.books);
   const cartQuantity = useSelector((state) => state.cart.totalQuantity);
   const totalCartValue = useSelector((state) => state.cart.totalCartValue);
@@ -18,12 +19,22 @@ export default function Cart() {
 
     if (coupon === "SAVE20") {
       setCartValue(totalCartValue - (totalCartValue * 20) / 100);
+      setDiscountAmt(
+        totalCartValue - (totalCartValue - (totalCartValue * 20) / 100)
+      );
     } else if (coupon === "MEGA40") {
       setCartValue(totalCartValue - (totalCartValue * 40) / 100);
+      setDiscountAmt(
+        totalCartValue - (totalCartValue - (totalCartValue * 40) / 100)
+      );
     } else if (coupon === "MEGA10") {
       setCartValue(totalCartValue - (totalCartValue * 10) / 100);
+      setDiscountAmt(
+        totalCartValue - (totalCartValue - (totalCartValue * 10) / 100)
+      );
     } else if (coupon === "CLEAR") {
       setCartValue(totalCartValue);
+      setDiscountAmt(0);
     }
   }
 
@@ -58,11 +69,18 @@ export default function Cart() {
           ""
         )}
       </div>
-      <div className="w-1/4 h-ful flex flex-col space-y-5">
-        <div className="flex flex-col space-y-4 bg-white p-2.5">
+      <div className="w-1/4 h-full flex flex-col space-y-5">
+        <div className="flex flex-col space-y-1 bg-white p-2.5">
           <p className="text-center text-lg">
-            SubTotal ({cartQuantity} item): <b>₹{cartValue.toFixed(2)}</b>
+            SubTotal ({cartQuantity} item): <b>₹{totalCartValue.toFixed(2)}</b>
           </p>
+          <p className="text-center ">
+            Applied Discount: {discountAmt.toFixed(2)}
+          </p>
+          {/* <hr className=" h-0.5 bg-gray-300" />
+          <p className="text-center text-lg">
+            Total: <b>₹{cartValue.toFixed(2)}</b>
+          </p> */}
           {cartQuantity ? (
             <button className="border rounded-lg shadow border-gray-300 mx-auto p-1.5 hover:bg-gray-300 ">
               Proceed to Buy

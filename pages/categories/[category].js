@@ -3,7 +3,7 @@ import { DUMMY_BOOKS_DATA } from "@/utils/data";
 
 export default function Category(props) {
   return (
-    <div>
+    <div className="flex flex-wrap">
       {props.books.map((book) => (
         <BookCard
           key={book.id}

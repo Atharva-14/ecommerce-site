@@ -7,7 +7,7 @@ export const metadata = {
 
 export default function Layout(props) {
   return (
-    <div className="fixed top-0 w-full z-10">
+    <div className="">
       <MainNavigation />
       <main className="px-3 py-4 bg-slate-100">{props.children}</main>
     </div>
