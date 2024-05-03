@@ -324,4 +324,389 @@ export const DUMMY_BOOKS_DATA = [
       "https://m.media-amazon.com/images/I/41fK2D8MUjL._AC_UF1000,1000_QL80_DpWeblab_.jpg",
     category: "Children's Literature",
   },
+  {
+    id: 31,
+    title: "Pride and Prejudice",
+    author: "Jane Austen",
+    description:
+      "Pride and Prejudice is a romantic novel by Jane Austen, first published in 1813. The story follows the main character, Elizabeth Bennet, as she deals with issues of manners, upbringing, morality, education, and marriage in the society of the landed gentry of early 19th-century England.",
+    price: 329,
+    imageUrl:
+      "https://m.media-amazon.com/images/I/71Q1tPupKjL._AC_UF1000,1000_QL80_.jpg",
+    category: "Romance",
+  },
+  {
+    id: 32,
+    title: "To Kill a Mockingbird",
+    author: "Harper Lee",
+    description:
+      "To Kill a Mockingbird is a novel by Harper Lee, published in 1960. It was immediately successful, winning the Pulitzer Prize, and has become a classic of modern American literature. The plot and characters are loosely based on Lee's observations of her family, her neighbors and an event that occurred near her hometown of Monroeville, Alabama, in 1936, when she was ten.",
+    price: 399,
+    imageUrl:
+      "https://m.media-amazon.com/images/I/81gepf1eMqL._AC_UF1000,1000_QL80_.jpg",
+    category: "Classic Literature",
+  },
+  {
+    id: 33,
+    title: "1984",
+    author: "George Orwell",
+    description:
+      "1984 is a dystopian social science fiction novel by English novelist George Orwell. It was published on 8 June 1949 by Secker & Warburg as Orwell's ninth and final book completed in his lifetime. Thematically, 1984 centers on the consequences of totalitarianism, mass surveillance, and repressive regimentation of persons and behaviors within society.",
+    price: 349,
+    imageUrl:
+      "https://m.media-amazon.com/images/I/612ADI+BVlL._AC_UF1000,1000_QL80_.jpg",
+    category: "Dystopian Fiction",
+  },
+  {
+    id: 34,
+    title: "The Great Gatsby",
+    author: "F. Scott Fitzgerald",
+    description:
+      "The Great Gatsby is a 1925 novel by American writer F. Scott Fitzgerald. Set in the Jazz Age on Long Island, near New York City, the novel depicts first-person narrator Nick Carraway's interactions with mysterious millionaire Jay Gatsby and Gatsby's obsession to reunite with his former lover, Daisy Buchanan.",
+    price: 299,
+    imageUrl:
+      "https://m.media-amazon.com/images/I/81QuEGw8VPL._AC_UF1000,1000_QL80_.jpg",
+    category: "Classic Literature",
+  },
+  {
+    id: 35,
+    title: "The Hobbit",
+    author: "J.R.R. Tolkien",
+    description:
+      "The Hobbit, or There and Back Again is a children's fantasy novel by English author J. R. R. Tolkien. It was published on 21 September 1937 to wide critical acclaim, being nominated for the Carnegie Medal and awarded a prize from the New York Herald Tribune for best juvenile fiction.",
+    price: 349,
+    imageUrl:
+      "https://m.media-amazon.com/images/I/712cDO7d73L._AC_UF1000,1000_QL80_.jpg",
+    category: "Fantasy",
+  },
+  {
+    id: 36,
+    title: "Brave New World",
+    author: "Aldous Huxley",
+    description:
+      "Brave New World is a dystopian social science fiction novel by English author Aldous Huxley, written in 1931 and published in 1932. Largely set in a futuristic World State, whose citizens are environmentally engineered into an intelligence-based social hierarchy, the novel anticipates huge scientific advancements in reproductive technology, sleep-learning, psychological manipulation, and classical conditioning that are combined to make a dystopian society which is challenged by only a single individual: the story's protagonist.",
+    price: 379,
+    imageUrl:
+      "https://m.media-amazon.com/images/I/91D4YvdC0dL._AC_UF1000,1000_QL80_DpWeblab_.jpg",
+    category: "Dystopian Fiction",
+  },
+  {
+    id: 37,
+    title: "The Brothers Karamazov",
+    author: "Fyodor Dostoevsky",
+    description:
+      "The Brothers Karamazov, also translated as The Karamazov Brothers, is the final novel by the Russian author Fyodor Dostoevsky. Dostoevsky spent nearly two years writing The Brothers Karamazov, which was published as a serial in The Russian Messenger and completed in November 1880.",
+    price: 449,
+    imageUrl:
+      "https://m.media-amazon.com/images/I/71OZJsgZzQL._AC_UF1000,1000_QL80_.jpg",
+    category: "Philosophical Fiction",
+  },
+  {
+    id: 38,
+    title: "One Hundred Years of Solitude",
+    author: "Gabriel García Márquez",
+    description:
+      "One Hundred Years of Solitude is a landmark 1967 novel by Colombian author Gabriel García Márquez that tells the multi-generational story of the Buendía family, whose patriarch, José Arcadio Buendía, founded the town of Macondo, a fictitious town in the country of Colombia.",
+    price: 399,
+    imageUrl:
+      "https://m.media-amazon.com/images/I/81oAEEwxBWL._AC_UF1000,1000_QL80_.jpg",
+    category: "Magical Realism",
+  },
+  {
+    id: 39,
+    title: "The Grapes of Wrath",
+    author: "John Steinbeck",
+    description:
+      "The Grapes of Wrath is an American realist novel written by John Steinbeck and published in 1939. The book won the National Book Award and Pulitzer Prize for Fiction, and it was cited prominently when Steinbeck was awarded the Nobel Prize in 1962.",
+    price: 349,
+    imageUrl:
+      "https://m.media-amazon.com/images/I/814oeXzxhML._AC_UF1000,1000_QL80_.jpg",
+    category: "Historical Fiction",
+  },
+  {
+    id: 40,
+    title: "Les Misérables",
+    author: "Victor Hugo",
+    description:
+      "Les Misérables is a French historical novel by Victor Hugo, first published in 1862, that is considered one of the greatest novels of the 19th century. The novel is known for its portrayal of French society and politics in the early 19th century.",
+    price: 499,
+    imageUrl:
+      "https://m.media-amazon.com/images/I/81e1NPAQJmL._AC_UF1000,1000_QL80_.jpg",
+    category: "Historical Fiction",
+  },
+  {
+    id: 41,
+    title: "The Divine Comedy",
+    author: "Dante Alighieri",
+    description:
+      "The Divine Comedy is a long Italian narrative poem by Dante Alighieri, begun c. 1308 and completed in 1320, a year before his death in 1321. It is widely considered to be one of the greatest works of world literature. The poem's imaginative vision of the afterlife is representative of the medieval world-view as it had developed in the Western Church by the 14th century.",
+    price: 449,
+    imageUrl:
+      "https://m.media-amazon.com/images/I/51i-9SGWr-L._AC_UF1000,1000_QL80_.jpg",
+    category: "Epic Poetry",
+  },
+  {
+    id: 42,
+    title: "Anna Karenina",
+    author: "Leo Tolstoy",
+    description:
+      "Anna Karenina is a novel by the Russian author Leo Tolstoy, first published in book form in 1878. Many writers consider Anna Karenina the greatest work of literature ever and Tolstoy himself called it his first true novel.",
+    price: 379,
+    imageUrl:
+      "https://m.media-amazon.com/images/I/91F9WNEThJL._AC_UF1000,1000_QL80_.jpg",
+    category: "Romance",
+  },
+  {
+    id: 43,
+    title: "The Canterbury Tales",
+    author: "Geoffrey Chaucer",
+    description:
+      "The Canterbury Tales is a collection of 24 stories that runs to over 17,000 lines written in Middle English by Geoffrey Chaucer between 1387 and 1400. The tales are presented as part of a story-telling contest by a group of pilgrims as they travel together from Southwark to the shrine of Saint Thomas Becket at Canterbury Cathedral.",
+    price: 329,
+    imageUrl: "https://m.media-amazon.com/images/I/51EzygqUVOL.jpg",
+    category: "Classic Literature",
+  },
+  {
+    id: 44,
+    title: "The Stranger",
+    author: "Albert Camus",
+    description:
+      "The Stranger is a novel by Albert Camus published in 1942. Its theme and outlook are often cited as examples of Camus's philosophy, absurdism coupled with existentialism, though Camus personally rejected the latter label.",
+    price: 299,
+    imageUrl:
+      "https://m.media-amazon.com/images/I/81GjCVSEDAL._AC_UF1000,1000_QL80_.jpg",
+    category: "Philosophical Fiction",
+  },
+  {
+    id: 45,
+    title: "The Sound and the Fury",
+    author: "William Faulkner",
+    description:
+      "The Sound and the Fury is a novel by the American author William Faulkner. It employs several narrative styles, including stream of consciousness. Published in 1929, The Sound and the Fury was Faulkner's fourth novel, and was not immediately successful.",
+    price: 349,
+    imageUrl:
+      "https://m.media-amazon.com/images/I/71qnT05haTL._AC_UF1000,1000_QL80_.jpg",
+    category: "Modernist Literature",
+  },
+  {
+    id: 46,
+    title: "A Clockwork Orange",
+    author: "Anthony Burgess",
+    description:
+      "A Clockwork Orange is a dystopian satirical black comedy novel by English writer Anthony Burgess, published in 1962. It is set in a near-future society that has a youth subculture of extreme violence. The teenage protagonist, Alex, narrates his violent exploits and his experiences with state authorities intent on reforming him.",
+    price: 399,
+    imageUrl:
+      "https://m.media-amazon.com/images/I/61bR8924P+L._AC_UF1000,1000_QL80_.jpg",
+    category: "Dystopian Fiction",
+  },
+  {
+    id: 47,
+    title: "Beloved",
+    author: "Toni Morrison",
+    description:
+      "Beloved is a novel by the American writer Toni Morrison. Set after the American Civil War, it tells the story of a family of former slaves whose Cincinnati home is haunted by a malevolent spirit.",
+    price: 349,
+    imageUrl:
+      "https://m.media-amazon.com/images/I/51Qj9kPD4CL._AC_UF1000,1000_QL80_.jpg",
+    category: "Historical Fiction",
+  },
+  {
+    id: 48,
+    title: "The Sun Also Rises",
+    author: "Ernest Hemingway",
+    description:
+      "The Sun Also Rises is a 1926 novel by American writer Ernest Hemingway. It is about a group of American and British expatriates who travel from Paris to the Festival of San Fermín in Pamplona to watch the running of the bulls and the bullfights.",
+    price: 299,
+    imageUrl:
+      "https://m.media-amazon.com/images/I/71O7XjXaMhL._AC_UF1000,1000_QL80_.jpg",
+    category: "Modernist Literature",
+  },
+  {
+    id: 49,
+    title: "The Bell Jar",
+    author: "Sylvia Plath",
+    description:
+      "The Bell Jar is the only novel written by the American writer and poet Sylvia Plath. Originally published under the pseudonym 'Victoria Lucas' in 1963, the novel is semi-autobiographical, with the names of places and people changed.",
+    price: 329,
+    imageUrl:
+      "https://m.media-amazon.com/images/I/81wUVpREPSL._AC_UF1000,1000_QL80_.jpg",
+    category: "Autobiographical Fiction",
+  },
+  {
+    id: 50,
+    title: "Slaughterhouse-Five",
+    author: "Kurt Vonnegut",
+    description:
+      "Slaughterhouse-Five, or The Children's Crusade: A Duty-Dance with Death is a science fiction-infused anti-war novel by Kurt Vonnegut, first published in 1969. It follows the life and experiences of Billy Pilgrim, from his early years to his time as an American soldier and chaplain's assistant during World War II, to the post-war years, with Billy occasionally traveling through time.",
+    price: 379,
+    imageUrl:
+      "https://m.media-amazon.com/images/I/51jLxTxTnyL._AC_UF1000,1000_QL80_DpWeblab_.jpg",
+    category: "Science Fiction",
+  },
+  {
+    id: 51,
+    title: "The Joy Luck Club",
+    author: "Amy Tan",
+    description:
+      "The Joy Luck Club is a 1989 novel written by Amy Tan. The novel consists of 16 interlocking stories about the lives of four Chinese immigrant mothers and their four American-born daughters in San Francisco who start a club known as The Joy Luck Club, playing the Chinese game of mahjong for money while feasting on a variety of foods.",
+    price: 329,
+    imageUrl:
+      "https://m.media-amazon.com/images/I/61n+IWg9twL._AC_UF1000,1000_QL80_.jpg",
+    category: "Contemporary Fiction",
+  },
+
+  {
+    id: 52,
+    title: "The Color Purple",
+    author: "Alice Walker",
+    description:
+      "The Color Purple is a 1982 epistolary novel by American author Alice Walker which won the 1983 Pulitzer Prize for Fiction and the National Book Award for Fiction. It was later adapted into a film and musical of the same name.",
+    price: 349,
+    imageUrl:
+      "https://m.media-amazon.com/images/I/71f6DRbcrsL._AC_UF1000,1000_QL80_.jpg",
+    category: "Historical Fiction",
+  },
+  {
+    id: 53,
+    title: "A Room of One's Own",
+    author: "Virginia Woolf",
+    description:
+      "A Room of One's Own is an extended essay by Virginia Woolf, first published in September 1929. The work is based on two lectures Woolf delivered in October 1928 at Newnham College and Girton College, women's colleges at the University of Cambridge.",
+    price: 329,
+    imageUrl:
+      "https://m.media-amazon.com/images/I/81nYAOd3IXL._AC_UF1000,1000_QL80_.jpg",
+    category: "Feminist Literature",
+  },
+  {
+    id: 54,
+    title: "Jane Eyre",
+    author: "Charlotte Brontë",
+    description:
+      "Jane Eyre is a novel by English writer Charlotte Brontë, published under the pen name 'Currer Bell' on 16 October 1847, by Smith, Elder & Co. of London. The novel follows the experiences of its eponymous heroine, including her growth to adulthood and her love for Mr. Rochester, the brooding master of Thornfield Hall.",
+    price: 329,
+    imageUrl:
+      "https://m.media-amazon.com/images/I/61RmfGsyCrL._AC_UF1000,1000_QL80_.jpg",
+    category: "Gothic Fiction",
+  },
+  {
+    id: 55,
+    title: "Middlemarch",
+    author: "George Eliot",
+    description:
+      "Middlemarch, A Study of Provincial Life is a novel by George Eliot, the pen name of Mary Anne Evans, first published in eight instalments (volumes) during 1871–72. The novel is set in the fictitious Midlands town of Middlemarch during the period 1830–32 and explores many contemporary issues, including the status of women, the nature of marriage, idealism, self-interest, religion, hypocrisy, political reform, and education.",
+    price: 379,
+    imageUrl:
+      "https://m.media-amazon.com/images/I/91e0ZxJbomL._AC_UF1000,1000_QL80_.jpg",
+    category: "Classic Literature",
+  },
+  {
+    id: 56,
+    title: "Gone with the Wind",
+    author: "Margaret Mitchell",
+    description:
+      "Gone with the Wind is a novel by American writer Margaret Mitchell, first published in 1936. The story is set in Clayton County and Atlanta, both in Georgia, during the American Civil War and Reconstruction Era. It depicts the struggles of young Scarlett O'Hara, the spoiled daughter of a well-to-do plantation owner, who must use every means at her disposal to claw her way out of poverty following Sherman's destructive 'March to the Sea'.",
+    price: 449,
+    imageUrl:
+      "https://m.media-amazon.com/images/I/612gOvRX85L._AC_UF1000,1000_QL80_.jpg",
+    category: "Historical Fiction",
+  },
+  {
+    id: 57,
+    title: "Don Quixote",
+    author: "Miguel de Cervantes",
+    description:
+      "Don Quixote is a Spanish novel by Miguel de Cervantes. It was published in two parts in 1605 and 1615. It is considered one of the greatest works of fiction ever written.",
+    price: 399,
+    imageUrl:
+      "https://m.media-amazon.com/images/I/71mbJoazlCL._AC_UF1000,1000_QL80_.jpg",
+    category: "Classic Literature",
+  },
+  {
+    id: 58,
+    title: "The Metamorphosis",
+    author: "Franz Kafka",
+    description:
+      "The Metamorphosis is a novella written by Franz Kafka, first published in 1915. It tells the story of Gregor Samsa, a salesman who wakes up one morning to find himself transformed into a giant insect.",
+    price: 299,
+    imageUrl:
+      "https://m.media-amazon.com/images/I/81QOkf8RSIL._AC_UF1000,1000_QL80_.jpg",
+    category: "Existential Fiction",
+  },
+  {
+    id: 59,
+    title: "The Scarlet Letter",
+    author: "Nathaniel Hawthorne",
+    description:
+      "The Scarlet Letter: A Romance is a work of historical fiction by American author Nathaniel Hawthorne, published in 1850. Set in Puritan Massachusetts Bay Colony during the years 1642 to 1649, it tells the story of Hester Prynne, who conceives a daughter through an affair and struggles to create a new life of repentance and dignity.",
+    price: 329,
+    imageUrl:
+      "https://m.media-amazon.com/images/I/61pLRWYTbXL._AC_UF1000,1000_QL80_.jpg",
+    category: "Historical Fiction",
+  },
+  {
+    id: 60,
+    title: "Heart of Darkness",
+    author: "Joseph Conrad",
+    description:
+      "Heart of Darkness is a novella by Polish-British novelist Joseph Conrad, first published in 1899 as a serial in Blackwood's Magazine. The story details an incident when Marlow, an English seaman, recounts his journey up the Congo River into the Congo Free State in the heart of Africa.",
+    price: 299,
+    imageUrl:
+      "https://m.media-amazon.com/images/I/71MFRCo1OpL._AC_UF1000,1000_QL80_.jpg",
+    category: "Modernist Literature",
+  },
+  {
+    id: 61,
+    title: "Catch-22",
+    author: "Joseph Heller",
+    description:
+      "Catch-22 is a satirical war novel by American author Joseph Heller. He began writing it in 1953; the novel was first published in 1961. It is set during World War II and follows Captain John Yossarian and a number of other characters, including the chaplain, Orr, and the mortician, Doc Daneeka.",
+    price: 349,
+    imageUrl:
+      "https://m.media-amazon.com/images/I/71Ym0vDDWsL._AC_UF1000,1000_QL80_.jpg",
+    category: "Satirical Fiction",
+  },
+  {
+    id: 62,
+    title: "Walden",
+    author: "Henry David Thoreau",
+    description:
+      "Walden is a book by transcendentalist Henry David Thoreau. The text is a reflection upon simple living in natural surroundings. The work is part personal declaration of independence, social experiment, voyage of spiritual discovery, satire, and manual for self-reliance.",
+    price: 329,
+    imageUrl:
+      "https://m.media-amazon.com/images/I/81YGjrEKTXL._AC_UF1000,1000_QL80_.jpg",
+    category: "Philosophical Literature",
+  },
+  {
+    id: 63,
+    title: "The Handmaid's Tale",
+    author: "Margaret Atwood",
+    description:
+      "The Handmaid's Tale is a dystopian novel by Canadian author Margaret Atwood, published in 1985. It is set in a near-future New England, in a totalitarian state resembling a theonomy that overthrows the United States government. The novel focuses on the journey of the handmaid Offred.",
+    price: 349,
+    imageUrl:
+      "https://m.media-amazon.com/images/I/61SpcaD4poL._AC_UF1000,1000_QL80_.jpg",
+    category: "Dystopian Fiction",
+  },
+  {
+    id: 64,
+    title: "Sapiens: A Brief History of Humankind",
+    author: "Yuval Noah Harari",
+    description:
+      "Sapiens: A Brief History of Humankind is a book by Yuval Noah Harari, first published in Hebrew in Israel in 2011. The book surveys the history of humankind from the evolution of archaic human species in the Stone Age up to the twenty-first century, focusing on Homo sapiens.",
+    price: 399,
+    imageUrl:
+      "https://m.media-amazon.com/images/I/713jIoMO3UL._AC_UF1000,1000_QL80_.jpg",
+    category: "Non-fiction",
+  },
+  {
+    id: 65,
+    title: "The Name of the Wind",
+    author: "Patrick Rothfuss",
+    description:
+      "The Name of the Wind is a fantasy novel by Patrick Rothfuss, the first book in a series called The Kingkiller Chronicle. It tells the story of Kvothe, a magically gifted young man who grows to be the most notorious wizard his world has ever seen.",
+    price: 349,
+    imageUrl:
+      "https://m.media-amazon.com/images/I/611iKJa7a-L._AC_UF1000,1000_QL80_.jpg",
+    category: "Fantasy",
+  },
 ];
