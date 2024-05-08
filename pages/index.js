@@ -110,8 +110,8 @@ export default function Home({ allBooksData }) {
       <div className="w-full overflow-y-auto flex flex-wrap gap-5">
         {filteredResults.map((book) => (
           <BookCard
-            key={book.id}
-            id={book.id}
+            key={book._id}
+            id={book._id}
             title={book.title}
             imageUrl={book.imageUrl}
             author={book.author}
@@ -124,11 +124,13 @@ export default function Home({ allBooksData }) {
 }
 
 export async function getStaticProps() {
-  const allBooksData = DUMMY_BOOKS_DATA;
+  const res = await fetch("http://localhost:3000/api/books");
+  const allBooksData = await res.json();
 
   return {
     props: {
       allBooksData,
     },
+    revalidate: 10,
   };
 }
