@@ -9,7 +9,7 @@ export default function Layout(props) {
   return (
     <div className="">
       <MainNavigation />
-      <main className="px-3 py-4 bg-slate-100">{props.children}</main>
+      <main className="px-3 py-4 bg-white">{props.children}</main>
     </div>
   );
 }

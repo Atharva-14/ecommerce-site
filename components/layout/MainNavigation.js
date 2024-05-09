@@ -37,6 +37,7 @@ export default function MainNavigation() {
         <SearchBar />
 
         <div className="flex text-blue-700 text-md font-bold">
+          <NavLink href="/account" label="Login" />
           <CartButton />
         </div>
       </div>

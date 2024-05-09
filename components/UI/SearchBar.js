@@ -1,6 +1,7 @@
 import { DUMMY_BOOKS_DATA } from "@/utils/data";
 import Link from "next/link";
 import { useState } from "react";
+import { Input } from "./input";
 
 export default function SearchBar() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -30,7 +31,7 @@ export default function SearchBar() {
   return (
     <div className="mr-2">
       <div className="flex space-x-3">
-        <input
+        <Input
           className="border-2 border-gray-300 bg-white h-10 pl-2 pr-8 rounded-lg text-sm focus:outline-none"
           type="search"
           value={searchTerm}
