@@ -77,10 +77,7 @@ export default function Cart() {
           <p className="text-center ">
             Applied Discount: {discountAmt.toFixed(2)}
           </p>
-          {/* <hr className=" h-0.5 bg-gray-300" />
-          <p className="text-center text-lg">
-            Total: <b>₹{cartValue.toFixed(2)}</b>
-          </p> */}
+          
           {cartQuantity ? (
             <button className="border rounded-lg shadow border-gray-300 mx-auto p-1.5 hover:bg-gray-300 ">
               Proceed to Buy

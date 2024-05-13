@@ -1,10 +1,7 @@
 import CategoryList from "@/components/Category/CategoryList";
-import { DUMMY_BOOKS_DATA } from "@/utils/data";
 
-export default function Categories() {
-  const categories = [
-    ...new Set(DUMMY_BOOKS_DATA.map((book) => book.category)),
-  ];
+export default function Categories({ allBooksData }) {
+  const categories = [...new Set(allBooksData.map((book) => book.category))];
 
   return (
     <div>
@@ -15,4 +12,16 @@ export default function Categories() {
       </div>
     </div>
   );
+}
+
+export async function getStaticProps() {
+  const res = await fetch("http://localhost:3000/api/books");
+  const allBooksData = await res.json();
+
+  return {
+    props: {
+      allBooksData,
+    },
+    revalidate: 10,
+  };
 }

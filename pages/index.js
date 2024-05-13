@@ -1,5 +1,4 @@
 import BookCard from "@/components/BookCard";
-import { DUMMY_BOOKS_DATA } from "@/utils/data";
 import { useState } from "react";
 
 export default function Home({ allBooksData }) {
@@ -30,7 +29,7 @@ export default function Home({ allBooksData }) {
   function handleOptionClick(value) {
     if (value === "featured") {
       setSelectedValue("Featured");
-      setFilteredResults(DUMMY_BOOKS_DATA);
+      setFilteredResults(allBooksData);
       setIsOpen(false);
     } else if (value === "lowToHigh") {
       setSelectedValue("Low to High");

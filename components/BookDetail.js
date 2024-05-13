@@ -4,12 +4,12 @@ import { useDispatch } from "react-redux";
 
 export default function BookDetail({ props }) {
   const dispatch = useDispatch();
-  const { id, title, imageUrl, author, price, description } = props;
+  const { _id, title, imageUrl, author, price, description } = props;
 
   function addItemToCart() {
     dispatch(
       cartActions.addItemToCart({
-        id,
+        id: _id,
         title,
         imageUrl,
         author,
