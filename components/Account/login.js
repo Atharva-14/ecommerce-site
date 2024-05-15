@@ -1,11 +1,40 @@
 import { Input } from "@/components/UI/input";
 import { Label } from "@/components/UI/label";
 import { cn } from "@/utils/cn";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useRef } from "react";
 
 export default function Login() {
-  const handleSubmit = (e) => {
+  const router = useRouter();
+
+  const emailInput = useRef();
+  const passwordInput = useRef();
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form submitted");
+
+    const formData = {
+      email: emailInput.current.value,
+      password: passwordInput.current.value,
+    };
+
+    try {
+      const res = await fetch("http://localhost:3000/api/user/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to login");
+      }
+      router.push("/categories");
+    } catch (error) {
+      console.log("Frontend: ", error.message);
+    }
   };
   return (
     <div className="max-w-md w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-white dark:bg-black">
@@ -16,11 +45,21 @@ export default function Login() {
       <form className="my-8" onSubmit={handleSubmit}>
         <LabelInputContainer className="mb-4">
           <Label htmlFor="email">Email Address</Label>
-          <Input id="email" placeholder="johndoe@email.com" type="email" />
+          <Input
+            id="email"
+            placeholder="johndoe@email.com"
+            type="email"
+            ref={emailInput}
+          />
         </LabelInputContainer>
         <LabelInputContainer className="mb-4">
           <Label htmlFor="password">Password</Label>
-          <Input id="password" placeholder="••••••••" type="password" />
+          <Input
+            id="password"
+            placeholder="••••••••"
+            type="password"
+            ref={passwordInput}
+          />
         </LabelInputContainer>
 
         <button
@@ -31,6 +70,15 @@ export default function Login() {
           <BottomGradient />
         </button>
       </form>
+
+      {/* <div className="bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent my-8 h-[1px] w-full" /> */}
+
+      <Label>
+        New to eBookHaven.{" "}
+        <Link href="/signup" className=" text-blue-600">
+          Create an account
+        </Link>
+      </Label>
     </div>
   );
 }

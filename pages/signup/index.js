@@ -1,7 +1,6 @@
-import Login from "@/components/Account/login";
 import Signup from "@/components/Account/signup";
 
-export default function AccountPage() {
+export default function SignupPage() {
   return (
     <div>
       <Signup />

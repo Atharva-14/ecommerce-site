@@ -29,7 +29,7 @@ export default function MainNavigation() {
         </div>
       </div>
 
-      <div className="menu w-full lg:block flex-grow lg:flex lg:items-center lg:w-auto lg:px-3 px-8">
+      <div className="menu w-full flex-grow lg:flex lg:items-center lg:w-auto lg:px-3 px-8">
         <div className="text-md font-bold text-blue-700 flex-grow">
           <NavLink href="/" label="Home" />
           <NavLink href="/categories" label="Shop by Category" />
@@ -37,7 +37,7 @@ export default function MainNavigation() {
         <SearchBar />
 
         <div className="flex text-blue-700 text-md font-bold">
-          <NavLink href="/account" label="Login" />
+          <NavLink href="/login" label="Login" />
           <CartButton />
         </div>
       </div>
