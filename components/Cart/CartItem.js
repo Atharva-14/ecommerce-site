@@ -1,26 +1,18 @@
-import { cartActions } from "@/store/cart-slice";
 import Link from "next/link";
-import { useDispatch } from "react-redux";
 
-export default function CartItem(props) {
-  const dispatch = useDispatch();
-  const { id, title, imageUrl, author, price, quantity, total } = props;
+export default function CartItem({ addToCart, removeFromCart, ...book }) {
+  const { _id, title, imageUrl, author, price, quantity } = book;
 
-  function addItemToCart() {
-    dispatch(
-      cartActions.addItemToCart({
-        id,
-        title,
-        imageUrl,
-        author,
-        price,
-      })
-    );
-  }
+  const user = JSON.parse(sessionStorage.getItem("user"));
+  const userId = user._id;
 
-  function removeItemFromCart() {
-    dispatch(cartActions.removeItemFromCart(id));
-  }
+  const handleAdd = (id, price) => {
+    addToCart(id, price, userId);
+  };
+
+  const handleRemove = (id, price) => {
+    removeFromCart(id, price, userId);
+  };
 
   return (
     <div className="flex space-x-3 m-4 p-4 font-mono justify-around ">
@@ -30,7 +22,7 @@ export default function CartItem(props) {
         <div className="flex flex-col justify-around">
           <span className="">
             <Link
-              href={`/books/${id}`}
+              href={`/books/${_id}`}
               className="font-bold text-4xl hover:text-blue-600"
             >
               {title}
@@ -39,15 +31,20 @@ export default function CartItem(props) {
           </span>
           <span className="flex flex-row space-x-4">
             <button
-              className="px-2 rounded-md border border-gray-300 hover:bg-gray-300 text-xl"
-              onClick={removeItemFromCart}
+              className={`px-2 rounded-md border ${
+                quantity === 0
+                  ? "bg-gray-500 cursor-not-allowed"
+                  : "border-gray-300 hover:bg-gray-300 text-xl"
+              } `}
+              onClick={() => handleRemove(_id, price)}
+              disabled={quantity === 0 ? true : false}
             >
               -
             </button>
             <p className="text-xl font-medium">{quantity}</p>
             <button
               className="px-2 rounded-md border border-gray-300 hover:bg-gray-300 text-xl"
-              onClick={addItemToCart}
+              onClick={() => handleAdd(_id, price)}
             >
               +
             </button>

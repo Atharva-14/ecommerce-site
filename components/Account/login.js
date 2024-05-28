@@ -31,6 +31,11 @@ export default function Login() {
       if (!res.ok) {
         throw new Error("Failed to login");
       }
+
+      const data = await res.json();
+      console.log(data);
+      sessionStorage.setItem("token", JSON.stringify(data.token));
+      sessionStorage.setItem("user", JSON.stringify(data.user));
       router.push("/categories");
     } catch (error) {
       console.log("Frontend: ", error.message);

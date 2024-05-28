@@ -1,20 +1,126 @@
 import CartItem from "@/components/Cart/CartItem";
-import { DUMMY_BOOKS_DATA } from "@/utils/data";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 
 export default function Cart() {
   const [cartValue, setCartValue] = useState(0);
   const [discountAmt, setDiscountAmt] = useState(0);
-  const cartItems = useSelector((state) => state.cart.books);
-  const cartQuantity = useSelector((state) => state.cart.totalQuantity);
-  const totalCartValue = useSelector((state) => state.cart.totalCartValue);
+  const [cartItems, setCartItems] = useState([]);
+  const [cartQuantity, setCartQuantity] = useState([]);
+  const [totalCartValue, setTotalCartValue] = useState(0);
+
+  const getCartitems = async (userId) => {
+    try {
+      const res = await fetch(`http://localhost:3000/api/cart/${userId}`);
+
+      if (!res.ok) {
+        throw new Error("Failed to create cart");
+      }
+
+      const data = await res.json();
+      const totalQuantity = data.cartItems.reduce(
+        (total, book) => total + book.quantity,
+        0
+      );
+
+      const totalPrice = data.cartItems.reduce(
+        (total, book) => total + book.price * book.quantity,
+        0
+      );
+
+      setCartItems(data.cartItems);
+      setCartQuantity(totalQuantity);
+      setTotalCartValue(totalPrice);
+    } catch (error) {
+      console.log("Failed to fecth cart: ", error.message);
+    }
+  };
 
   useEffect(() => {
-    setCartValue(totalCartValue);
-  }, [totalCartValue]);
+    const user = JSON.parse(sessionStorage.getItem("user"));
+    const userId = user._id;
+    getCartitems(userId);
+  }, []);
 
-  function handleCoupons(event) {
+  const addItem = (bookId = null) => {
+    if (!bookId) return;
+
+    const updatedItem = cartItems.map((item) => {
+      const bookItem = { ...item };
+
+      if (bookItem._id === bookId) {
+        bookItem.quantity++;
+      }
+      return bookItem;
+    });
+
+    setCartItems(updatedItem);
+  };
+
+  const addItemToCart = async (id, price, userId) => {
+    const cartDetails = {
+      userId,
+      productId: id,
+      quantity: 1,
+    };
+
+    addItem(id);
+    setCartQuantity(cartQuantity + 1);
+    setTotalCartValue(totalCartValue + price);
+
+    try {
+      const res = await fetch("http://localhost:3000/api/cart/add", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(cartDetails),
+      });
+    } catch (error) {
+      console.log("Add to cart err: ", error.message);
+    }
+  };
+
+  const removeItem = (bookId = null) => {
+    if (!bookId) return;
+
+    const updatedItem = cartItems
+      .map((item) => {
+        const bookItem = { ...item };
+
+        if (bookItem._id === bookId) {
+          bookItem.quantity = bookItem.quantity > 1 ? bookItem.quantity - 1 : 0;
+        }
+        return bookItem;
+      })
+      .filter((i) => i.quantity > 0);
+
+    setCartItems(updatedItem);
+  };
+
+  const removeItemFromCart = async (id, price, userId) => {
+    const cartDetails = {
+      userId,
+      productId: id,
+    };
+
+    removeItem(id);
+    setCartQuantity(cartQuantity - 1);
+    setTotalCartValue(totalCartValue - price);
+
+    try {
+      const res = await fetch("http://localhost:3000/api/cart/remove", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(cartDetails),
+      });
+    } catch (error) {
+      console.log("Remove from cart err: ", error.message);
+    }
+  };
+
+  const handleCoupons = (event) => {
     const coupon = event.target.value;
 
     if (coupon === "SAVE20") {
@@ -36,27 +142,31 @@ export default function Cart() {
       setCartValue(totalCartValue);
       setDiscountAmt(0);
     }
-  }
+  };
 
+  // console.log(JSON.stringify(cartItems));
   return (
     <div className="p-4 w-full flex space-x-3 bg-gray-200">
       <div className="w-3/4 bg-white p-5">
         <p className="text-2xl font-medium">Shopping Cart</p>
         <p className="pr-8 text-end">Price</p>
+
         <hr />
+
         {cartQuantity ? (
-          cartItems.map((book) => (
-            <CartItem
-              key={book.id}
-              id={book.id}
-              title={book.title}
-              imageUrl={book.imageUrl}
-              author={book.author}
-              price={book.price}
-              total={book.totalPrice}
-              quantity={book.quantity}
-            />
-          ))
+          cartItems.map((book) => {
+            console.log(book.quantity, book.title);
+            if (book.quantity <= 0) return null;
+
+            return (
+              <CartItem
+                key={book._id}
+                addToCart={addItemToCart}
+                removeFromCart={removeItemFromCart}
+                {...book}
+              />
+            );
+          })
         ) : (
           <p className=" text-xl text-center my-5">Your Cart is empty</p>
         )}
@@ -77,7 +187,7 @@ export default function Cart() {
           <p className="text-center ">
             Applied Discount: {discountAmt.toFixed(2)}
           </p>
-          
+
           {cartQuantity ? (
             <button className="border rounded-lg shadow border-gray-300 mx-auto p-1.5 hover:bg-gray-300 ">
               Proceed to Buy
@@ -86,6 +196,8 @@ export default function Cart() {
             ""
           )}
         </div>
+
+        {/* Coupons */}
         <div className="flex flex-col items-center space-y-4 bg-white p-2.5">
           <label className="text-center text-lg">Apply Coupon</label>
           <div className="">
