@@ -1,7 +1,9 @@
 import CartItem from "@/components/Cart/CartItem";
+import privateRoute from "@/components/PrivateRoute/privateRoute";
+import axios from "axios";
 import { useEffect, useState } from "react";
 
-export default function Cart() {
+const Cart = () => {
   const [cartValue, setCartValue] = useState(0);
   const [discountAmt, setDiscountAmt] = useState(0);
   const [cartItems, setCartItems] = useState([]);
@@ -10,24 +12,22 @@ export default function Cart() {
 
   const getCartitems = async (userId) => {
     try {
-      const res = await fetch(`http://localhost:3000/api/cart/${userId}`);
+      const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/cart/${userId}`
+      );
 
-      if (!res.ok) {
-        throw new Error("Failed to create cart");
-      }
-
-      const data = await res.json();
-      const totalQuantity = data.cartItems.reduce(
+      const response = res.data;
+      const totalQuantity = response.cartItems.reduce(
         (total, book) => total + book.quantity,
         0
       );
 
-      const totalPrice = data.cartItems.reduce(
+      const totalPrice = response.cartItems.reduce(
         (total, book) => total + book.price * book.quantity,
         0
       );
 
-      setCartItems(data.cartItems);
+      setCartItems(response.cartItems);
       setCartQuantity(totalQuantity);
       setTotalCartValue(totalPrice);
     } catch (error) {
@@ -57,24 +57,19 @@ export default function Cart() {
   };
 
   const addItemToCart = async (id, price, userId) => {
-    const cartDetails = {
-      userId,
-      productId: id,
-      quantity: 1,
-    };
-
     addItem(id);
     setCartQuantity(cartQuantity + 1);
     setTotalCartValue(totalCartValue + price);
 
     try {
-      const res = await fetch("http://localhost:3000/api/cart/add", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(cartDetails),
-      });
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/cart/add`,
+        {
+          userId,
+          productId: id,
+          quantity: 1,
+        }
+      );
     } catch (error) {
       console.log("Add to cart err: ", error.message);
     }
@@ -98,23 +93,18 @@ export default function Cart() {
   };
 
   const removeItemFromCart = async (id, price, userId) => {
-    const cartDetails = {
-      userId,
-      productId: id,
-    };
-
     removeItem(id);
     setCartQuantity(cartQuantity - 1);
     setTotalCartValue(totalCartValue - price);
 
     try {
-      const res = await fetch("http://localhost:3000/api/cart/remove", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(cartDetails),
-      });
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/cart/remove`,
+        {
+          userId,
+          productId: id,
+        }
+      );
     } catch (error) {
       console.log("Remove from cart err: ", error.message);
     }
@@ -234,4 +224,6 @@ export default function Cart() {
       </div>
     </div>
   );
-}
+};
+
+export default privateRoute(Cart);

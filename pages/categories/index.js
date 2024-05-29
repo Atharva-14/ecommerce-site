@@ -1,4 +1,5 @@
 import CategoryList from "@/components/Category/CategoryList";
+import axios from "axios";
 
 export default function Categories({ allBooksData }) {
   const categories = [...new Set(allBooksData.map((book) => book.category))];
@@ -15,8 +16,8 @@ export default function Categories({ allBooksData }) {
 }
 
 export async function getStaticProps() {
-  const res = await fetch("http://localhost:3000/api/books");
-  const allBooksData = await res.json();
+  const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/books`);
+  const allBooksData = await res.data;
 
   return {
     props: {

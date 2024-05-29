@@ -1,28 +1,25 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
+
 export default function BookDetail({ props }) {
+  const [userId, setUserId] = useState();
   const { _id, title, imageUrl, author, price, description } = props;
 
-  const user = JSON.parse(sessionStorage.getItem("user"));
-  const userId = user._id;
+  useEffect(() => {
+    const user = JSON.parse(sessionStorage.getItem("user"));
+    setUserId(user._id);
+  }, []);
 
   const addItemToCart = async () => {
-    const cartDetails = {
-      userId,
-      productId: _id,
-      quantity: 1,
-    };
-
     try {
-      const res = await fetch("http://localhost:3000/api/cart/add", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(cartDetails),
-      });
-
-      if (!res.ok) {
-        throw new Error("Failed to create cart");
-      }
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/cart/add`,
+        {
+          userId,
+          productId: _id,
+          quantity: 1,
+        }
+      );
     } catch (error) {
       console.log("Add to cart err: ", error.message);
     }
@@ -55,7 +52,6 @@ export default function BookDetail({ props }) {
           Add to Cart
         </Link> */}
         <button
-          href="/cart"
           className="border rounded-lg shadow border-gray-300 mx-auto p-1.5 hover:bg-gray-400 "
           onClick={addItemToCart}
         >

@@ -1,4 +1,5 @@
 import BookDetail from "@/components/BookDetail";
+import axios from "axios";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
@@ -15,8 +16,10 @@ export default function Book({ book }) {
   }, []);
 
   async function fetchBook() {
-    const res = await fetch(`http://localhost:3000/api/books/${id}`);
-    const book = await res.json();
+    const res = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_URL}/books/${id}`
+    );
+    const book = res.data;
 
     setData(book);
   }
@@ -31,8 +34,8 @@ export default function Book({ book }) {
 export async function getServerSideProps({ params }) {
   const id = params.id;
 
-  const res = await fetch(`http://localhost:3000/api/books/${id}`);
-  const book = await res.json();
+  const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/books/${id}`);
+  const book = res.data;
 
   return {
     props: {

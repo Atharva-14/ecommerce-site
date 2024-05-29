@@ -1,13 +1,15 @@
 import { Input } from "@/components/UI/input";
 import { Label } from "@/components/UI/label";
+import { useAuth } from "@/context/AuthContext";
 import { cn } from "@/utils/cn";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 export default function Login() {
+  const [isLoading, setLoading] = useState(false);
+  const { logInUser } = useAuth();
   const router = useRouter();
-
   const emailInput = useRef();
   const passwordInput = useRef();
 
@@ -18,29 +20,34 @@ export default function Login() {
       email: emailInput.current.value,
       password: passwordInput.current.value,
     };
+    setLoading(true);
+    const { success } = await logInUser(formData);
 
-    try {
-      const res = await fetch("http://localhost:3000/api/user/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (!res.ok) {
-        throw new Error("Failed to login");
-      }
-
-      const data = await res.json();
-      console.log(data);
-      sessionStorage.setItem("token", JSON.stringify(data.token));
-      sessionStorage.setItem("user", JSON.stringify(data.user));
-      router.push("/categories");
-    } catch (error) {
-      console.log("Frontend: ", error.message);
+    if (success) {
+      setLoading(false);
+      router.push("/cart");
+    } else {
+      console.log("Error Occured");
     }
   };
+
+  const loginAsGuest = async (e) => {
+    e.preventDefault();
+    const formData = {
+      email: "johnsnow@dev.com",
+      password: "Password@123",
+    };
+    setLoading(true);
+    const { success } = await logInUser(formData);
+    
+    if (success) {
+      setLoading(false);
+      router.push("/cart");
+    } else {
+      console.log("Error Occured");
+    }
+  };
+
   return (
     <div className="max-w-md w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-white dark:bg-black">
       <h2 className="font-bold text-xl text-neutral-800 dark:text-neutral-200">
@@ -68,22 +75,33 @@ export default function Login() {
         </LabelInputContainer>
 
         <button
-          className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
+          className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full mb-4 text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
           type="submit"
         >
           Login &rarr;
+          <BottomGradient />
+        </button>
+
+        <button
+          className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full  text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
+          type="button"
+          onClick={loginAsGuest}
+        >
+          Login as Guest &rarr;
           <BottomGradient />
         </button>
       </form>
 
       {/* <div className="bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent my-8 h-[1px] w-full" /> */}
 
-      <Label>
-        New to eBookHaven.{" "}
-        <Link href="/signup" className=" text-blue-600">
-          Create an account
-        </Link>
-      </Label>
+      <span>
+        <Label>
+          New to eBookHaven.{" "}
+          <Link href="/signup" className=" text-blue-600">
+            Create an account
+          </Link>
+        </Label>
+      </span>
     </div>
   );
 }

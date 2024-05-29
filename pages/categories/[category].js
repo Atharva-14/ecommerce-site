@@ -1,4 +1,5 @@
 import BookCard from "@/components/BookCard";
+import axios from "axios";
 
 export default function Category({ books }) {
   return (
@@ -18,8 +19,8 @@ export default function Category({ books }) {
 }
 
 export async function getStaticPaths() {
-  const res = await fetch("http://localhost:3000/api/books");
-  const allBooksData = await res.json();
+  const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/books`);
+  const allBooksData = res.data;
 
   const categories = [
     ...new Set(
@@ -40,8 +41,8 @@ export async function getStaticPaths() {
 export async function getStaticProps({ params }) {
   const category = params.category;
 
-  const res = await fetch("http://localhost:3000/api/books");
-  const allBooksData = await res.json();
+  const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/books`);
+  const allBooksData = await res.data;
 
   const bookCategory = [];
 
