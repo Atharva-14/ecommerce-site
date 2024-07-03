@@ -1,46 +1,123 @@
 import Link from "next/link";
-import CartButton from "../Cart/CartButton";
-import NavLink from "../UI/NavLink";
-import SearchBar from "../UI/SearchBar";
+import { useState } from "react";
+import { useAuth } from "@/context/AuthContext";
+import SearchModal from "../UI/SearchModal";
+import { Heart, LogOut, Search, ShoppingCartIcon, User } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { useRouter } from "next/router";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/UI/dropdown-menu";
 
 export default function MainNavigation() {
+  const path = usePathname();
+  const route = useRouter();
+  const [isSearchOpen, setSearchOpen] = useState(false);
+  const { logoutUser, user } = useAuth();
+
+  const logout = () => {
+    logoutUser();
+    route.push("/");
+  };
+
+  const openSearch = () => setSearchOpen(true);
+  const closeSearch = () => setSearchOpen(false);
+
   return (
-    <nav className="flex items-center justify-between flex-wrap bg-white py-4 lg:px-12 shadow border-solid border-t-2 border-blue-700">
-      <div className="flex justify-between lg:w-auto w-full lg:border-b-0 pl-6 pr-2 border-solid border-b-2 border-gray-300 pb-5 lg:pb-0">
-        <div className="flex items-center flex-shrink-0 text-gray-800 mr-16">
-          <Link href="/" className="font-semibold text-xl tracking-tight">
+    <>
+      <SearchModal open={isSearchOpen} onClose={closeSearch} />
+      <nav className="flex justify-between px-16 py-5">
+        <div className="focus:outline-none">
+          <Link href="/" className="font-semibold text-xl">
             eBookHaven
           </Link>
         </div>
-        <div className="block lg:hidden ">
-          <button
-            id="nav"
-            className="flex items-center px-3 py-2 border-2 rounded text-blue-700 border-blue-700 hover:text-blue-700 hover:border-blue-700"
+
+        <div className="flex space-x-10 my-auto">
+          <Link
+            href="/"
+            className={`text-lg ${
+              path === "/" ? "font-bold" : "font-normal hover:font-medium"
+            }`}
           >
-            <svg
-              className="fill-current h-3 w-3"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
+            Home
+          </Link>
+          <Link
+            href="/categories"
+            className={`text-lg ${
+              path === "/categories"
+                ? "font-bold"
+                : "font-normal hover:font-medium"
+            }`}
+          >
+            Category
+          </Link>
+        </div>
+
+        <div className="my-auto">
+          {user ? (
+            <div className="flex space-x-5">
+              <button
+                onClick={openSearch}
+                className=" mx-auto my-auto focus:outline-none"
+              >
+                <Search />
+              </button>
+
+              {/* <button className=" mx-auto my-auto focus:outline-none">
+                <Link href="/wishlist">
+                  <Heart
+                    className={`${path === "/wishlist" ? "text-red-500" : ""}`}
+                  />
+                </Link>
+              </button> */}
+
+              <button className=" mx-auto my-auto">
+                <Link href="/cart">
+                  <ShoppingCartIcon
+                    className={`${path === "/cart" ? "text-red-500" : ""}`}
+                  />
+                </Link>
+              </button>
+
+              <DropdownMenu>
+                <DropdownMenuTrigger>
+                  Hello, {user.firstName}
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <Link href="/profile">
+                    <DropdownMenuItem>
+                      <User className="mr-2 h-4 w-4" /> Profile
+                    </DropdownMenuItem>
+                  </Link>
+                  <DropdownMenuItem onClick={logout}>
+                    <LogOut className="mr-2 h-4 w-4" />
+                    <span>Log out</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+          ) : (
+            <Link
+              href="/login"
+              className={`text-lg ${
+                path === "/login"
+                  ? "font-semibold"
+                  : "font-normal hover:font-medium"
+              }`}
             >
-              <title>Menu</title>
-              <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
-            </svg>
-          </button>
+              Sign In
+            </Link>
+          )}
         </div>
-      </div>
-
-      <div className="menu w-full flex-grow lg:flex lg:items-center lg:w-auto lg:px-3 px-8">
-        <div className="text-md font-bold text-blue-700 flex-grow">
-          <NavLink href="/" label="Home" />
-          <NavLink href="/categories" label="Shop by Category" />
-        </div>
-        <SearchBar />
-
-        <div className="flex text-blue-700 text-md font-bold">
-          <NavLink href="/login" label="Login" />
-          <CartButton />
-        </div>
-      </div>
-    </nav>
+      </nav>
+    </>
   );
 }

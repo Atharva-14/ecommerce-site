@@ -1,60 +1,69 @@
-import BookCard from "@/components/BookCard";
-import axios from "axios";
+import BookCard from "@/components/Book/BookCard";
+import { getAllBooks } from "@/lib/services/bookService";
 
 export default function Category({ books }) {
   return (
     <div className="flex flex-wrap">
       {books.map((book) => (
-        <BookCard
-          key={book._id}
-          id={book._id}
-          title={book.title}
-          imageUrl={book.imageUrl}
-          author={book.author}
-          price={book.price}
-        />
+        <div key={book._id} className="w-full sm:w-1/2 lg:w-1/3 p-4">
+          <BookCard
+            key={book._id}
+            id={book._id}
+            title={book.title}
+            imageUrl={book.imageUrl}
+            author={book.author}
+            price={book.price}
+          />
+        </div>
       ))}
     </div>
   );
 }
 
-export async function getStaticPaths() {
-  const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/books`);
-  const allBooksData = res.data;
+// export async function getStaticPaths() {
+//   try {
+//     let allCategoryData = await getAllCategory();
+//     allCategoryData = JSON.parse(JSON.stringify(allCategoryData));
+//     console.log(allBooksData);
 
-  const categories = [
-    ...new Set(
-      allBooksData.map((book) => ({
-        params: {
-          category: book.category,
-        },
-      }))
-    ),
-  ];
+//     const categories = [
+//       ...new Set(
+//         allBooksData.map((book) => ({
+//           params: {
+//             category: book.category,
+//           },
+//         }))
+//       ),
+//     ];
 
-  return {
-    paths: categories,
-    fallback: false,
-  };
-}
+//     return {
+//       paths: categories,
+//       fallback: false,
+//     };
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }
 
-export async function getStaticProps({ params }) {
+export async function getServerSideProps({ params }) {
   const category = params.category;
+  console.log(params);
 
-  const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/books`);
-  const allBooksData = await res.data;
+  let allBooksData = await getAllBooks(category);
 
-  const bookCategory = [];
+  allBooksData = JSON.parse(JSON.stringify(allBooksData));
 
-  allBooksData.map((book) => {
-    if (book.category === category) {
-      bookCategory.push(book);
-    }
-  });
+  // const bookCategory = [];
+
+  // allBooksData.map((book) => {
+  //   if (book.category === category) {
+  //     bookCategory.push(book);
+  //   }
+  // });
 
   return {
     props: {
-      books: bookCategory,
+      books: allBooksData,
     },
   };
 }

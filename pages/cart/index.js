@@ -1,22 +1,35 @@
 import CartItem from "@/components/Cart/CartItem";
 import privateRoute from "@/components/PrivateRoute/privateRoute";
+import SkeletonCard from "@/components/UI/Skeleton/SkeletonCard";
+import { Separator } from "@/components/UI/separator";
+import { useAuth } from "@/context/AuthContext";
 import axios from "axios";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 const Cart = () => {
+  const router = useRouter();
+  const { logoutUser, user } = useAuth();
   const [cartValue, setCartValue] = useState(0);
+  const [loading, setLoading] = useState(false);
   const [discountAmt, setDiscountAmt] = useState(0);
   const [cartItems, setCartItems] = useState([]);
-  const [cartQuantity, setCartQuantity] = useState([]);
+  const [cartQuantity, setCartQuantity] = useState(0);
   const [totalCartValue, setTotalCartValue] = useState(0);
 
   const getCartitems = async (userId) => {
+    setLoading(true);
+
     try {
       const res = await axios.get(
         `${process.env.NEXT_PUBLIC_API_URL}/cart/${userId}`
       );
 
       const response = res.data;
+      if (!response.success) {
+        logoutUser();
+        router.push("/login");
+      }
       const totalQuantity = response.cartItems.reduce(
         (total, book) => total + book.quantity,
         0
@@ -32,14 +45,18 @@ const Cart = () => {
       setTotalCartValue(totalPrice);
     } catch (error) {
       console.log("Failed to fecth cart: ", error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    const user = JSON.parse(sessionStorage.getItem("user"));
-    const userId = user._id;
-    getCartitems(userId);
-  }, []);
+    console.log(user);
+    if (user?._id) {
+      console.log("inside: effect: ");
+      getCartitems(user._id);
+    }
+  }, [user]);
 
   const addItem = (bookId = null) => {
     if (!bookId) return;
@@ -134,18 +151,24 @@ const Cart = () => {
     }
   };
 
-  // console.log(JSON.stringify(cartItems));
   return (
     <div className="p-4 w-full flex space-x-3 bg-gray-200">
       <div className="w-3/4 bg-white p-5">
         <p className="text-2xl font-medium">Shopping Cart</p>
         <p className="pr-8 text-end">Price</p>
 
-        <hr />
+        <Separator />
+
+        {loading && (
+          <div className="py-2">
+            {" "}
+            <SkeletonCard />
+            <SkeletonCard />
+          </div>
+        )}
 
         {cartQuantity ? (
           cartItems.map((book) => {
-            console.log(book.quantity, book.title);
             if (book.quantity <= 0) return null;
 
             return (
@@ -160,7 +183,7 @@ const Cart = () => {
         ) : (
           <p className=" text-xl text-center my-5">Your Cart is empty</p>
         )}
-        <hr />
+        <Separator />
         {cartQuantity ? (
           <p className="pr-8 pt-2 text-end text-lg">
             SubTotal ({cartQuantity} item): <b>₹{totalCartValue.toFixed(2)}</b>
@@ -179,7 +202,10 @@ const Cart = () => {
           </p>
 
           {cartQuantity ? (
-            <button className="border rounded-lg shadow border-gray-300 mx-auto p-1.5 hover:bg-gray-300 ">
+            <button
+              className="border rounded-lg shadow border-gray-300 mx-auto p-1.5 hover:bg-gray-300 "
+              onClick={() => router.push("/checkout")}
+            >
               Proceed to Buy
             </button>
           ) : (

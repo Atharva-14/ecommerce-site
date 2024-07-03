@@ -1,28 +1,24 @@
 import CategoryList from "@/components/Category/CategoryList";
-import axios from "axios";
+import { getAllCategory } from "@/lib/services/bookService";
 
-export default function Categories({ allBooksData }) {
-  const categories = [...new Set(allBooksData.map((book) => book.category))];
+export default function Categories({ allCategoryData }) {
+  // const categories = [...new Set(allBooksData.map((book) => book.category))];
 
   return (
-    <div>
-      <div className="flex flex-wrap gap-12">
-        {categories.map((category, index) => (
-          <CategoryList key={index} category={category} />
-        ))}
-      </div>
+    <div className="flex flex-wrap gap-4 py-2 px-2.5">
+      {allCategoryData.map((category, index) => (
+        <CategoryList key={index} category={category} />
+      ))}
     </div>
   );
 }
 
 export async function getStaticProps() {
-  const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/books`);
-  const allBooksData = await res.data;
+  const allCategoryData = await getAllCategory();
 
   return {
     props: {
-      allBooksData,
+      allCategoryData 
     },
-    revalidate: 10,
   };
 }

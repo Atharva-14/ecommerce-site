@@ -1,5 +1,6 @@
 import { Input } from "@/components/UI/input";
 import { Label } from "@/components/UI/label";
+import { useAuth } from "@/context/AuthContext";
 import { cn } from "@/utils/cn";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -7,7 +8,7 @@ import { useRef } from "react";
 
 export default function Signup() {
   const router = useRouter();
-
+  const { signupUser } = useAuth();
   const firstNameInput = useRef();
   const lastNameInput = useRef();
   const emailInput = useRef();
@@ -24,20 +25,10 @@ export default function Signup() {
     };
 
     try {
-      const res = await fetch("http://localhost:3000/api/user/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (!res.ok) {
-        throw new Error("Failed to Login");
-      }
+      const { success } = await signupUser(formData);
       router.push("/");
     } catch (error) {
-      console.log("Frontend: ", error.message);
+      console.log("Signup: ", error.message);
     }
   };
   return (

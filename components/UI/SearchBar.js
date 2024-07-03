@@ -1,64 +1,82 @@
 import { DUMMY_BOOKS_DATA } from "@/utils/data";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "./input";
+import axios from "axios";
+import debounce from "lodash.debounce";
 
 export default function SearchBar() {
-  const [searchTerm, setSearchTerm] = useState("");
+  const [query, setQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const [isDivVisible, setIsDivVisible] = useState(false);
 
-  function handleSearch(event) {
-    const inputValue = event.target.value;
-    setSearchTerm(inputValue);
-
-    if (inputValue.length >= 0) {
-      setIsDivVisible(true);
-      const filteredResults = DUMMY_BOOKS_DATA.filter(
-        (book) =>
-          book.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          book.author.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-      setSearchResults(filteredResults);
+  const fetchResults = async (searchQuery) => {
+    if (!searchQuery) {
+      setSearchResults([]);
+      return;
     }
-  }
+
+    setLoading(true);
+    setError("");
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/books/search`,
+        { params: { query: searchQuery } }
+      );
+      setIsDivVisible(true);
+      setSearchResults(response.data);
+    } catch (error) {
+      setError("Error fetching search results.");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const debouncedFetchResults = debounce(fetchResults, 300);
+
+  useEffect(() => {
+    debouncedFetchResults(query);
+
+    return () => {
+      debouncedFetchResults.cancel();
+    };
+  }, [query]);
 
   function handleInputBlur() {
     setTimeout(() => {
       setIsDivVisible(false);
     }, 100);
   }
+
   return (
-    <div className="mr-2">
-      <div className="flex space-x-3">
+    <div className="fixed inset-0 bg-black bg-opacity-75 z-50 flex flex-col items-center p-5 ">
+      <div className="w-full max-w-2xl p-4 bg-gray-800 rounded-lg shadow-lg">
         <Input
           className="border-2 border-gray-300 bg-white h-10 pl-2 pr-8 rounded-lg text-sm focus:outline-none"
-          type="search"
-          value={searchTerm}
-          placeholder="Search"
-          onChange={handleSearch}
+          type="text"
+          value={query}
+          placeholder="Search for books..."
+          onChange={(e) => setQuery(e.target.value)}
           onBlur={handleInputBlur}
         />
+        {loading && <p className="text-white">Loading...</p>}
+        {error && <p style={{ color: "red" }}>{error}</p>}
+
+        {isDivVisible && (
+          <ul className="mt-2 space-y-2 overscroll-y-auto">
+            {searchResults.map((book) => (
+              <li className="py-2 border-b text-white border-gray-300 last:border-b-0">
+                <Link key={book._id} href={`/books/${book._id}`} className="w-full">
+                  {book.title} by {book.author}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
-      {isDivVisible && (
-        <ul
-          className={` p-4 absolute bg-white min-w-40 shadow-md rounded z-10`}
-        >
-          {searchResults.map((book) => (
-            <li className="py-2 border-b border-gray-300 last:border-b-0">
-              <Link key={book.id} href={`/books/${book.id}`}>
-                {book.title} by {book.author}
-              </Link>
-            </li>
-            // <li
-            //   key={book.id}
-            //   className="py-2 border-b border-gray-300 last:border-b-0"
-            // >
-            //   {book.title} by {book.author}
-            // </li>
-          ))}
-        </ul>
-      )}
     </div>
   );
 }

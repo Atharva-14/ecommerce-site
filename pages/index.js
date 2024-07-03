@@ -1,4 +1,6 @@
-import BookCard from "@/components/BookCard";
+import BookCard from "@/components/Book/BookCard";
+import { Separator } from "@/components/UI/separator";
+import { getAllBooks } from "@/lib/services/bookService";
 import { useState } from "react";
 
 export default function Home({ allBooksData }) {
@@ -43,8 +45,8 @@ export default function Home({ allBooksData }) {
   }
 
   return (
-    <div className="mx-2 my-1 flex w-full space-x-5">
-      <div className="w-1/4 bg-white py-7 px-4 h-full flex flex-col space-y-5">
+    <div className="min-h-screen flex bg-gray-100">
+      <div className="w-1/5 bg-white my-4 py-3 px-2.5 h-full flex flex-col space-y-5">
         <div>
           <div>
             <div className="flex justify-between">
@@ -70,7 +72,7 @@ export default function Home({ allBooksData }) {
             </p>
           </div>
         </div>
-        <hr />
+        <Separator />
         <div>
           <div className="relative inline-block">
             <div
@@ -106,16 +108,18 @@ export default function Home({ allBooksData }) {
           </div>
         </div>
       </div>
-      <div className="w-full overflow-y-auto flex flex-wrap gap-5">
+      <div className="flex flex-wrap w-11/12">
         {filteredResults.map((book) => (
-          <BookCard
-            key={book._id}
-            id={book._id}
-            title={book.title}
-            imageUrl={book.imageUrl}
-            author={book.author}
-            price={book.price}
-          />
+          <div key={book._id} className="w-full sm:w-1/2 lg:w-1/3 p-4">
+            <BookCard
+              key={book._id}
+              id={book._id}
+              title={book.title}
+              imageUrl={book.imageUrl}
+              author={book.author}
+              price={book.price}
+            />
+          </div>
         ))}
       </div>
     </div>
@@ -123,13 +127,11 @@ export default function Home({ allBooksData }) {
 }
 
 export async function getStaticProps() {
-  const res = await fetch("http://localhost:3000/api/books");
-  const allBooksData = await res.json();
+  let allBooksData = await getAllBooks();
 
   return {
     props: {
-      allBooksData,
+      allBooksData: JSON.parse(JSON.stringify(allBooksData)),
     },
-    revalidate: 10,
   };
 }

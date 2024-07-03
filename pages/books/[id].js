@@ -1,4 +1,4 @@
-import BookDetail from "@/components/BookDetail";
+import BookDetail from "@/components/Book/BookDetail";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -10,10 +10,8 @@ export default function Book({ book }) {
   const [data, setData] = useState(book);
 
   useEffect(() => {
-    if (!book) {
-      fetchBook();
-    }
-  }, []);
+    fetchBook();
+  }, [id]);
 
   async function fetchBook() {
     const res = await axios.get(
@@ -25,7 +23,7 @@ export default function Book({ book }) {
   }
 
   return (
-    <div>
+    <div className=" min-h-full">
       <BookDetail props={data} />
     </div>
   );

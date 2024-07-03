@@ -35,7 +35,7 @@ export default function Login() {
     e.preventDefault();
     const formData = {
       email: "johnsnow@dev.com",
-      password: "Password@123",
+      password: "1234567890",
     };
     setLoading(true);
     const { success } = await logInUser(formData);
