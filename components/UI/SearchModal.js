@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { Input } from "./input";
 import axios from "axios";
 import debounce from "lodash.debounce";
 import { SkeletonList } from "./Skeleton/SkeletonList";
+import { Input } from "./input";
 
 export default function SearchModal({ open, onClose }) {
   const dialog = useRef();
@@ -89,7 +89,10 @@ export default function SearchModal({ open, onClose }) {
             {isDivVisible && (
               <ul className="mt-2 space-y-2 overscroll-y-auto">
                 {searchResults.map((book) => (
-                  <li className="py-2 border-b text-white border-gray-300 last:border-b-0">
+                  <li
+                    className="py-2 border-b text-white border-gray-300 last:border-b-0"
+                    key={book._id}
+                  >
                     <Link
                       key={book._id}
                       href={`/books/${book._id}`}

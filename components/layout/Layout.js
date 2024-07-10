@@ -7,9 +7,9 @@ export const metadata = {
 
 export default function Layout(props) {
   return (
-    <div className="">
+    <div>
       <MainNavigation />
-      <main className="mx-2 bg-white">{props.children}</main>
+      <main>{props.children}</main>
     </div>
   );
 }

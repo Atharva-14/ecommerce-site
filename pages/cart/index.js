@@ -1,6 +1,7 @@
 import CartItem from "@/components/Cart/CartItem";
 import privateRoute from "@/components/PrivateRoute/privateRoute";
 import SkeletonCard from "@/components/UI/Skeleton/SkeletonCard";
+import { Button } from "@/components/UI/button";
 import { Separator } from "@/components/UI/separator";
 import { useAuth } from "@/context/AuthContext";
 import axios from "axios";
@@ -10,9 +11,7 @@ import { useEffect, useState } from "react";
 const Cart = () => {
   const router = useRouter();
   const { logoutUser, user } = useAuth();
-  const [cartValue, setCartValue] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [discountAmt, setDiscountAmt] = useState(0);
   const [cartItems, setCartItems] = useState([]);
   const [cartQuantity, setCartQuantity] = useState(0);
   const [totalCartValue, setTotalCartValue] = useState(0);
@@ -26,10 +25,10 @@ const Cart = () => {
       );
 
       const response = res.data;
-      if (!response.success) {
-        logoutUser();
-        router.push("/login");
-      }
+      // if (!response.success) {
+      //   logoutUser();
+      //   router.push("/login");
+      // }
       const totalQuantity = response.cartItems.reduce(
         (total, book) => total + book.quantity,
         0
@@ -127,32 +126,8 @@ const Cart = () => {
     }
   };
 
-  const handleCoupons = (event) => {
-    const coupon = event.target.value;
-
-    if (coupon === "SAVE20") {
-      setCartValue(totalCartValue - (totalCartValue * 20) / 100);
-      setDiscountAmt(
-        totalCartValue - (totalCartValue - (totalCartValue * 20) / 100)
-      );
-    } else if (coupon === "MEGA40") {
-      setCartValue(totalCartValue - (totalCartValue * 40) / 100);
-      setDiscountAmt(
-        totalCartValue - (totalCartValue - (totalCartValue * 40) / 100)
-      );
-    } else if (coupon === "MEGA10") {
-      setCartValue(totalCartValue - (totalCartValue * 10) / 100);
-      setDiscountAmt(
-        totalCartValue - (totalCartValue - (totalCartValue * 10) / 100)
-      );
-    } else if (coupon === "CLEAR") {
-      setCartValue(totalCartValue);
-      setDiscountAmt(0);
-    }
-  };
-
   return (
-    <div className="p-4 w-full flex space-x-3 bg-gray-200">
+    <div className="px-4 py-6 w-full flex space-x-3 bg-gradient-to-t from-slate-50 via-zinc-200 to-slate-300">
       <div className="w-3/4 bg-white p-5">
         <p className="text-2xl font-medium">Shopping Cart</p>
         <p className="pr-8 text-end">Price</p>
@@ -161,7 +136,6 @@ const Cart = () => {
 
         {loading && (
           <div className="py-2">
-            {" "}
             <SkeletonCard />
             <SkeletonCard />
           </div>
@@ -192,60 +166,22 @@ const Cart = () => {
           ""
         )}
       </div>
-      <div className="w-1/4 h-full flex flex-col space-y-5">
-        <div className="flex flex-col space-y-1 bg-white p-2.5">
+      <div className="w-1/4">
+        <div className="flex flex-col space-y-6 bg-white mx-3 p-6">
           <p className="text-center text-lg">
             SubTotal ({cartQuantity} item): <b>₹{totalCartValue.toFixed(2)}</b>
           </p>
-          <p className="text-center ">
-            Applied Discount: {discountAmt.toFixed(2)}
-          </p>
 
           {cartQuantity ? (
-            <button
-              className="border rounded-lg shadow border-gray-300 mx-auto p-1.5 hover:bg-gray-300 "
+            <Button
+              className="mx-auto my-auto"
               onClick={() => router.push("/checkout")}
             >
               Proceed to Buy
-            </button>
+            </Button>
           ) : (
             ""
           )}
-        </div>
-
-        {/* Coupons */}
-        <div className="flex flex-col items-center space-y-4 bg-white p-2.5">
-          <label className="text-center text-lg">Apply Coupon</label>
-          <div className="">
-            <button
-              className="font-bold p-2 rounded focus:bg-green-500 focus:outline-none  focus:ring-green-500 border-2"
-              onClick={handleCoupons}
-              value="SAVE20"
-            >
-              SAVE20
-            </button>
-            <button
-              className="font-bold p-2 rounded focus:bg-green-500 focus:outline-none  focus:ring-green-500 border-2"
-              onClick={handleCoupons}
-              value="MEGA10"
-            >
-              MEGA10
-            </button>
-            <button
-              className="font-bold p-2 rounded focus:bg-green-500 focus:outline-none  focus:ring-green-500 border-2"
-              onClick={handleCoupons}
-              value="MEGA40"
-            >
-              MEGA40
-            </button>
-            <button
-              className="outline-none rounded p-2 border-2"
-              onClick={handleCoupons}
-              value="CLEAR"
-            >
-              CLEAR
-            </button>
-          </div>
         </div>
       </div>
     </div>
