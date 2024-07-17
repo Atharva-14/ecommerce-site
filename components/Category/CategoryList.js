@@ -10,7 +10,7 @@ export default function CategoryList({ category }) {
   return (
     <div
       onClick={clickHandler}
-      className="bg-gradient-to-t from-purple-900 via-indigo-900 to-blue-900 rounded-lg shadow-md flex items-center justify-center cursor-pointer w-56 h-44 "
+      className="bg-gradient-to-t from-purple-900 via-indigo-900 to-blue-900 rounded-lg shadow-md flex items-center justify-center cursor-pointer w-52 h-40 "
     >
       <p className="text-center text-lg text-white font-semibold">{category}</p>
     </div>

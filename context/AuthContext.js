@@ -76,6 +76,28 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const updateUser = async ({ userId, firstName, lastName, email }) => {
+    try {
+      const {
+        data: { success, user, message },
+      } = await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/user/update`, {
+        userId,
+        firstName,
+        lastName,
+        email,
+      });
+
+      if (success) {
+        setUser(user);
+        sessionStorage.setItem("user", JSON.stringify(user));
+      }
+
+      return { success, message };
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   const addAddress = async ({
     userId,
     country,
@@ -119,8 +141,49 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const updateAddress = async ({ userId, addressId, data }) => {
+    try {
+      const {
+        data: { success, user, message },
+      } = await axios.put(
+        `${process.env.NEXT_PUBLIC_API_URL}/user/${userId}/update-address`,
+        { addressId, data }
+      );
+
+      if (success) {
+        setUser(user);
+        sessionStorage.setItem("user", JSON.stringify(user));
+      }
+
+      return { success, message };
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const deleteAddress = async ({ userId, addressId }) => {
+    try {
+      const {
+        data: { success, user, message },
+      } = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/user/${userId}/delete-address`,
+        {
+          addressId,
+        }
+      );
+
+      if (success) {
+        setUser(user);
+        sessionStorage.setItem("user", JSON.stringify(user));
+      }
+
+      return { success, message };
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   const logoutUser = () => {
-    console.log("logout called");
     sessionStorage?.removeItem("user");
     sessionStorage?.removeItem("authToken");
     setUser();
@@ -129,7 +192,17 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ user, token, logInUser, signupUser, logoutUser, addAddress }}
+      value={{
+        user,
+        token,
+        logInUser,
+        signupUser,
+        updateUser,
+        logoutUser,
+        addAddress,
+        updateAddress,
+        deleteAddress,
+      }}
     >
       {children}
     </AuthContext.Provider>

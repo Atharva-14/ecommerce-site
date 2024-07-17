@@ -5,7 +5,7 @@ export default function Categories({ allCategoryData }) {
   // const categories = [...new Set(allBooksData.map((book) => book.category))];
 
   return (
-    <div className="flex flex-wrap gap-4 py-2 px-2.5">
+    <div className="flex flex-wrap gap-3 px-5 py-4">
       {allCategoryData.map((category, index) => (
         <CategoryList key={index} category={category} />
       ))}
@@ -18,7 +18,7 @@ export async function getStaticProps() {
 
   return {
     props: {
-      allCategoryData 
+      allCategoryData,
     },
   };
 }

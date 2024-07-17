@@ -9,7 +9,7 @@ export default function Layout(props) {
   return (
     <div>
       <MainNavigation />
-      <main>{props.children}</main>
+      <main className="mt-[70px]">{props.children}</main>
     </div>
   );
 }

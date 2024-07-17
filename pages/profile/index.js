@@ -10,9 +10,10 @@ import { useEffect, useRef, useState } from "react";
 import { BiEdit } from "react-icons/bi";
 
 const AccountPage = () => {
-  const { user } = useAuth();
+  const { user, updateUser } = useAuth();
   const [confirmChanges, setConfirmChanges] = useState(false);
   const [isModalOpen, setModalOpen] = useState(false);
+  const [selectedAddress, setSelectedAddress] = useState(null);
   const firstNameInput = useRef();
   const lastNameInput = useRef();
   const emailInput = useRef();
@@ -32,12 +33,42 @@ const AccountPage = () => {
 
   const cancelChanges = () => setConfirmChanges(false);
 
-  const openAddressModal = () => setModalOpen(true);
+  const openAddressModal = (address = null) => {
+    setSelectedAddress(address);
+    setModalOpen(true);
+  };
   const closeAddressModal = () => setModalOpen(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const formData = {
+      userId: user?._id,
+      firstName: firstNameInput.current.value,
+      lastName: lastNameInput.current.value,
+      email: emailInput.current.value,
+    };
+
+    try {
+      const { success } = await updateUser(formData);
+      if (success) {
+        firstNameInput.current.disabled = true;
+        lastNameInput.current.disabled = true;
+        emailInput.current.disabled = true;
+        setConfirmChanges(false);
+      }
+    } catch (error) {
+      console.log("Update Details", error.message);
+    }
+  };
 
   return (
     <>
-      <NewAddressModal open={isModalOpen} onClose={closeAddressModal} />
+      <NewAddressModal
+        open={isModalOpen}
+        onClose={closeAddressModal}
+        addressData={selectedAddress}
+      />
       <div className="flex w-full h-auto">
         <div className="w-40 p-4 md:py-8">
           <p className=" font-normal text-lg">Hello,</p>
@@ -62,7 +93,7 @@ const AccountPage = () => {
                 </p>
               </button>
             )}
-            <form className="my-8 mx-4 max-w-lg">
+            <form className="mt-8 mx-4 max-w-lg" onSubmit={handleSubmit}>
               <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 mb-4">
                 <LabelInputContainer>
                   <Label htmlFor="firstname">First name</Label>
@@ -117,22 +148,25 @@ const AccountPage = () => {
               ) : null}
             </form>
           </div>
-          <div className="w-full p-4 md:p-8 bg-white dark:bg-black">
+          <div className="w-full p-4 md:px-8 md:pb-8 bg-white dark:bg-black">
             <h1 className="text-2xl font-normal px-4 pb-3">Your Addresses</h1>
             <Separator className=" bg-gray-500" />
 
             <div className="mt-5">
               <div
                 className="w-full h-64 flex flex-col justify-center items-center border-dashed border-2 rounded-lg border-gray-300 cursor-pointer shadow-md"
-                onClick={openAddressModal}
+                onClick={() => openAddressModal(null)}
               >
                 <p className=" text-7xl">+</p>
                 <button className="font-medium text-2xl ">Add Address</button>
               </div>
               <div className="flex flex-wrap mt-4">
-                {user.address.map((address, index) => (
-                  <div className="w-full sm:w-1/2 lg:w-1/3 p-2.5" key={index}>
-                    <AddressList props={address} />
+                {user?.address.map((address) => (
+                  <div
+                    className="w-full sm:w-1/2 lg:w-1/3 p-2.5"
+                    key={address._id}
+                  >
+                    <AddressList props={address} openModal={openAddressModal} />
                   </div>
                 ))}
               </div>
@@ -161,4 +195,4 @@ const LabelInputContainer = ({ children, className }) => {
   );
 };
 
-export default AccountPage;
+export default privateRoute(AccountPage);

@@ -4,8 +4,8 @@ import { Input } from "../UI/input";
 import { cn } from "@/utils/cn";
 import { useAuth } from "@/context/AuthContext";
 
-export default function NewAddressModal({ open, onClose }) {
-  const { user, addAddress } = useAuth();
+export default function NewAddressModal({ open, onClose, addressData }) {
+  const { user, addAddress, updateAddress } = useAuth();
   const dialog = useRef();
   const country = useRef();
   const fullName = useRef();
@@ -19,32 +19,82 @@ export default function NewAddressModal({ open, onClose }) {
   const type = useRef();
 
   useEffect(() => {
-    if (open) {
-      dialog.current.showModal();
-    } else {
-      dialog.current.close();
+    if (dialog.current) {
+      if (open) {
+        dialog.current.showModal();
+      } else {
+        dialog.current.close();
+      }
     }
   }, [open]);
 
+  useEffect(() => {
+    if (addressData && open) {
+      if (country.current) country.current.value = addressData?.country || "";
+      if (fullName.current)
+        fullName.current.value = addressData?.fullName || "";
+      if (phone.current) phone.current.value = addressData?.phone || "";
+      if (email.current) email.current.value = addressData?.email || "";
+      if (line1.current) line1.current.value = addressData?.line1 || "";
+      if (line2.current) line2.current.value = addressData?.line2 || "";
+      if (pincode.current) pincode.current.value = addressData?.pincode || "";
+      if (city.current) city.current.value = addressData?.city || "";
+      if (state.current) state.current.value = addressData?.state || "";
+      if (type.current) type.current.value = addressData?.type || "";
+    } else {
+      if (country.current) country.current.value = "";
+      if (fullName.current) fullName.current.value = "";
+      if (phone.current) phone.current.value = "";
+      if (email.current) email.current.value = "";
+      if (line1.current) line1.current.value = "";
+      if (line2.current) line2.current.value = "";
+      if (pincode.current) pincode.current.value = "";
+      if (city.current) city.current.value = "";
+      if (state.current) state.current.value = "";
+      if (type.current) type.current.value = "";
+    }
+  }, [addressData, open]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const formData = {
-      userId: user._id,
-      country: country.current.value,
-      fullName: fullName.current.value,
-      phone: phone.current.value,
-      email: email.current.value,
-      line1: line1.current.value,
-      line2: line2.current.value,
-      pincode: pincode.current.value,
-      city: city.current.value,
-      state: state.current.value,
-      type: type.current.value,
-    };
 
-    const res = await addAddress(formData);
+    if (addressData) {
+      const updatedFormData = {
+        userId: user?._id,
+        addressId: addressData._id,
+        data: {
+          country: country.current.value,
+          fullName: fullName.current.value,
+          phone: phone.current.value,
+          email: email.current.value,
+          line1: line1.current.value,
+          line2: line2.current.value,
+          pincode: pincode.current.value,
+          city: city.current.value,
+          state: state.current.value,
+          type: type.current.value,
+        },
+      };
 
-    dialog.current.close();
+      const res = await updateAddress(updatedFormData);
+      dialog.current.close();
+    } else {
+      const newFormData = {
+        userId: user?._id,
+        country: country.current.value,
+        fullName: fullName.current.value,
+        phone: phone.current.value,
+        email: email.current.value,
+        line1: line1.current.value,
+        line2: line2.current.value,
+        pincode: pincode.current.value,
+        city: city.current.value,
+        state: state.current.value,
+        type: type.current.value,
+      };
+      const res = await addAddress(newFormData);
+      dialog.current.close();
+    }
   };
 
   return (
@@ -56,7 +106,9 @@ export default function NewAddressModal({ open, onClose }) {
       {open ? (
         <div className="fixed w-4/5 flex flex-col items-center p-5 ">
           <div className="w-full max-w-2xl p-4 bg-white rounded-lg shadow-lg">
-            <p className=" font-medium mb-2.5 text-lg">Add a new address</p>
+            <p className=" font-medium mb-2.5 text-lg">
+              {addressData ? "Edit your address" : "Add a new address"}
+            </p>
             <hr className=" bg-gray-500 h-0.5" />
             <form className="my-8" onSubmit={handleSubmit}>
               <div className="flex space-x-4 mb-4">
@@ -151,13 +203,22 @@ export default function NewAddressModal({ open, onClose }) {
                   <Input id="type" placeholder="Type" type="text" ref={type} />
                 </LabelInputContainer>
               </div>
-              <button
-                className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
-                type="submit"
-              >
-                Add Address &rarr;
-                <BottomGradient />
-              </button>
+              <div className="flex space-x-4">
+                <button
+                  className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
+                  type="submit"
+                >
+                  {addressData ? "Save Changes" : "Add Address"} &rarr;
+                  <BottomGradient />
+                </button>
+                <button
+                  className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
+                  onClick={onClose}
+                >
+                  Cancel
+                  <BottomGradient />
+                </button>
+              </div>
             </form>
           </div>
         </div>
