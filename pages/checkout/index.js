@@ -41,7 +41,7 @@ const Checkout = () => {
       );
 
       const response = res.data;
-      console.log(response);
+
       setCartItems(response.cartItems);
 
       const totalPrice = response.cartItems.reduce(
@@ -98,21 +98,25 @@ const Checkout = () => {
     setDiscountPercent(0);
     couponInput.current.value = "";
     couponInput.current.className = cn(
-      "flex h-10 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-800 dark:bg-slate-950 dark:ring-offset-slate-950 dark:placeholder:text-slate-400 dark:focus-visible:ring-slate-300"
+      "flex h-10 w-full rounded-md border bg-white border border-gray-400 border-slate-200 bg-white px-3 py-2 text-sm ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-800 dark:bg-slate-950 dark:ring-offset-slate-950 dark:placeholder:text-slate-400 dark:focus-visible:ring-slate-300"
     );
     couponInput.current.disabled = false;
   };
 
-  const openOrderCompleteModal = () => setModalOpen(true);
   const closeOrderCompleteModal = () => setModalOpen(false);
+
+  console.log(cartItems);
 
   const handleSubmit = async () => {
     setModalOpen(true);
     try {
-      const res = await axios.delete(
-        `${process.env.NEXT_PUBLIC_API_URL}/cart/delete`,
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/orders/add`,
         {
-          data: { userId },
+          userId,
+          totalAmount: cartValue,
+          addressId: selectedAddress?._id,
+          paymentMethod,
         }
       );
     } catch (error) {
@@ -144,7 +148,11 @@ const Checkout = () => {
                       className="flex items-center space-x-2 focus:bg-orange-400"
                       key={index}
                     >
-                      <RadioGroupItem value={item} id={index} />
+                      <RadioGroupItem
+                        value={item}
+                        id={index}
+                        className="border-black w-fit"
+                      />
                       <Label htmlFor={index} className="text-base font-normal">
                         <b>{item.fullName}</b>{" "}
                         {item.line1 +
@@ -179,7 +187,11 @@ const Checkout = () => {
                       <HandCoinsIcon className="mr-2" />
                       Cash on Delivery
                     </Label>
-                    <RadioGroupItem value="cash" id="r1" />
+                    <RadioGroupItem
+                      value="cash"
+                      id="r1"
+                      className="border-black"
+                    />
                   </div>
                   <div
                     className="py-2.5 px-6 flex space-x-4 items-center rounded-lg bg-gray-300 hover:bg-gray-400"
@@ -188,7 +200,11 @@ const Checkout = () => {
                     <Label htmlFor="r2" className="flex items-center">
                       <CreditCardIcon className="mr-2" /> Credit or debit card
                     </Label>
-                    <RadioGroupItem value="card" id="r2" />
+                    <RadioGroupItem
+                      value="card"
+                      id="r2"
+                      className="border-black"
+                    />
                   </div>
                 </RadioGroup>
 

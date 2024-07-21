@@ -1,3 +1,5 @@
+import { useAuth } from "@/context/AuthContext";
+import axios from "axios";
 import { CheckIcon } from "lucide-react";
 import { useRouter } from "next/router";
 import { useEffect, useRef } from "react";
@@ -5,11 +7,19 @@ import { useEffect, useRef } from "react";
 export default function OrderPlacedModal({ open, onClose }) {
   const dialog = useRef();
   const router = useRouter();
+  const { user } = useAuth();
+  const userId = user?._id;
 
   useEffect(() => {
     if (open) {
       dialog.current.showModal();
-      setTimeout(() => {
+      setTimeout(async () => {
+        const res = await axios.delete(
+          `${process.env.NEXT_PUBLIC_API_URL}/cart/delete`,
+          {
+            data: { userId },
+          }
+        );
         router.push("/");
         dialog.current.close();
       }, 3000);

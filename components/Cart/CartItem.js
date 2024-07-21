@@ -4,7 +4,7 @@ export default function CartItem({ addToCart, removeFromCart, ...book }) {
   const { _id, title, imageUrl, author, price, quantity } = book;
 
   const user = JSON.parse(sessionStorage.getItem("user"));
-  const userId = user._id;
+  const userId = user?._id;
 
   const handleAdd = (id, price) => {
     addToCart(id, price, userId);
@@ -23,7 +23,7 @@ export default function CartItem({ addToCart, removeFromCart, ...book }) {
           <span className="">
             <Link
               href={`/books/${_id}`}
-              className="font-bold text-4xl hover:text-blue-600"
+              className="font-bold text-4xl hover:underline hover:text-orange-400"
             >
               {title}
             </Link>

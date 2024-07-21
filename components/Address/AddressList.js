@@ -23,7 +23,7 @@ export default function AddressList({ props, openModal }) {
   };
 
   return (
-    <div className="flex flex-col justify-between p-4 border-2 rounded-lg border-gray-300 shadow-md space-y-8">
+    <div className="flex flex-col justify-between h-full p-4 border-2 rounded-lg border-gray-300 shadow-md space-y-8">
       <div>
         <p className=" font-semibold">{props.fullName}</p>
         <p className=" text-sm">{props.line1 + ", " + props.line2}</p>
