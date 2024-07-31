@@ -31,7 +31,13 @@ module.exports = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
+      colors: {
+        scrollbar: {
+          DEFAULT: "#A0AEC0", // Custom scrollbar color
+          hover: "#718096", // Custom hover color
+        },
+      },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"), require("tailwind-scrollbar")],
 };

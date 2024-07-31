@@ -7,6 +7,8 @@ import { useAuth } from "@/context/AuthContext";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import emptyCart from "@/public/undraw_empty_cart.svg";
+import Image from "next/image";
 
 const Cart = () => {
   const router = useRouter();
@@ -126,22 +128,22 @@ const Cart = () => {
     }
   };
 
+  // bg-gradient-to-t from-slate-50 via-zinc-200 to-slate-300
+
   return (
-    <div className="px-4 py-6 w-full flex space-x-3 bg-gradient-to-t from-slate-50 via-zinc-200 to-slate-300">
-      <div className="w-3/4 bg-white p-5">
-        <p className="text-2xl font-medium">Shopping Cart</p>
-        <p className="pr-8 text-end">Price</p>
+    <div className="px-4 py-6 w-full flex space-x-3">
+      <div className="w-3/4 bg-white p-5 shadow-md rounded">
+        <p className="text-2xl font-medium mb-1">Shopping Cart</p>
+        {cartQuantity ? <p className="pr-8 text-end">Price</p> : null}
 
         <Separator />
 
-        {loading && (
+        {loading ? (
           <div className="py-2">
             <SkeletonCard />
             <SkeletonCard />
           </div>
-        )}
-
-        {cartQuantity ? (
+        ) : cartQuantity ? (
           cartItems.map((book) => {
             if (book.quantity <= 0) return null;
 
@@ -155,11 +157,15 @@ const Cart = () => {
             );
           })
         ) : (
-          <p className=" text-xl text-center my-5">Your Cart is empty</p>
+          <div className="flex flex-col justify-between py-4">
+            <Image src={emptyCart} width={300} className="mx-auto" />
+            <p className="text-xl text-center mt-5">Your Cart is empty.</p>
+          </div>
         )}
         <Separator />
+
         {cartQuantity ? (
-          <p className="pr-8 pt-2 text-end text-lg">
+          <p className="pr-8 pt-2 text-end text-lg ">
             SubTotal ({cartQuantity} item): <b>₹{totalCartValue.toFixed(2)}</b>
           </p>
         ) : (
@@ -167,7 +173,7 @@ const Cart = () => {
         )}
       </div>
       <div className="w-1/4">
-        <div className="flex flex-col space-y-6 bg-white mx-3 p-6">
+        <div className="flex flex-col space-y-6 bg-white mx-3 p-6 shadow-md rounded">
           <p className="text-center text-lg">
             SubTotal ({cartQuantity} item): <b>₹{totalCartValue.toFixed(2)}</b>
           </p>

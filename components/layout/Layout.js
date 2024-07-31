@@ -1,3 +1,4 @@
+import Footer from "./Footer";
 import MainNavigation from "./MainNavigation";
 
 export const metadata = {
@@ -7,9 +8,10 @@ export const metadata = {
 
 export default function Layout(props) {
   return (
-    <div>
+    <div className="w-full">
       <MainNavigation />
-      <main className="mt-[70px]">{props.children}</main>
+      <main>{props.children}</main>
+      <Footer />
     </div>
   );
 }

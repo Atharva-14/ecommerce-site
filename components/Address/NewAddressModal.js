@@ -3,9 +3,11 @@ import { Label } from "../UI/label";
 import { Input } from "../UI/input";
 import { cn } from "@/utils/cn";
 import { useAuth } from "@/context/AuthContext";
+import { useToast } from "../ui/use-toast";
 
 export default function NewAddressModal({ open, onClose, addressData }) {
   const { user, addAddress, updateAddress } = useAuth();
+  const { toast } = useToast();
   const dialog = useRef();
   const country = useRef();
   const fullName = useRef();
@@ -77,6 +79,7 @@ export default function NewAddressModal({ open, onClose, addressData }) {
       };
 
       const res = await updateAddress(updatedFormData);
+      toast({ description: "Address updated successfully" });
       dialog.current.close();
     } else {
       const newFormData = {
@@ -93,6 +96,7 @@ export default function NewAddressModal({ open, onClose, addressData }) {
         type: type.current.value,
       };
       const res = await addAddress(newFormData);
+      toast({ description: "Address added successfully" });
       dialog.current.close();
     }
   };
@@ -118,6 +122,7 @@ export default function NewAddressModal({ open, onClose, addressData }) {
                     id="country"
                     placeholder="Country"
                     type="text"
+                    className="flex h-10 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed dark:ring-offset-slate-950 dark:placeholder:text-slate-400 dark:focus-visible:ring-slate-300 dark:border-slate-800 dark:bg-slate-950 disabled:opacity-60"
                     ref={country}
                   />
                 </LabelInputContainer>
@@ -129,6 +134,7 @@ export default function NewAddressModal({ open, onClose, addressData }) {
                     id="fullName"
                     placeholder="John Doe"
                     type="text"
+                    className="flex h-10 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed dark:ring-offset-slate-950 dark:placeholder:text-slate-400 dark:focus-visible:ring-slate-300 dark:border-slate-800 dark:bg-slate-950 disabled:opacity-60"
                     ref={fullName}
                   />
                 </LabelInputContainer>
@@ -140,6 +146,7 @@ export default function NewAddressModal({ open, onClose, addressData }) {
                     id="mobileNumber"
                     placeholder="Enter your number"
                     type="text"
+                    className="flex h-10 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed dark:ring-offset-slate-950 dark:placeholder:text-slate-400 dark:focus-visible:ring-slate-300 dark:border-slate-800 dark:bg-slate-950 disabled:opacity-60"
                     ref={phone}
                   />
                 </LabelInputContainer>
@@ -149,6 +156,7 @@ export default function NewAddressModal({ open, onClose, addressData }) {
                     id="email"
                     placeholder="Enter your email"
                     type="text"
+                    className="flex h-10 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed dark:ring-offset-slate-950 dark:placeholder:text-slate-400 dark:focus-visible:ring-slate-300 dark:border-slate-800 dark:bg-slate-950 disabled:opacity-60"
                     ref={email}
                   />
                 </LabelInputContainer>
@@ -160,6 +168,7 @@ export default function NewAddressModal({ open, onClose, addressData }) {
                     id="line1"
                     placeholder="Line1"
                     type="text"
+                    className="flex h-10 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed dark:ring-offset-slate-950 dark:placeholder:text-slate-400 dark:focus-visible:ring-slate-300 dark:border-slate-800 dark:bg-slate-950 disabled:opacity-60"
                     ref={line1}
                   />
                 </LabelInputContainer>
@@ -169,6 +178,7 @@ export default function NewAddressModal({ open, onClose, addressData }) {
                     id="line2"
                     placeholder="Line2"
                     type="text"
+                    className="flex h-10 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed dark:ring-offset-slate-950 dark:placeholder:text-slate-400 dark:focus-visible:ring-slate-300 dark:border-slate-800 dark:bg-slate-950 disabled:opacity-60"
                     ref={line2}
                   />
                 </LabelInputContainer>
@@ -180,12 +190,19 @@ export default function NewAddressModal({ open, onClose, addressData }) {
                     id="pincode"
                     placeholder="6-digits [0-9] PIN Code"
                     type="text"
+                    className="flex h-10 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed dark:ring-offset-slate-950 dark:placeholder:text-slate-400 dark:focus-visible:ring-slate-300 dark:border-slate-800 dark:bg-slate-950 disabled:opacity-60"
                     ref={pincode}
                   />
                 </LabelInputContainer>
                 <LabelInputContainer className=" max-w-xs">
                   <Label htmlFor="city">City</Label>
-                  <Input id="city" placeholder="City" type="text" ref={city} />
+                  <Input
+                    id="city"
+                    placeholder="City"
+                    type="text"
+                    className="flex h-10 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed dark:ring-offset-slate-950 dark:placeholder:text-slate-400 dark:focus-visible:ring-slate-300 dark:border-slate-800 dark:bg-slate-950 disabled:opacity-60"
+                    ref={city}
+                  />
                 </LabelInputContainer>
               </div>
               <div className="flex space-x-4 mb-4">
@@ -195,12 +212,19 @@ export default function NewAddressModal({ open, onClose, addressData }) {
                     id="state"
                     placeholder="State"
                     type="text"
+                    className="flex h-10 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed dark:ring-offset-slate-950 dark:placeholder:text-slate-400 dark:focus-visible:ring-slate-300 dark:border-slate-800 dark:bg-slate-950 disabled:opacity-60"
                     ref={state}
                   />
                 </LabelInputContainer>
                 <LabelInputContainer className=" max-w-xs">
                   <Label htmlFor="type">Type</Label>
-                  <Input id="type" placeholder="Type" type="text" ref={type} />
+                  <Input
+                    id="type"
+                    placeholder="Type"
+                    className="flex h-10 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed dark:ring-offset-slate-950 dark:placeholder:text-slate-400 dark:focus-visible:ring-slate-300 dark:border-slate-800 dark:bg-slate-950 disabled:opacity-60"
+                    type="text"
+                    ref={type}
+                  />
                 </LabelInputContainer>
               </div>
               <div className="flex space-x-4">

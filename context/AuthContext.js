@@ -11,7 +11,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     if (typeof window === "undefined") return;
     const userInfo = sessionStorage.getItem("user") || null;
-    const authToken = sessionStorage.getItem("authToken") || {};
+    const authToken = sessionStorage.getItem("authToken") || null;
 
     console.log("herer============== asdasd");
 
@@ -21,12 +21,19 @@ export const AuthProvider = ({ children }) => {
     }
 
     setUser(u);
-    setToken(authToken ? JSON.stringify(authToken) : null);
+    setToken(authToken);
   }, []);
 
-  if (token) {
-    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-  }
+  useEffect(() => {
+    if (token) {
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    }
+  }, [token]);
+
+  useEffect(() => {
+    console.log("User state:", user);
+    console.log("Token state:", token);
+  }, [user, token]);
 
   const logInUser = async ({ email, password }) => {
     try {

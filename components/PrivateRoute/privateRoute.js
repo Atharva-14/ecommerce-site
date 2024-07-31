@@ -1,43 +1,31 @@
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
-
-// const privateRoute = (WrappedComponent) => {
-//   return (props) => {
-//     const { user } = useAuth();
-//     const router = useRouter();
-
-//     useEffect(() => {
-//       if (!user) {
-//         router.push("/login");
-//       }
-//     }, [user, router]);
-
-//     if (!user) {
-//       return <div>Redirecting to Login Page...</div>;
-//     }
-
-//     return user ? <WrappedComponent {...props} /> : null;
-//   };
-// };
+import { useEffect, useState } from "react";
 
 const withAuth = (Component) => {
   const Auth = (props) => {
-    const uAuth = useAuth();
+    const { user, token } = useAuth();
     const router = useRouter();
-console.log(uAuth,)
-    // if (!uAuth?.user) {
-    //   // router.push("/login");
-    // }
+    const [loading, setLoading] = useState(true);
 
-    const redirect = () => {
-      router.push("/login");
-    }
     useEffect(() => {
-      if(!uAuth?.user && router.isReady) {
-        redirect()
+      if (typeof window !== "undefined") {
+        setLoading(false);
       }
-    },[uAuth, router.isReady])
+    }, []);
+
+    useEffect(() => {
+      if (!loading && router.isReady) {
+        if (!user || !token) {
+          router.push("/login");
+        }
+      }
+    }, [user, token, router.isReady, loading]);
+
+    if (loading || !router.isReady) {
+      return <div>Loading...</div>;
+    }
+
     return <Component {...props} />;
   };
 

@@ -8,7 +8,6 @@ import { Separator } from "@/components/UI/separator";
 import { useAuth } from "@/context/AuthContext";
 import { cn } from "@/lib/utils";
 import axios from "axios";
-import { CreditCardIcon, HandCoinsIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 const Checkout = () => {
@@ -184,7 +183,7 @@ const Checkout = () => {
                     onClick={() => setPaymentMethod("cash")}
                   >
                     <Label htmlFor="r1" className="flex items-center">
-                      <HandCoinsIcon className="mr-2" />
+                      <i className="bx bx-wallet-alt text-2xl mr-2"></i>
                       Cash on Delivery
                     </Label>
                     <RadioGroupItem
@@ -198,7 +197,8 @@ const Checkout = () => {
                     onClick={() => setPaymentMethod("card")}
                   >
                     <Label htmlFor="r2" className="flex items-center">
-                      <CreditCardIcon className="mr-2" /> Credit or debit card
+                      <i className="bx bxs-credit-card text-2xl mr-2"></i>{" "}
+                      Credit or debit card
                     </Label>
                     <RadioGroupItem
                       value="card"
@@ -212,18 +212,31 @@ const Checkout = () => {
                   <div className="flex space-x-2 p-4 mt-2.5">
                     <div className="w-2/4">
                       <Label>Card Number</Label>
-                      <Input type="text" className="bg-gray-100" />
+                      <Input
+                        type="text"
+                        className="flex h-10 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed dark:ring-offset-slate-950 dark:placeholder:text-slate-400 dark:focus-visible:ring-slate-300 dark:border-slate-800 dark:bg-slate-950 disabled:opacity-60"
+                      />
                     </div>
                     <div className="flex flex-col space-y-2.5">
                       <Label>Expiry Date (MM/YYYY)</Label>
                       <div className="flex items-center">
-                        <Input placeholder="MM" className="bg-gray-100" /> /
-                        <Input placeholder="YYYY" className="bg-gray-100" />
+                        <Input
+                          placeholder="MM"
+                          className="flex h-10 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed dark:ring-offset-slate-950 dark:placeholder:text-slate-400 dark:focus-visible:ring-slate-300 dark:border-slate-800 dark:bg-slate-950 disabled:opacity-60"
+                        />
+                        /
+                        <Input
+                          placeholder="YYYY"
+                          className="flex h-10 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed dark:ring-offset-slate-950 dark:placeholder:text-slate-400 dark:focus-visible:ring-slate-300 dark:border-slate-800 dark:bg-slate-950 disabled:opacity-60"
+                        />
                       </div>
                     </div>
                     <div>
                       <Label>CVV</Label>
-                      <Input type="number" className="bg-gray-100" />
+                      <Input
+                        type="number"
+                        className="flex h-10 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed dark:ring-offset-slate-950 dark:placeholder:text-slate-400 dark:focus-visible:ring-slate-300 dark:border-slate-800 dark:bg-slate-950 disabled:opacity-60"
+                      />
                     </div>
                   </div>
                 ) : null}
@@ -260,7 +273,11 @@ const Checkout = () => {
             <div className="w-full">
               <Label>Discount Code</Label>
               <div className="flex w-full space-x-2">
-                <Input placeholder="Enter code" ref={couponInput} />
+                <Input
+                  placeholder="Enter code"
+                  className="flex h-10 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed dark:ring-offset-slate-950 dark:placeholder:text-slate-400 dark:focus-visible:ring-slate-300 dark:border-slate-800 dark:bg-slate-950 disabled:opacity-60"
+                  ref={couponInput}
+                />
                 {discountAmt ? (
                   <Button onClick={clearCoupon}>Clear</Button>
                 ) : (

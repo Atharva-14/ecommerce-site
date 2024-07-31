@@ -4,6 +4,7 @@ import privateRoute from "@/components/PrivateRoute/privateRoute";
 import { Input } from "@/components/UI/input";
 import { Label } from "@/components/UI/label";
 import { Separator } from "@/components/UI/separator";
+import { useToast } from "@/components/ui/use-toast";
 import { useAuth } from "@/context/AuthContext";
 import { cn } from "@/utils/cn";
 import { useEffect, useRef, useState } from "react";
@@ -11,6 +12,7 @@ import { BiEdit } from "react-icons/bi";
 
 const AccountPage = () => {
   const { user, updateUser } = useAuth();
+  const { toast } = useToast();
   const [confirmChanges, setConfirmChanges] = useState(false);
   const [isModalOpen, setModalOpen] = useState(false);
   const [selectedAddress, setSelectedAddress] = useState(null);
@@ -56,6 +58,7 @@ const AccountPage = () => {
         lastNameInput.current.disabled = true;
         emailInput.current.disabled = true;
         setConfirmChanges(false);
+        toast({ description: "Profile details updated" });
       }
     } catch (error) {
       console.log("Update Details", error.message);
@@ -102,6 +105,7 @@ const AccountPage = () => {
                     placeholder="John"
                     type="text"
                     ref={firstNameInput}
+                    className="flex h-10 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed dark:ring-offset-slate-950 dark:placeholder:text-slate-400 dark:focus-visible:ring-slate-300 dark:border-slate-800 dark:bg-slate-950 disabled:opacity-60"
                     disabled
                   />
                 </LabelInputContainer>
@@ -111,6 +115,7 @@ const AccountPage = () => {
                     id="lastname"
                     placeholder="Doe"
                     type="text"
+                    className="flex h-10 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed dark:ring-offset-slate-950 dark:placeholder:text-slate-400 dark:focus-visible:ring-slate-300 dark:border-slate-800 dark:bg-slate-950 disabled:opacity-60"
                     ref={lastNameInput}
                     disabled
                   />
@@ -122,6 +127,7 @@ const AccountPage = () => {
                   id="email"
                   placeholder="johndoe@email.com"
                   type="email"
+                  className="flex h-10 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed dark:ring-offset-slate-950 dark:placeholder:text-slate-400 dark:focus-visible:ring-slate-300 dark:border-slate-800 dark:bg-slate-950 disabled:opacity-60"
                   ref={emailInput}
                   disabled
                 />

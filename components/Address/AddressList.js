@@ -1,8 +1,10 @@
 import { useAuth } from "@/context/AuthContext";
 import { Separator } from "../UI/separator";
+import { useToast } from "../ui/use-toast";
 
 export default function AddressList({ props, openModal }) {
   const { user, deleteAddress } = useAuth();
+  const { toast } = useToast();
 
   const deleteAddressHandle = async (addressId) => {
     const userId = user?._id;
@@ -13,6 +15,10 @@ export default function AddressList({ props, openModal }) {
 
     try {
       const { success } = await deleteAddress(data);
+      toast({
+        variant: "destructive",
+        description: "Address delete successfully",
+      });
     } catch (error) {
       console.log("Delete Address", error.message);
     }

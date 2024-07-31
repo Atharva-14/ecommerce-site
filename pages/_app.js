@@ -3,6 +3,7 @@ import Layout from "@/components/layout/Layout";
 import { AuthProvider } from "@/context/AuthContext";
 import store from "@/store";
 import { Provider } from "react-redux";
+import { Toaster } from "@/components/UI/toaster";
 
 export default function App({ Component, pageProps }) {
   return (
@@ -10,6 +11,7 @@ export default function App({ Component, pageProps }) {
       <Provider store={store}>
         <Layout>
           <Component {...pageProps} />
+          <Toaster />
         </Layout>
       </Provider>
     </AuthProvider>
