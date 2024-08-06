@@ -2,11 +2,12 @@ import axios from "axios";
 import { useState } from "react";
 import QuantityDropdown from "../UI/QuantityDropdown";
 import { useAuth } from "@/context/AuthContext";
-import { CheckIcon, HeartIcon, Share2Icon } from "lucide-react";
 import { Separator } from "../UI/separator";
 import { useToast } from "../ui/use-toast";
 import { useRouter } from "next/router";
 import { ToastAction } from "../UI/toast";
+import { useDispatch } from "react-redux";
+import { addItemToCart } from "@/store/async-thunk";
 
 export default function BookDetail({ props }) {
   const { user } = useAuth();
@@ -15,21 +16,18 @@ export default function BookDetail({ props }) {
   const [selectedQuantity, setSelectedQuantity] = useState(1);
   const { _id, title, imageUrl, author, price, description } = props;
 
-  const addItemToCart = async () => {
+  const dispatch = useDispatch();
+
+  const handleAddToCart = () => {
     if (user) {
-      try {
-        const res = await axios.post(
-          `${process.env.NEXT_PUBLIC_API_URL}/cart/add`,
-          {
-            userId: user?._id,
-            productId: _id,
-            quantity: selectedQuantity,
-          }
-        );
-        toast({ variant: "constructive",description: "Added To Cart" });
-      } catch (error) {
-        console.log("Add to cart err: ", error.message);
-      }
+      dispatch(
+        addItemToCart({
+          userId: user?._id,
+          productId: _id,
+          quantity: selectedQuantity,
+        })
+      );
+      toast({ variant: "constructive", title: "Added to cart" });
     } else {
       toast({
         variant: "destructive",
@@ -81,15 +79,15 @@ export default function BookDetail({ props }) {
             <QuantityDropdown onChange={handleQuantityChange} />
             <button
               className="border-2 border-black py-2 px-6 bg-black text-white font-medium "
-              onClick={addItemToCart}
+              onClick={handleAddToCart}
             >
               ADD TO CART
             </button>
-            <button className="border-2 border-black p-2 ">
-              <HeartIcon className="text-2xl" />
+            <button className="flex items-center px-1 border-2 border-black  ">
+              <i className="bx bx-heart text-3xl"></i>
             </button>
-            <button>
-              <Share2Icon className="text-3xl m-auto" />
+            <button className="flex items-center">
+              <i className="bx bx-share-alt text-3xl"></i>
             </button>
           </div>
         </div>

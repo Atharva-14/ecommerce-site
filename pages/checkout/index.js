@@ -9,11 +9,12 @@ import { useAuth } from "@/context/AuthContext";
 import { cn } from "@/lib/utils";
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
 
 const Checkout = () => {
   const { user } = useAuth();
-  const [cartItems, setCartItems] = useState([]);
-  const [totalCartValue, setTotalCartValue] = useState(0);
+  // const [cartItems, setCartItems] = useState([]);
+  // const [totalCartValue, setTotalCartValue] = useState(0);
   const [paymentMethod, setPaymentMethod] = useState("");
   const [discountAmt, setDiscountAmt] = useState(0);
   const [discountPercent, setDiscountPercent] = useState(0);
@@ -24,36 +25,18 @@ const Checkout = () => {
   const couponInput = useRef();
   const userId = user?._id;
 
+  const cartItems = useSelector((state) => state.cart.bookCart);
+  const totalCartValue = useSelector((state) => state.cart.totalCartValue);
+
   useEffect(() => {
     console.log(user);
     if (user?._id) {
       console.log("inside: effect: ", typeof user._id);
-      getCartitems(user._id);
+      console.log(cartItems);
+      setCartValue(totalCartValue);
     }
     couponInput.current.value = "SAVE20";
-  }, [user]);
-
-  const getCartitems = async (userId) => {
-    try {
-      const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/cart/${userId}`
-      );
-
-      const response = res.data;
-
-      setCartItems(response.cartItems);
-
-      const totalPrice = response.cartItems.reduce(
-        (total, book) => total + book.price * book.quantity,
-        0
-      );
-
-      setTotalCartValue(totalPrice);
-      setCartValue(totalPrice);
-    } catch (error) {
-      console.log("Failed to fecth cart: ", error.message);
-    }
-  };
+  }, [user, cartItems]);
 
   const handleCoupon = () => {
     const coupon = couponInput.current.value;

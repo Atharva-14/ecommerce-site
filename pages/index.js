@@ -112,7 +112,6 @@ export default function Home({ allBooksData }) {
         {filteredResults.map((book) => (
           <div key={book._id} className="w-full sm:w-1/2 lg:w-1/3 p-3">
             <BookCard
-              key={book._id}
               id={book._id}
               title={book.title}
               imageUrl={book.imageUrl}

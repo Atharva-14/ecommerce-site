@@ -1,17 +1,21 @@
+import { addItemToCart, removeItemFromCart } from "@/store/async-thunk";
 import Link from "next/link";
+import { useDispatch } from "react-redux";
 
-export default function CartItem({ addToCart, removeFromCart, ...book }) {
+export default function CartItem({ ...book }) {
   const { _id, title, imageUrl, author, price, quantity } = book;
 
   const user = JSON.parse(sessionStorage.getItem("user"));
   const userId = user?._id;
 
-  const handleAdd = (id, price) => {
-    addToCart(id, price, userId);
+  const dispatch = useDispatch();
+
+  const handleAdd = () => {
+    dispatch(addItemToCart({ userId, productId: _id, price }));
   };
 
-  const handleRemove = (id, price) => {
-    removeFromCart(id, price, userId);
+  const handleRemove = () => {
+    dispatch(removeItemFromCart({ userId, productId: _id, price }));
   };
 
   return (
@@ -36,7 +40,7 @@ export default function CartItem({ addToCart, removeFromCart, ...book }) {
                   ? "bg-gray-500 cursor-not-allowed"
                   : "border-gray-300 hover:bg-gray-300 text-xl"
               } `}
-              onClick={() => handleRemove(_id, price)}
+              onClick={handleRemove}
               disabled={quantity === 0 ? true : false}
             >
               -
@@ -44,7 +48,7 @@ export default function CartItem({ addToCart, removeFromCart, ...book }) {
             <p className="text-xl font-medium">{quantity}</p>
             <button
               className="px-2 rounded-md border border-gray-300 hover:bg-gray-300 text-xl"
-              onClick={() => handleAdd(_id, price)}
+              onClick={handleAdd}
             >
               +
             </button>
