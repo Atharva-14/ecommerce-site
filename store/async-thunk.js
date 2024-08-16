@@ -118,3 +118,29 @@ export const getWishlistItems = createAsyncThunk(
     }
   }
 );
+
+export const toggleWishlistItems = createAsyncThunk(
+  "wishlist/toggleWishlistItems",
+  async ({ userId, bookId, type }, { rejectWithValue }) => {
+    try {
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/wishlist/toggleList`,
+        {
+          userId,
+          bookId,
+          type,
+        }
+      );
+
+      return {
+        book: res.data,
+        bookId,
+        type,
+      };
+    } catch (error) {
+      console.log("Failed to toogle wishlist item");
+
+      return rejectWithValue(error.message);
+    }
+  }
+);

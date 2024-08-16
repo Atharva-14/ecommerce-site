@@ -138,9 +138,15 @@ export default function MainNavigation() {
                           Profile
                         </DropdownMenuItem>
                       </Link>
+                      <Link href="/wishlist">
+                        <DropdownMenuItem>
+                          <i className="bx bx-heart font-medium text-lg mr-2"></i>
+                          Wishlist
+                        </DropdownMenuItem>
+                      </Link>
                       <Link href="/orders">
                         <DropdownMenuItem>
-                          <i className="bx bx-package font-medium text-lg mr-2"></i>{" "}
+                          <i className="bx bx-package font-medium text-lg mr-2"></i>
                           Orders
                         </DropdownMenuItem>
                       </Link>

@@ -23,12 +23,13 @@ const Cart = () => {
   const loading = useSelector((state) => state.cart.loading);
 
   useEffect(() => {
-    console.log(user);
     if (user?._id) {
       console.log("inside: effect: ");
       dispatch(getCartItems(user?._id));
     }
-  }, [user]);
+  }, []);
+
+  console.log("cart Page", cartItems);
 
   // bg-gradient-to-t from-slate-50 via-zinc-200 to-slate-300
 

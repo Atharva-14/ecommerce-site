@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getWishlistItems } from "./async-thunk";
+import { getWishlistItems, toggleWishlistItems } from "./async-thunk";
 
 const initialState = {
   wishlistItem: [],
@@ -12,6 +12,7 @@ const wishlistSlice = createSlice({
   initialState: initialState,
   reducers: {},
   extraReducers: (builder) => {
+    //Handling fetch wishlist items
     builder
       .addCase(getWishlistItems.pending, (state) => {
         state.loading = true;
@@ -22,6 +23,29 @@ const wishlistSlice = createSlice({
         state.wishlistItem = action.payload.wishlistData;
       })
       .addCase(getWishlistItems.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
+
+    //Handling toggle wishlist item
+    builder
+      .addCase(toggleWishlistItems.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(toggleWishlistItems.fulfilled, (state, action) => {
+        state.loading = false;
+        const { bookId, type } = action.payload;
+
+        if (type === "ADD") {
+          state.wishlistItem.push(action.payload.book);
+        } else if (type === "REMOVE") {
+          state.wishlistItem = state.wishlistItem.filter(
+            (item) => item._id !== bookId
+          );
+        }
+      })
+      .addCase(toggleWishlistItems.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });

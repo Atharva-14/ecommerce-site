@@ -1,13 +1,19 @@
+// src/components/BookDetail.js
+
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import QuantityDropdown from "../UI/QuantityDropdown";
 import { useAuth } from "@/context/AuthContext";
 import { Separator } from "../UI/separator";
 import { useToast } from "../ui/use-toast";
 import { useRouter } from "next/router";
 import { ToastAction } from "../UI/toast";
-import { useDispatch } from "react-redux";
-import { addItemToCart } from "@/store/async-thunk";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addItemToCart,
+  getWishlistItems,
+  toggleWishlistItems,
+} from "@/store/async-thunk";
 
 export default function BookDetail({ props }) {
   const { user } = useAuth();
@@ -16,7 +22,19 @@ export default function BookDetail({ props }) {
   const [selectedQuantity, setSelectedQuantity] = useState(1);
   const { _id, title, imageUrl, author, price, description } = props;
 
+  // const [isInWishlist, setIsInWishlist] = useState(false);
+
   const dispatch = useDispatch();
+
+  const { wishlistItem, loading, error } = useSelector(
+    (state) => state.wishlist
+  );
+
+  useEffect(() => {
+    if (user) {
+      dispatch(getWishlistItems(user?._id));
+    }
+  }, [user]);
 
   const handleAddToCart = () => {
     if (user) {
@@ -45,7 +63,40 @@ export default function BookDetail({ props }) {
     setSelectedQuantity(quantity);
   };
 
-  console.log(selectedQuantity);
+  const handleToggleWishlist = () => {
+    if (!user) {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong. Please Sign In",
+        action: (
+          <ToastAction altText="Sign In" onClick={() => router.push("/login")}>
+            Sign In
+          </ToastAction>
+        ),
+      });
+      return;
+    }
+
+    const isInWishlist = wishlistItem.some((book) => book._id === _id);
+
+    dispatch(
+      toggleWishlistItems({
+        userId: user?._id,
+        bookId: _id,
+        type: isInWishlist ? "REMOVE" : "ADD",
+      })
+    );
+    // dispatch(getWishlistItems(user?._id));
+  };
+
+  console.log("book", props);
+
+  console.log("wishlist", wishlistItem);
+
+  // console.log(
+  //   "check in wishlist",
+  //   wishlistItem.some((book) => book._id === _id)
+  // );
 
   return (
     <div className="flex justify-evenly space-x-10">
@@ -78,13 +129,20 @@ export default function BookDetail({ props }) {
           <div className="flex space-x-5 py-2.5">
             <QuantityDropdown onChange={handleQuantityChange} />
             <button
-              className="border-2 border-black py-2 px-6 bg-black text-white font-medium "
+              className="border-2 border-black hover:bg-gray-800 py-2 px-6 bg-black text-white font-medium "
               onClick={handleAddToCart}
             >
               ADD TO CART
             </button>
-            <button className="flex items-center px-1 border-2 border-black  ">
-              <i className="bx bx-heart text-3xl"></i>
+            <button
+              className="flex items-center px-1 border-2 border-black"
+              onClick={handleToggleWishlist}
+            >
+              {wishlistItem.some((book) => book._id === _id) ? (
+                <i className="bx bxs-heart text-3xl"></i>
+              ) : (
+                <i className="bx bx-heart text-3xl"></i>
+              )}
             </button>
             <button className="flex items-center">
               <i className="bx bx-share-alt text-3xl"></i>

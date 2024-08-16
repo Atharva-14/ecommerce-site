@@ -1,4 +1,5 @@
-import BookCard from "@/components/Book/BookCard";
+import privateRoute from "@/components/PrivateRoute/privateRoute";
+import WishlistCard from "@/components/Wishlist/WishlistCard";
 import { useAuth } from "@/context/AuthContext";
 import { getWishlistItems } from "@/store/async-thunk";
 import { useEffect } from "react";
@@ -20,10 +21,10 @@ const Wishlist = () => {
 
   return (
     <>
-      <div className="flex flex-wrap w-11/12 py-4">
+      <div className="flex flex-col mx-auto w-7/12 py-4">
         {wishlist.map((book) => (
-          <div key={book._id} className="w-full sm:w-1/2 lg:w-1/3 p-3">
-            <BookCard
+          <div key={book._id} className="w-full ">
+            <WishlistCard
               id={book._id}
               title={book.title}
               imageUrl={book.imageUrl}
@@ -37,4 +38,4 @@ const Wishlist = () => {
   );
 };
 
-export default Wishlist;
+export default privateRoute(Wishlist);

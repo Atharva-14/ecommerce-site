@@ -20,6 +20,7 @@ const cartSlice = createSlice({
   initialState: initialState,
   reducers: {},
   extraReducers: (builder) => {
+    //Handling fetch cart items
     builder
       .addCase(getCartItems.pending, (state) => {
         state.loading = true;
@@ -34,7 +35,10 @@ const cartSlice = createSlice({
       .addCase(getCartItems.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-      })
+      });
+
+    //Handling add item to cart
+    builder
       .addCase(addItemToCart.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -57,7 +61,10 @@ const cartSlice = createSlice({
       .addCase(addItemToCart.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-      })
+      });
+
+    //Handling remove item from cart
+    builder
       .addCase(removeItemFromCart.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -85,7 +92,10 @@ const cartSlice = createSlice({
       .addCase(removeItemFromCart.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-      })
+      });
+
+    //Handling delete cart
+    builder
       .addCase(deleteCart.pending, (state) => {
         state.loading = true;
         state.error = null;
