@@ -1,6 +1,7 @@
 import BookCard from "@/components/Book/BookCard";
 import { Separator } from "@/components/UI/separator";
 import { getAllBooks } from "@/lib/services/bookService";
+import Head from "next/head";
 import { useState } from "react";
 
 export default function Home({ allBooksData }) {
@@ -46,6 +47,19 @@ export default function Home({ allBooksData }) {
 
   return (
     <div className="min-h-screen flex bg-gray-100">
+      <Head>
+        <title>Home - eBookHeaven</title>
+        <meta
+          name="description"
+          content="Welcome to the home page of eBookHeaven. Explore our features and offerings."
+        />
+        <meta name="robots" content="index, follow" />
+        <meta property="og:title" content="Home - eBookHeaven" />
+        <meta
+          property="og:description"
+          content="Welcome to the home page of eBookHeaven. Explore our features and offerings."
+        />
+      </Head>
       <div className="w-1/5 bg-white my-4 py-3 px-2.5 h-full flex flex-col space-y-5">
         <div>
           <div>

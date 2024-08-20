@@ -3,12 +3,10 @@ import { useAuth } from "@/context/AuthContext";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { format } from "date-fns";
-
 import YearDropdown from "@/components/UI/Dropdown/YearDropdown";
 import Link from "next/link";
-import { Skeleton } from "@/components/UI/Skeleton/skeleton";
-import SkeletonCard from "@/components/UI/Skeleton/SkeletonCard";
 import SkeletonOrder from "@/components/UI/Skeleton/SkeletonOrder";
+import Head from "next/head";
 
 const Orders = () => {
   const { user } = useAuth();
@@ -94,6 +92,14 @@ const Orders = () => {
 
   return (
     <div className="sm:w-2/3 w-full mx-auto p-6 flex flex-col space-y-4">
+      <Head>
+        <title>Your Orders - eBookHeaven</title>
+        <meta
+          name="description"
+          content="View and manage your past orders on eBookHeaven."
+        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </Head>
       <span>
         <h1 className="font-semibold text-2xl">Your Orders</h1>
       </span>

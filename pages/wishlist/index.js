@@ -3,6 +3,7 @@ import SkeletonWishlist from "@/components/UI/Skeleton/SkeletonWishlist";
 import WishlistCard from "@/components/Wishlist/WishlistCard";
 import { useAuth } from "@/context/AuthContext";
 import { getWishlistItems } from "@/store/async-thunk";
+import Head from "next/head";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -23,6 +24,14 @@ const Wishlist = () => {
 
   return (
     <div className="flex flex-col mx-auto w-7/12 py-4">
+      <Head>
+        <title>{user ? `${user.firstName}'s Wishlist` : "Wishlist"}</title>
+        <meta
+          name="description"
+          content="View and manage your wishlist items."
+        />
+        <meta name="robots" content="noindex, nofollow" />
+      </Head>
       <h1 className="font-semibold text-4xl mb-2">
         {user.firstName}'s Wishlist
       </h1>

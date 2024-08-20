@@ -12,6 +12,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/UI/dropdown-menu";
+import Avatar from "boring-avatars";
 
 export default function MainNavigation() {
   const path = usePathname();
@@ -71,7 +72,7 @@ export default function MainNavigation() {
           <SearchModal open={isSearchOpen} onClose={closeSearch} />
           <div className="focus:outline-none">
             <Link href="/" className="font-semibold text-xl">
-              eBookHaven
+              eBookHeaven
             </Link>
           </div>
 
@@ -127,7 +128,7 @@ export default function MainNavigation() {
 
                   <DropdownMenu>
                     <DropdownMenuTrigger>
-                      Hello, {user.firstName}
+                      <Avatar name={user?.firstName} variant="beam" />
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>
                       <DropdownMenuLabel>My Account</DropdownMenuLabel>

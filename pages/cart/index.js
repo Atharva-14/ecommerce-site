@@ -10,6 +10,7 @@ import emptyCart from "@/public/undraw_empty_cart.svg";
 import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
 import { getCartItems } from "@/store/async-thunk";
+import Head from "next/head";
 
 const Cart = () => {
   const router = useRouter();
@@ -35,6 +36,22 @@ const Cart = () => {
 
   return (
     <div className="px-4 py-6 w-full flex space-x-3">
+      <Head>
+        <title>Shopping Cart - {cartQuantity} Items</title>
+        <meta
+          name="description"
+          content="Review the item in your shopping cart and proceed to checkout."
+        />
+        <meta
+          property="og:title"
+          content={`Shopping Cart - ${cartQuantity} Items`}
+        />
+        <meta
+          property="og:description"
+          content="Review the item in your shopping cart and proceed to checkout."
+        />
+        <meta property="og:image" content={emptyCart} />
+      </Head>
       <div className="w-3/4 bg-white p-5 shadow-md rounded">
         <p className="text-2xl font-medium mb-1">Shopping Cart</p>
         {cartQuantity ? <p className="pr-8 text-end">Price</p> : null}

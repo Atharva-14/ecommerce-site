@@ -10,11 +10,10 @@ import { cn } from "@/lib/utils";
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
+import Head from "next/head";
 
 const Checkout = () => {
   const { user } = useAuth();
-  // const [cartItems, setCartItems] = useState([]);
-  // const [totalCartValue, setTotalCartValue] = useState(0);
   const [paymentMethod, setPaymentMethod] = useState("");
   const [discountAmt, setDiscountAmt] = useState(0);
   const [discountPercent, setDiscountPercent] = useState(0);
@@ -110,6 +109,14 @@ const Checkout = () => {
     <>
       <OrderPlacedModal open={isModalOpen} onClose={closeOrderCompleteModal} />
       <div className="w-full ">
+        <Head>
+          <title>Checkout - eBookHeaven</title>
+          <meta
+            name="description"
+            content="Complete your purchase securely with our checkout process. Apply discounts, select payment methods, and finalize your order."
+          />
+          <meta property="og:title" content="Checkout - eBookHeaven" />
+        </Head>
         <div className="p-10 bg-gradient-to-t from-slate-50 via-zinc-200 to-slate-300">
           <h1 className="text-center font-extrabold text-3xl ">CHECKOUT</h1>
         </div>

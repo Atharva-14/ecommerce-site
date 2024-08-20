@@ -7,6 +7,7 @@ import { Separator } from "@/components/UI/separator";
 import { useToast } from "@/components/ui/use-toast";
 import { useAuth } from "@/context/AuthContext";
 import { cn } from "@/utils/cn";
+import Head from "next/head";
 import { useEffect, useRef, useState } from "react";
 import { BiEdit } from "react-icons/bi";
 
@@ -67,6 +68,14 @@ const AccountPage = () => {
 
   return (
     <>
+      <Head>
+        <title>Account - Your Profile</title>
+        <meta
+          name="description"
+          content="Manage your personal information and addresses on your account page."
+        />
+        <meta name="robots" content="noindex, nofollow" />
+      </Head>
       <NewAddressModal
         open={isModalOpen}
         onClose={closeAddressModal}

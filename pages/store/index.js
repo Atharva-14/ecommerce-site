@@ -3,6 +3,7 @@ import { Button } from "@/components/UI/button";
 import PriceDropdown from "@/components/UI/Dropdown/PriceDropdown";
 import { Label } from "@/components/UI/label";
 import { getAllBooks, getAllCategory } from "@/lib/services/bookService";
+import Head from "next/head";
 import { useEffect, useState } from "react";
 
 export default function Store({ allBooksData, allCategoryData }) {
@@ -69,6 +70,25 @@ export default function Store({ allBooksData, allCategoryData }) {
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-100">
+      <Head>
+        <title>Online Bookstore - Browse Books by Category and Price</title>
+        <meta
+          name="description"
+          content="Explore a wide range of books categorized by genre and price range. Find your next favorite read today!"
+        />
+        <meta
+          property="og:title"
+          content="Online Bookstore - Browse Books by Category and Price"
+        />
+        <meta
+          property="og:description"
+          content="Explore a wide range of books categorized by genre and price range. Find your next favorite read today!"
+        />
+        <meta
+          property="og:image"
+          content="https://cdn.dribbble.com/userupload/13706589/file/original-d56d9b12b2ba34ed5bbe400cbb4c5fa9.png?resize=752x"
+        />
+      </Head>
       <div className="bg-[url('https://cdn.dribbble.com/userupload/13706589/file/original-d56d9b12b2ba34ed5bbe400cbb4c5fa9.png?resize=752x')] bg-cover bg-center h-64 w-full"></div>
       <div className="flex flex-col">
         <div className="mt-4 p-4 mx-auto">
