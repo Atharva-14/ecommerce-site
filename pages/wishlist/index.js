@@ -1,4 +1,5 @@
 import privateRoute from "@/components/PrivateRoute/privateRoute";
+import SkeletonWishlist from "@/components/UI/Skeleton/SkeletonWishlist";
 import WishlistCard from "@/components/Wishlist/WishlistCard";
 import { useAuth } from "@/context/AuthContext";
 import { getWishlistItems } from "@/store/async-thunk";
@@ -10,6 +11,7 @@ const Wishlist = () => {
   const dispatch = useDispatch();
 
   const wishlist = useSelector((state) => state.wishlist.wishlistItem);
+  const loading = useSelector((state) => state.wishlist.loading);
 
   useEffect(() => {
     if (user) {
@@ -20,8 +22,18 @@ const Wishlist = () => {
   console.log("Inside wishlist", wishlist);
 
   return (
-    <>
-      <div className="flex flex-col mx-auto w-7/12 py-4">
+    <div className="flex flex-col mx-auto w-7/12 py-4">
+      <h1 className="font-semibold text-4xl mb-2">
+        {user.firstName}'s Wishlist
+      </h1>
+      {loading && (
+        <div>
+          <SkeletonWishlist />
+          <SkeletonWishlist />
+          <SkeletonWishlist />
+        </div>
+      )}
+      <div>
         {wishlist.map((book) => (
           <div key={book._id} className="w-full ">
             <WishlistCard
@@ -34,7 +46,7 @@ const Wishlist = () => {
           </div>
         ))}
       </div>
-    </>
+    </div>
   );
 };
 

@@ -14,6 +14,7 @@ export default function Footer() {
           <Link
             href="https://github.com/Atharva-14/ecommerce-site"
             className="flex items-center space-x-2 text-gray-500 transition duration-300 ease-in-out hover:text-black "
+            target="_blank"
           >
             <i className="bx bxl-github text-3xl"></i>
             <p className="">Source Code</p>
@@ -23,18 +24,21 @@ export default function Footer() {
             <Link
               className="transition duration-300 ease-in-out underline-offset-2 text-gray-600 hover:text-black text-3xl underline hover:no-underline decoration-gray-300"
               href="https://github.com/Atharva-14/ecommerce-site"
+              target="_blank"
             >
               <i className="bx bxl-github mr-2 text-3xl"></i>
             </Link>
             <Link
               className="transition duration-300 ease-in-out underline-offset-2 text-gray-600 hover:text-blue-800 text-3xl underline hover:no-underline decoration-gray-300"
-              href="/"
+              href="https://www.linkedin.com/in/atharva-muratkar/"
+              target="_blank"
             >
               <i className="bx bxl-linkedin-square mr-2 text-3xl "></i>
             </Link>
             <Link
               className="transition duration-300 ease-in-out underline-offset-2 text-gray-600 hover:text-blue-400 text-3xl underline hover:no-underline decoration-gray-300"
-              href="/"
+              href="https://x.com/Atharva_142"
+              target="_blank"
             >
               <i className="bx bxl-twitter mr-2 text-3xl "></i>
             </Link>

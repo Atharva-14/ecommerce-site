@@ -77,14 +77,14 @@ export default function MainNavigation() {
 
           <div className="flex space-x-10 my-auto">
             <Link
-              href="/categories"
+              href="/store"
               className={`text-lg ${
-                path === "/categories"
+                path === "/store"
                   ? "font-bold"
                   : "font-normal hover:font-medium hover:underline"
               }`}
             >
-              Category
+              Store
             </Link>
           </div>
 
