@@ -17,7 +17,8 @@ export default function BookDetail({ props }) {
   const { toast } = useToast();
   const router = useRouter();
   const [selectedQuantity, setSelectedQuantity] = useState(1);
-  const { _id, title, imageUrl, author, price, description } = props;
+  const { _id, title, imageUrl, author, price, description, bestselling } =
+    props;
 
   const dispatch = useDispatch();
 
@@ -81,38 +82,33 @@ export default function BookDetail({ props }) {
         type: isInWishlist ? "REMOVE" : "ADD",
       })
     );
-    // dispatch(getWishlistItems(user?._id));
   };
-
-  console.log("book", props);
-
-  console.log("wishlist", wishlistItem);
-
-  // console.log(
-  //   "check in wishlist",
-  //   wishlistItem.some((book) => book._id === _id)
-  // );
 
   return (
     <div className="flex justify-evenly space-x-10">
-      <div className="w-1/2 p-4 items-center m-auto">
+      <div className="w-1/2 p-4 items-center m-auto relative">
         <img
           src={imageUrl}
           alt={title}
           className="border-white w-2/4 rounded-3xl p-4 mx-auto"
         />
+        {bestselling && (
+          <div className="absolute top-4 left-4 bg-yellow-200 text-yellow-800 text-lg font-bold px-2 py-1 rounded">
+            Best Selling #{bestselling}
+          </div>
+        )}
       </div>
       <div className="w-1/2 flex flex-col space-y-6 m-auto p-2.5">
         <div className="space-y-2">
           <div className="space-y-2">
             <h1 className="font-bold text-3xl">{title}</h1>
-            <p className=" font-semibold">by {author}</p>
+            <p className="font-semibold">by {author}</p>
             <p className="font-bold text-xl">₹{price}</p>
           </div>
 
           <div className="space-y-2">
-            <span className=" max-w-fit">
-              <p className=" font-medium">About this Book</p>
+            <span className="max-w-fit">
+              <p className="font-medium">About this Book</p>
               <Separator className="bg-gray-400 w-32" />
             </span>
             <p>{description}</p>
@@ -120,11 +116,11 @@ export default function BookDetail({ props }) {
         </div>
 
         <div className="flex flex-col">
-          <p className=" font-medium">Quantity:</p>
+          <p className="font-medium">Quantity:</p>
           <div className="flex space-x-5 py-2.5">
             <QuantityDropdown onChange={handleQuantityChange} />
             <button
-              className="border-2 border-black hover:bg-gray-800 py-2 px-6 bg-black text-white font-medium "
+              className="border-2 border-black hover:bg-gray-800 py-2 px-6 bg-black text-white font-medium"
               onClick={handleAddToCart}
             >
               ADD TO CART

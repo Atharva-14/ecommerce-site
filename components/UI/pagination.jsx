@@ -3,7 +3,6 @@ import { ChevronLeft, ChevronRight, MoreHorizontal } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
-import Link from "next/link";
 
 const Pagination = ({ className, ...props }) => (
   <nav
@@ -29,40 +28,65 @@ const PaginationItem = React.forwardRef(({ className, ...props }, ref) => (
 ));
 PaginationItem.displayName = "PaginationItem";
 
-const PaginationLink = ({ className, isActive, size = "icon", ...props }) => (
-  <Link
+const PaginationLink = ({
+  className,
+  isActive,
+  size = "icon",
+  href,
+  children,
+  onClick,
+  disabled,
+  ...props
+}) => (
+  <a
+    href={!disabled ? href : undefined}
     aria-current={isActive ? "page" : undefined}
     className={cn(
       buttonVariants({
         variant: isActive ? "outline" : "ghost",
         size,
       }),
-      className
+      className,
+      disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer" // Apply styles for disabled state
     )}
+    onClick={(e) => {
+      if (disabled) {
+        e.preventDefault();
+        e.stopPropagation();
+      } else if (onClick) {
+        onClick(e);
+      }
+    }}
     {...props}
-  />
+  >
+    {children}
+  </a>
 );
+
 PaginationLink.displayName = "PaginationLink";
 
-const PaginationPrevious = ({ className, ...props }) => (
+const PaginationPrevious = ({ className, disabled, ...props }) => (
   <PaginationLink
     aria-label="Go to previous page"
     size="default"
     className={cn("gap-1 pl-2.5", className)}
-    {...props}
+    onClick={!disabled ? props.onClick : undefined} // Prevent onClick if disabled
+    disabled={disabled}
   >
     <ChevronLeft className="h-4 w-4" />
     <span>Previous</span>
   </PaginationLink>
 );
+
 PaginationPrevious.displayName = "PaginationPrevious";
 
-const PaginationNext = ({ className, ...props }) => (
+const PaginationNext = ({ className, disabled, ...props }) => (
   <PaginationLink
     aria-label="Go to next page"
     size="default"
     className={cn("gap-1 pr-2.5", className)}
-    {...props}
+    onClick={!disabled ? props.onClick : undefined} // Prevent onClick if disabled
+    disabled={disabled}
   >
     <span>Next</span>
     <ChevronRight className="h-4 w-4" />

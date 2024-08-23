@@ -7,6 +7,14 @@ import YearDropdown from "@/components/UI/Dropdown/YearDropdown";
 import Link from "next/link";
 import SkeletonOrder from "@/components/UI/Skeleton/SkeletonOrder";
 import Head from "next/head";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/UI/pagination";
 
 const Orders = () => {
   const { user } = useAuth();
@@ -14,6 +22,8 @@ const Orders = () => {
   const [loading, setLoading] = useState(false);
   const [filteredOrders, setFilteredOrders] = useState([]);
   const [selectedFilter, setSelectedFilter] = useState("past3months");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
   const getPastOrders = async (userId) => {
     setLoading(true);
@@ -90,6 +100,12 @@ const Orders = () => {
     return format(new Date(date), "MMMM dd, yyyy");
   };
 
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredOrders.slice(indexOfFirstItem, indexOfLastItem);
+
+  const totalPages = Math.ceil(filteredOrders.length / itemsPerPage);
+
   return (
     <div className="sm:w-2/3 w-full mx-auto p-6 flex flex-col space-y-4">
       <Head>
@@ -123,8 +139,8 @@ const Orders = () => {
         </div>
       )}
 
-      {filteredOrders ? (
-        filteredOrders.map((order) => (
+      {currentItems ? (
+        currentItems.map((order) => (
           <div className="border border-gray-300 rounded-lg" key={order.id}>
             <div className="flex md:flex-row flex-col space-y-4 md:space-y-0 md:space-x-4 justify-between px-4 py-3.5 bg-gray-200 border-b border-gray-300">
               <span className="w-1/2">
@@ -187,6 +203,33 @@ const Orders = () => {
       ) : (
         <p>No past orders</p>
       )}
+
+      <Pagination className="mb-4">
+        <PaginationContent>
+          <PaginationItem>
+            <PaginationPrevious
+              onClick={() => setCurrentPage(currentPage - 1)}
+              disabled={currentPage === 1}
+            />
+          </PaginationItem>
+          {Array.from({ length: totalPages }, (_, index) => (
+            <PaginationItem key={index}>
+              <PaginationLink
+                isActive={currentPage === index + 1}
+                onClick={() => setCurrentPage(index + 1)}
+              >
+                {index + 1}
+              </PaginationLink>
+            </PaginationItem>
+          ))}
+          <PaginationItem>
+            <PaginationNext
+              onClick={() => setCurrentPage(currentPage + 1)}
+              disabled={currentPage === totalPages}
+            />
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
     </div>
   );
 };

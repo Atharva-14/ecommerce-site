@@ -2,6 +2,14 @@ import BookCard from "@/components/Book/BookCard";
 import { Button } from "@/components/UI/button";
 import PriceDropdown from "@/components/UI/Dropdown/PriceDropdown";
 import { Label } from "@/components/UI/label";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/UI/pagination";
 import { getAllBooks, getAllCategory } from "@/lib/services/bookService";
 import Head from "next/head";
 import { useEffect, useState } from "react";
@@ -12,6 +20,8 @@ export default function Store({ allBooksData, allCategoryData }) {
   const [isCategoryVisible, setIsCategoryVisible] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [selectedPriceRange, setSelectedPriceRange] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 15;
 
   const handleCategoryChange = (category) => {
     setSelectedCategories((prevSelectedCategories) => {
@@ -65,11 +75,18 @@ export default function Store({ allBooksData, allCategoryData }) {
   };
 
   useEffect(() => {
+    setCurrentPage(1);
     filterBooksByCategoryAndPrice();
   }, [selectedCategories, selectedPriceRange]);
 
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredResults.slice(indexOfFirstItem, indexOfLastItem);
+
+  const totalPages = Math.ceil(filteredResults.length / itemsPerPage);
+
   return (
-    <div className="min-h-screen flex flex-col bg-gray-100">
+    <div className="min-h-screen flex flex-col bg-gray-200">
       <Head>
         <title>Online Bookstore - Browse Books by Category and Price</title>
         <meta
@@ -89,7 +106,7 @@ export default function Store({ allBooksData, allCategoryData }) {
           content="https://cdn.dribbble.com/userupload/13706589/file/original-d56d9b12b2ba34ed5bbe400cbb4c5fa9.png?resize=752x"
         />
       </Head>
-      <div className="bg-[url('https://cdn.dribbble.com/userupload/13706589/file/original-d56d9b12b2ba34ed5bbe400cbb4c5fa9.png?resize=752x')] bg-cover bg-center h-64 w-full"></div>
+      <div className="bg-[url('https://cdn.dribbble.com/userupload/15281281/file/original-ef6bd155938cd5f4cf018c74b0e12fa3.jpg?resize=1024x768')] bg-auto bg-center h-[300px] "></div>
       <div className="flex flex-col">
         <div className="mt-4 p-4 mx-auto">
           <div className="flex space-x-80 mx-auto">
@@ -158,7 +175,7 @@ export default function Store({ allBooksData, allCategoryData }) {
           )}
         </div>
         <div className="flex mx-auto flex-wrap w-11/12 py-4">
-          {filteredResults.map((book) => (
+          {currentItems.map((book) => (
             <div key={book._id} className="w-full sm:w-1/2 lg:w-1/3 p-3">
               <BookCard
                 id={book._id}
@@ -170,6 +187,34 @@ export default function Store({ allBooksData, allCategoryData }) {
             </div>
           ))}
         </div>
+
+        <Pagination className="mb-4">
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious
+                onClick={() => setCurrentPage(currentPage - 1)}
+                disabled={currentPage === 1}
+              />
+            </PaginationItem>
+            {Array.from({ length: totalPages }, (_, index) => (
+              <PaginationItem key={index}>
+                <PaginationLink
+                  isActive={currentPage === index + 1}
+                  onClick={() => setCurrentPage(index + 1)}
+                  disabled={false} // Links should not be disabled in this context
+                >
+                  {index + 1}
+                </PaginationLink>
+              </PaginationItem>
+            ))}
+            <PaginationItem>
+              <PaginationNext
+                onClick={() => setCurrentPage(currentPage + 1)}
+                disabled={currentPage === totalPages}
+              />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
       </div>
     </div>
   );

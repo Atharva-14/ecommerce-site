@@ -76,21 +76,28 @@ export default function MainNavigation() {
             </Link>
           </div>
 
-          <div className="flex space-x-10 my-auto">
-            <Link
-              href="/store"
-              className={`text-lg ${
-                path === "/store"
-                  ? "font-bold"
-                  : "font-normal hover:font-medium hover:underline"
-              }`}
-            >
-              Store
-            </Link>
-          </div>
-
           <div className="my-auto">
             <div className="flex space-x-5 items-center">
+              <Link
+                href="/"
+                className={`text-lg ${
+                  path === "/"
+                    ? "font-bold"
+                    : "font-normal hover:font-medium hover:underline"
+                }`}
+              >
+                Home
+              </Link>
+              <Link
+                href="/store"
+                className={`text-lg ${
+                  path === "/store"
+                    ? "font-bold"
+                    : "font-normal hover:font-medium hover:underline"
+                }`}
+              >
+                Store
+              </Link>
               <button
                 onClick={openSearch}
                 className="bg-gray-100 dark:bg-gray-800 hover:bg-gray-50 max-w-32 md:max-w-64 sm:text-sm ring-2 ring-inset ring-gray-200 rounded-lg px-2 py-2 flex justify-between items-center transition-all cursor-pointer"
