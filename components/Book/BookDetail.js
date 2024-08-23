@@ -1,6 +1,3 @@
-// src/components/BookDetail.js
-
-import axios from "axios";
 import { useEffect, useState } from "react";
 import QuantityDropdown from "../UI/QuantityDropdown";
 import { useAuth } from "@/context/AuthContext";
@@ -21,8 +18,6 @@ export default function BookDetail({ props }) {
   const router = useRouter();
   const [selectedQuantity, setSelectedQuantity] = useState(1);
   const { _id, title, imageUrl, author, price, description } = props;
-
-  // const [isInWishlist, setIsInWishlist] = useState(false);
 
   const dispatch = useDispatch();
 
