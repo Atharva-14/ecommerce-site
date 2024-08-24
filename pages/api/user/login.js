@@ -7,6 +7,8 @@ import { serialize } from "cookie";
 
 export default async function handler(req, res) {
   if (req.method === "POST") {
+    console.log(req.body);
+
     const { email, password } = req.body;
 
     try {
@@ -47,6 +49,8 @@ export default async function handler(req, res) {
         user,
       });
     } catch (error) {
+      console.log(error);
+
       res.status(500).json({ message: "Login failed", error: error.message });
     }
   } else {
