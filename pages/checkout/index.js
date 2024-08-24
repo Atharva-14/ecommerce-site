@@ -108,7 +108,7 @@ const Checkout = () => {
   return (
     <>
       <OrderPlacedModal open={isModalOpen} onClose={closeOrderCompleteModal} />
-      <div className="w-full ">
+      <div className="w-full mx-auto px-4 sm:px-6 lg:px-8">
         <Head>
           <title>Checkout - eBookHeaven</title>
           <meta
@@ -118,13 +118,17 @@ const Checkout = () => {
           <meta property="og:title" content="Checkout - eBookHeaven" />
         </Head>
         <div className="p-10 bg-gradient-to-t from-slate-50 via-zinc-200 to-slate-300">
-          <h1 className="text-center font-extrabold text-3xl ">CHECKOUT</h1>
+          <h1 cclassName="text-xl md:text-3xl font-extrabold text-center">
+            CHECKOUT
+          </h1>
         </div>
-        <div className="flex w-full p-4">
-          <div className="w-3/4 flex flex-col space-y-6 h-full mt-4 px-4">
+        <div className="flex flex-col md:flex-row">
+          <div className="w-full md:w-3/4 flex flex-col space-y-6 mt-4 px-4">
             <div className="w-full flex justify-between">
               <div className="w-1/3 pl-12">
-                <p className="text-2xl font-medium text-gray-500">01</p>
+                <p className="text-sm md:text-base font-medium text-gray-500">
+                  01
+                </p>
                 <h2 className="text-2xl font-bold">SELECT AN ADDRESS</h2>
               </div>
               <div className="w-2/3">
@@ -233,14 +237,14 @@ const Checkout = () => {
               </div>
             </div>
           </div>
-          <div className="w-1/4 p-4 my-2 flex flex-col space-y-5 border rounded-md border-stone-400 shadow bg-gradient-to-t from-slate-50 via-zinc-200 to-slate-300">
+          <div className="w-full md:w-1/4 p-4 my-2 flex flex-col space-y-5 border rounded-md border-stone-400 shadow bg-gradient-to-t from-slate-50 via-zinc-200 to-slate-300">
             <h1 className="font-extrabold text-xl">ORDER SUMMARY</h1>
             {cartItems.map((item) => (
               <div className="flex space-x-5" key={item._id}>
                 <img
                   src={item.imageUrl}
                   alt={item.title}
-                  className=" h-auto w-2/12"
+                  className="h-auto w-1/4 sm:w-1/6 md:w-2/12"
                 />
                 <div className="w-full flex flex-col">
                   <span>
@@ -306,6 +310,7 @@ const Checkout = () => {
               type="submit"
               onClick={handleSubmit}
               disabled={!selectedAddress || !paymentMethod}
+              className="w-full md:w-auto mt-4"
             >
               Checkout
             </Button>

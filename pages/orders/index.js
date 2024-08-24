@@ -121,7 +121,7 @@ const Orders = () => {
       </span>
       <div className="flex justify-between">
         <div className="p-1 bg-gray-200 rounded-md cursor-pointer">
-          <p className="bg-white py-0.5 px-12 rounded font-medium">
+          <p className="bg-white py-0.5 px-12 rounded font-medium text-center">
             Orders ({filteredOrders.length})
           </p>
         </div>
@@ -144,7 +144,7 @@ const Orders = () => {
           <div className="border border-gray-300 rounded-lg" key={order.id}>
             <div className="flex md:flex-row flex-col space-y-4 md:space-y-0 md:space-x-4 justify-between px-4 py-3.5 bg-gray-200 border-b border-gray-300">
               <span className="w-1/2">
-                <p className="text-gray-500 font-medium text-sm">
+                <p className="text-gray-500 font-medium text-sm ">
                   Order Placed
                 </p>
                 <p className="font-medium">{formatDate(order.orderDate)}</p>

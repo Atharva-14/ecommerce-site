@@ -68,7 +68,7 @@ const Wishlist = () => {
   return (
     <div className="flex flex-col mx-auto w-7/12 py-4">
       <Head>
-        <title>{user ? `${user.firstName}'s Wishlist` : "Wishlist"}</title>
+        <title>{user ? `${user?.firstName}'s Wishlist` : "Wishlist"}</title>
         <meta
           name="description"
           content="View and manage your wishlist items."
@@ -76,7 +76,7 @@ const Wishlist = () => {
         <meta name="robots" content="noindex, nofollow" />
       </Head>
       <h1 className="font-semibold text-4xl mb-2">
-        {user.firstName}'s Wishlist
+        {user?.firstName}'s Wishlist
       </h1>
 
       {loading && (

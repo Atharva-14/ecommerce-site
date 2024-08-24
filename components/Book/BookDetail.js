@@ -85,12 +85,12 @@ export default function BookDetail({ props }) {
   };
 
   return (
-    <div className="flex justify-evenly space-x-10">
-      <div className="w-1/2 p-4 items-center m-auto relative">
+    <div className="flex flex-col md:flex-row justify-evenly md:space-x-10">
+      <div className="w-full md:w-1/2 p-4 items-center m-auto relative">
         <img
           src={imageUrl}
           alt={title}
-          className="border-white w-2/4 rounded-3xl p-4 mx-auto"
+          className="border-white w-full md:w-2/4 rounded-3xl p-4 mx-auto"
         />
         {bestselling && (
           <div className="absolute top-4 left-4 bg-yellow-200 text-yellow-800 text-lg font-bold px-2 py-1 rounded">
@@ -98,7 +98,7 @@ export default function BookDetail({ props }) {
           </div>
         )}
       </div>
-      <div className="w-1/2 flex flex-col space-y-6 m-auto p-2.5">
+      <div className="w-full md:w-1/2 flex flex-col space-y-6 m-auto p-2.5">
         <div className="space-y-2">
           <div className="space-y-2">
             <h1 className="font-bold text-3xl">{title}</h1>
@@ -117,7 +117,7 @@ export default function BookDetail({ props }) {
 
         <div className="flex flex-col">
           <p className="font-medium">Quantity:</p>
-          <div className="flex space-x-5 py-2.5">
+          <div className="flex flex-wrap md:space-x-5 py-2.5">
             <QuantityDropdown onChange={handleQuantityChange} />
             <button
               className="border-2 border-black hover:bg-gray-800 py-2 px-6 bg-black text-white font-medium"
@@ -125,19 +125,22 @@ export default function BookDetail({ props }) {
             >
               ADD TO CART
             </button>
-            <button
-              className="flex items-center px-1 border-2 border-black"
-              onClick={handleToggleWishlist}
-            >
-              {wishlistItem.some((book) => book._id === _id) ? (
-                <i className="bx bxs-heart text-3xl"></i>
-              ) : (
-                <i className="bx bx-heart text-3xl"></i>
-              )}
-            </button>
-            <button className="flex items-center">
-              <i className="bx bx-share-alt text-3xl"></i>
-            </button>
+            {/* Flex container for wishlist and share buttons */}
+            <div className="flex items-center space-x-4">
+              <button
+                className="flex items-center px-1"
+                onClick={handleToggleWishlist}
+              >
+                {wishlistItem.some((book) => book._id === _id) ? (
+                  <i className="bx bxs-heart text-3xl"></i>
+                ) : (
+                  <i className="bx bx-heart text-3xl"></i>
+                )}
+              </button>
+              <button className="flex items-center">
+                <i className="bx bx-share-alt text-3xl"></i>
+              </button>
+            </div>
           </div>
         </div>
       </div>

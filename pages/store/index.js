@@ -67,10 +67,10 @@ export default function Store({ allBooksData, allCategoryData }) {
       setFilteredResults(allBooksData);
     } else if (value === "lowToHigh") {
       setSelectedValue("Low to High");
-      setFilteredResults(allBooksData.sort((a, b) => a.price - b.price));
+      setFilteredResults([...allBooksData].sort((a, b) => a.price - b.price));
     } else if (value === "highToLow") {
       setSelectedValue("High to Low");
-      setFilteredResults(allBooksData.sort((a, b) => b.price - a.price));
+      setFilteredResults([...allBooksData].sort((a, b) => b.price - a.price));
     }
   };
 
@@ -106,52 +106,53 @@ export default function Store({ allBooksData, allCategoryData }) {
           content="https://cdn.dribbble.com/userupload/13706589/file/original-d56d9b12b2ba34ed5bbe400cbb4c5fa9.png?resize=752x"
         />
       </Head>
-      <div className="bg-[url('https://cdn.dribbble.com/userupload/15281281/file/original-ef6bd155938cd5f4cf018c74b0e12fa3.jpg?resize=1024x768')] bg-auto bg-center h-[300px] "></div>
-      <div className="flex flex-col">
-        <div className="mt-4 p-4 mx-auto">
-          <div className="flex space-x-80 mx-auto">
-            <div className="flex space-x-2">
-              <Button className="space-x-2 text-lg" onClick={handleFilter}>
-                <i className="bx bx-filter-alt"></i>
-                <p>FILTER</p>
-              </Button>
-              <Button
-                className="text-lg"
-                onClick={() => {
-                  setSelectedCategories([]);
-                  setSelectedPriceRange("");
-                  setIsCategoryVisible(false);
-                }}
-              >
-                CLEAR
-              </Button>
-            </div>
-            <PriceDropdown onChange={handleOptionClick} />
+      <div className="bg-[url('https://cdn.dribbble.com/userupload/15281281/file/original-ef6bd155938cd5f4cf018c74b0e12fa3.jpg?resize=1024x768')] bg-auto bg-center h-[300px]"></div>
+      <div className="flex flex-col p-4 mx-auto">
+        <div className="flex flex-col sm:flex-row sm:space-x-4 justify-between mx-auto w-full max-w-4xl">
+          <div className="flex flex-col sm:flex-row sm:space-x-2">
+            <Button
+              className="space-x-2 text-lg mb-2 sm:mb-0"
+              onClick={handleFilter}
+            >
+              <i className="bx bx-filter-alt"></i>
+              <p>FILTER</p>
+            </Button>
+            <Button
+              className="text-lg"
+              onClick={() => {
+                setSelectedCategories([]);
+                setSelectedPriceRange("");
+                setIsCategoryVisible(false);
+              }}
+            >
+              CLEAR
+            </Button>
           </div>
+          <PriceDropdown onChange={handleOptionClick} />
+        </div>
 
-          {isCategoryVisible && (
-            <div className="mt-6 p-2.5 flex">
-              <div className="mt-6 p-2.5">
-                <h3 className="font-semibold">CATEGORIES</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 py-3">
-                  {allCategoryData.map((category, index) => (
-                    <div className="flex items-center space-x-1" key={index}>
-                      <input
-                        type="checkbox"
-                        value={category}
-                        checked={selectedCategories.includes(category)}
-                        onChange={() => handleCategoryChange(category)}
-                      />
-                      <Label className="text-base font-normal">
-                        {category}
-                      </Label>
-                    </div>
-                  ))}
-                </div>
+        {isCategoryVisible && (
+          <div className="mt-6 p-2.5 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+            <div className="flex-1">
+              <h3 className="font-semibold">CATEGORIES</h3>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 py-3">
+                {allCategoryData.map((category, index) => (
+                  <div className="flex items-center space-x-1" key={index}>
+                    <input
+                      type="checkbox"
+                      value={category}
+                      checked={selectedCategories.includes(category)}
+                      onChange={() => handleCategoryChange(category)}
+                    />
+                    <Label className="text-base font-normal">{category}</Label>
+                  </div>
+                ))}
               </div>
+            </div>
 
-              <div className="mt-6 p-2.5">
-                <h3 className="font-semibold">PRICE</h3>
+            <div className="flex-1">
+              <h3 className="font-semibold">PRICE</h3>
+              <div className="space-y-2">
                 <div className="flex items-center space-x-1">
                   <input
                     type="radio"
@@ -172,50 +173,49 @@ export default function Store({ allBooksData, allCategoryData }) {
                 </div>
               </div>
             </div>
-          )}
-        </div>
-        <div className="flex mx-auto flex-wrap w-11/12 py-4">
-          {currentItems.map((book) => (
-            <div key={book._id} className="w-full sm:w-1/2 lg:w-1/3 p-3">
-              <BookCard
-                id={book._id}
-                title={book.title}
-                imageUrl={book.imageUrl}
-                author={book.author}
-                price={book.price}
-              />
-            </div>
-          ))}
-        </div>
-
-        <Pagination className="mb-4">
-          <PaginationContent>
-            <PaginationItem>
-              <PaginationPrevious
-                onClick={() => setCurrentPage(currentPage - 1)}
-                disabled={currentPage === 1}
-              />
-            </PaginationItem>
-            {Array.from({ length: totalPages }, (_, index) => (
-              <PaginationItem key={index}>
-                <PaginationLink
-                  isActive={currentPage === index + 1}
-                  onClick={() => setCurrentPage(index + 1)}
-                  disabled={false} // Links should not be disabled in this context
-                >
-                  {index + 1}
-                </PaginationLink>
-              </PaginationItem>
-            ))}
-            <PaginationItem>
-              <PaginationNext
-                onClick={() => setCurrentPage(currentPage + 1)}
-                disabled={currentPage === totalPages}
-              />
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
+          </div>
+        )}
       </div>
+      <div className="flex flex-wrap justify-center w-full py-4 px-2 sm:px-4">
+        {currentItems.map((book) => (
+          <div key={book._id} className="w-full sm:w-1/2 lg:w-1/3 p-3">
+            <BookCard
+              id={book._id}
+              title={book.title}
+              imageUrl={book.imageUrl}
+              author={book.author}
+              price={book.price}
+            />
+          </div>
+        ))}
+      </div>
+
+      <Pagination className="mb-4 mx-auto">
+        <PaginationContent>
+          <PaginationItem>
+            <PaginationPrevious
+              onClick={() => setCurrentPage(currentPage - 1)}
+              disabled={currentPage === 1}
+            />
+          </PaginationItem>
+          {Array.from({ length: totalPages }, (_, index) => (
+            <PaginationItem key={index}>
+              <PaginationLink
+                isActive={currentPage === index + 1}
+                onClick={() => setCurrentPage(index + 1)}
+              >
+                {index + 1}
+              </PaginationLink>
+            </PaginationItem>
+          ))}
+          <PaginationItem>
+            <PaginationNext
+              onClick={() => setCurrentPage(currentPage + 1)}
+              disabled={currentPage === totalPages}
+            />
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
     </div>
   );
 }

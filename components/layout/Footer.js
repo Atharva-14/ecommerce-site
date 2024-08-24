@@ -13,12 +13,14 @@ export default function Footer() {
           <h1 className="font-semibold text-2xl">eBookHaven</h1>
           <Link
             href="https://github.com/Atharva-14/ecommerce-site"
-            className="flex items-center space-x-2 text-gray-500 transition duration-300 ease-in-out hover:text-black "
+            className="flex items-center space-x-2 text-gray-500 transition duration-300 ease-in-out hover:text-black"
             target="_blank"
+            rel="noopener noreferrer"
           >
             <i className="bx bxl-github text-3xl"></i>
             <p className="">Source Code</p>
           </Link>
+
           <p>Made by Atharva</p>
           <div className="">
             <Link
