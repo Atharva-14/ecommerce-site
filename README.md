@@ -2,17 +2,6 @@
 
 Welcome to eBookHeaven! This project is a Next.js application for browsing, purchasing, and managing eBooks.
 
-## Table of Contents
-
-- [Features](#features)
-- [Technologies Used](#technologies-used)
-- [Getting Started](#getting-started)
-- [Project Structure](#project-structure)
-- [Components](#components)
-- [API Endpoints](#api-endpoints)
-- [Contributing](#contributing)
-- [License](#license)
-
 ## Features
 
 - Browse books by category and price
