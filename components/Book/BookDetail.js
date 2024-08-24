@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import QuantityDropdown from "../UI/QuantityDropdown";
 import { useAuth } from "@/context/AuthContext";
 import { Separator } from "../UI/separator";
-import { useToast } from "../ui/use-toast";
+import { useToast } from "../UI/use-toast";
 import { useRouter } from "next/router";
 import { ToastAction } from "../UI/toast";
 import { useDispatch, useSelector } from "react-redux";

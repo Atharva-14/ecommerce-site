@@ -3,7 +3,7 @@ import { Label } from "../UI/label";
 import { Input } from "../UI/input";
 import { cn } from "@/utils/cn";
 import { useAuth } from "@/context/AuthContext";
-import { useToast } from "../ui/use-toast";
+import { useToast } from "../UI/use-toast";
 
 export default function NewAddressModal({ open, onClose, addressData }) {
   const { user, addAddress, updateAddress } = useAuth();

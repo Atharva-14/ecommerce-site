@@ -4,7 +4,7 @@ import privateRoute from "@/components/PrivateRoute/privateRoute";
 import { Input } from "@/components/UI/input";
 import { Label } from "@/components/UI/label";
 import { Separator } from "@/components/UI/separator";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/components/UI/use-toast";
 import { useAuth } from "@/context/AuthContext";
 import { cn } from "@/utils/cn";
 import Head from "next/head";

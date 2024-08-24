@@ -1,6 +1,6 @@
 import { useAuth } from "@/context/AuthContext";
 import { Separator } from "../UI/separator";
-import { useToast } from "../ui/use-toast";
+import { useToast } from "../UI/use-toast";
 
 export default function AddressList({ props, openModal }) {
   const { user, deleteAddress } = useAuth();
