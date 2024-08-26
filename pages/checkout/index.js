@@ -28,10 +28,7 @@ const Checkout = () => {
   const totalCartValue = useSelector((state) => state.cart.totalCartValue);
 
   useEffect(() => {
-    console.log(user);
     if (user?._id) {
-      console.log("inside: effect: ", typeof user._id);
-      console.log(cartItems);
       setCartValue(totalCartValue);
     }
     couponInput.current.value = "SAVE20";
@@ -85,8 +82,6 @@ const Checkout = () => {
   };
 
   const closeOrderCompleteModal = () => setModalOpen(false);
-
-  console.log(cartItems);
 
   const handleSubmit = async () => {
     setModalOpen(true);

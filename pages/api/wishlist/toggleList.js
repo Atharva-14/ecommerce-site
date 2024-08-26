@@ -5,8 +5,9 @@ export default async function handler(req, res) {
     const { userId, bookId, type } = req.body;
 
     try {
-      const wishlist = await toggleWishlistItems(userId, bookId, type);
-      res.status(200).json({ success: true, wishlist });
+      const bookData = await toggleWishlistItems(userId, bookId, type);
+
+      res.status(200).json({ success: true, bookData });
     } catch (error) {
       res.status(500).json({
         success: false,
@@ -14,7 +15,7 @@ export default async function handler(req, res) {
         error: error.message,
       });
     }
-  }else{
-    res.status(405).json({success: false, message: 'Method not allowed'})
+  } else {
+    res.status(405).json({ success: false, message: "Method not allowed" });
   }
 }

@@ -13,8 +13,6 @@ export const AuthProvider = ({ children }) => {
     const userInfo = sessionStorage.getItem("user") || null;
     const authToken = sessionStorage.getItem("authToken") || null;
 
-    console.log("herer============== asdasd");
-
     let u = null;
     if (userInfo) {
       u = JSON.parse(userInfo);
@@ -29,11 +27,6 @@ export const AuthProvider = ({ children }) => {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     }
   }, [token]);
-
-  useEffect(() => {
-    console.log("User state:", user);
-    console.log("Token state:", token);
-  }, [user, token]);
 
   const logInUser = async ({ email, password }) => {
     try {

@@ -47,7 +47,6 @@ const Orders = () => {
 
   useEffect(() => {
     if (user?._id) {
-      console.log("inside useEffect");
       getPastOrders(user?._id);
     }
   }, [user]);

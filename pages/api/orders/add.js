@@ -24,8 +24,6 @@ export default async function handler(req, res) {
     const cart = await getCart(userId);
     const cartItem = { item: cart.cartItems };
 
-    console.log(cartItem);
-
     const newOrder = {
       ...cartItem,
       totalAmount,
@@ -33,7 +31,7 @@ export default async function handler(req, res) {
       paymentMethod,
     };
 
-    console.log(newOrder);
+    
 
     user.pastOrders.push(newOrder);
 

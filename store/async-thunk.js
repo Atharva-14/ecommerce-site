@@ -133,7 +133,7 @@ export const toggleWishlistItems = createAsyncThunk(
       );
 
       return {
-        book: res.data,
+        book: res.data.bookData,
         bookId,
         type,
       };

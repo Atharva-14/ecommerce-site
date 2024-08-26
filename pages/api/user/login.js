@@ -7,8 +7,6 @@ import { serialize } from "cookie";
 
 export default async function handler(req, res) {
   if (req.method === "POST") {
-    console.log(req.body);
-
     const { email, password } = req.body;
 
     try {

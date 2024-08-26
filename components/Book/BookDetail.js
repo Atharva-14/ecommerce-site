@@ -125,14 +125,14 @@ export default function BookDetail({ props }) {
             >
               ADD TO CART
             </button>
-            {/* Flex container for wishlist and share buttons */}
+
             <div className="flex items-center space-x-4">
               <button
                 className="flex items-center px-1"
                 onClick={handleToggleWishlist}
               >
                 {wishlistItem.some((book) => book._id === _id) ? (
-                  <i className="bx bxs-heart text-3xl"></i>
+                  <i className="bx bxs-heart text-red-600 text-3xl"></i>
                 ) : (
                   <i className="bx bx-heart text-3xl"></i>
                 )}

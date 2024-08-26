@@ -1,4 +1,5 @@
 import BookDetail from "@/components/Book/BookDetail";
+import { getBookByID } from "@/lib/services/bookService";
 import axios from "axios";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -41,8 +42,7 @@ export default function Book({ book, metadata }) {
 export async function getServerSideProps({ params }) {
   const id = params.id;
 
-  const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/books/${id}`);
-  const book = res.data;
+  const book = await getBookByID(id);
 
   const metadata = {
     title: book.title || "Book Detail",
@@ -53,7 +53,7 @@ export async function getServerSideProps({ params }) {
 
   return {
     props: {
-      book,
+      book: JSON.stringify(book),
       metadata,
     },
   };
