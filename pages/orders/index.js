@@ -133,7 +133,10 @@ const Orders = () => {
       </div>
 
       {loading && (
-        <div className="py-2">
+        <div className="py-2 space-y-4">
+          <SkeletonOrder />
+          <SkeletonOrder />
+          <SkeletonOrder />
           <SkeletonOrder />
         </div>
       )}

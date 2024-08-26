@@ -1,4 +1,5 @@
 import BookDetail from "@/components/Book/BookDetail";
+import SkeletonDetails from "@/components/UI/Skeleton/SkeletonDetails";
 import { getBookByID } from "@/lib/services/bookService";
 import axios from "axios";
 import Head from "next/head";
@@ -10,18 +11,26 @@ export default function Book({ book, metadata }) {
   const { id } = router.query;
 
   const [data, setData] = useState(book);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     fetchBook();
   }, [id]);
 
   async function fetchBook() {
-    const res = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_URL}/books/${id}`
-    );
-    const book = res.data;
+    setLoading(true);
+    try {
+      const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/books/${id}`
+      );
+      const book = res.data;
 
-    setData(book);
+      setData(book);
+    } catch (error) {
+      console.log("Failed to fecth book details: ", error.message);
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -34,6 +43,11 @@ export default function Book({ book, metadata }) {
         <meta property="og:description" content={metadata.description} />
         <meta property="og:image" content={metadata.imageUrl} />
       </Head>
+      {loading && (
+        <div>
+          <SkeletonDetails />
+        </div>
+      )}
       <BookDetail props={data} />
     </div>
   );
