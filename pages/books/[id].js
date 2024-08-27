@@ -14,7 +14,9 @@ export default function Book({ book, metadata }) {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    fetchBook();
+    if (id) {
+      fetchBook();
+    }
   }, [id]);
 
   async function fetchBook() {
@@ -27,14 +29,14 @@ export default function Book({ book, metadata }) {
 
       setData(book);
     } catch (error) {
-      console.log("Failed to fecth book details: ", error.message);
+      console.log("Failed to fetch book details: ", error.message);
     } finally {
       setLoading(false);
     }
   }
 
   return (
-    <div className=" min-h-full">
+    <div className="min-h-full">
       <Head>
         <title>{metadata.title}</title>
         <meta name="description" content={metadata.description} />
@@ -43,12 +45,14 @@ export default function Book({ book, metadata }) {
         <meta property="og:description" content={metadata.description} />
         <meta property="og:image" content={metadata.imageUrl} />
       </Head>
-      {loading && (
+
+      {loading ? (
         <div>
           <SkeletonDetails />
         </div>
+      ) : (
+        <BookDetail props={data} />
       )}
-      <BookDetail props={data} />
     </div>
   );
 }
