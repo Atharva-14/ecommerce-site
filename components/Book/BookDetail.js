@@ -22,9 +22,7 @@ export default function BookDetail({ props }) {
 
   const dispatch = useDispatch();
 
-  const { wishlistItem, loading, error } = useSelector(
-    (state) => state.wishlist
-  );
+  const { wishlistItem } = useSelector((state) => state.wishlist);
 
   useEffect(() => {
     if (user) {
@@ -84,6 +82,28 @@ export default function BookDetail({ props }) {
     );
   };
 
+  const handleShare = () => {
+    if (navigator.share) {
+      navigator
+        .share({
+          title: title,
+          text: `Hey check out this book: ${title} by ${author}`,
+          url: window.location.href,
+        })
+        .then(() => {
+          console.log("Thanks for sharing!");
+        })
+        .catch((error) => {
+          console.error("Error Sharing: ", error);
+        });
+    } else {
+      toast({
+        variant: "destructive",
+        title: "Sharing not supported on this browser",
+      });
+    }
+  };
+
   return (
     <div className="flex flex-col md:flex-row justify-evenly md:space-x-10">
       <div className="w-full md:w-1/2 p-4 items-center m-auto relative">
@@ -137,7 +157,7 @@ export default function BookDetail({ props }) {
                   <i className="bx bx-heart text-3xl"></i>
                 )}
               </button>
-              <button className="flex items-center">
+              <button className="flex items-center" onClick={handleShare}>
                 <i className="bx bx-share-alt text-3xl"></i>
               </button>
             </div>

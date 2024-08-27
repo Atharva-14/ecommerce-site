@@ -15,6 +15,8 @@ import {
   PaginationPrevious,
 } from "@/components/UI/pagination";
 import PriceDropdown from "@/components/UI/Dropdown/PriceDropdown";
+import wishlistImage from "@/public/undraw_wishlist.svg";
+import Image from "next/image";
 
 const Wishlist = () => {
   const { user } = useAuth();
@@ -87,48 +89,59 @@ const Wishlist = () => {
         </div>
       )}
 
-      <div>
-        <PriceDropdown onChange={handleOptionClick} />
-      </div>
-      <div>
-        {currentItems.map((book) => (
-          <div key={book._id} className="w-full ">
-            <WishlistCard
-              id={book._id}
-              title={book.title}
-              imageUrl={book.imageUrl}
-              author={book.author}
-              price={book.price}
-            />
+      {currentItems.length >= 1 ? (
+        <div>
+          <div>
+            <PriceDropdown onChange={handleOptionClick} />
           </div>
-        ))}
-      </div>
-      <Pagination className="mb-4">
-        <PaginationContent>
-          <PaginationItem>
-            <PaginationPrevious
-              onClick={() => setCurrentPage(currentPage - 1)}
-              disabled={currentPage === 1}
-            />
-          </PaginationItem>
-          {Array.from({ length: totalPages }, (_, index) => (
-            <PaginationItem key={index}>
-              <PaginationLink
-                isActive={currentPage === index + 1}
-                onClick={() => setCurrentPage(index + 1)}
-              >
-                {index + 1}
-              </PaginationLink>
-            </PaginationItem>
-          ))}
-          <PaginationItem>
-            <PaginationNext
-              onClick={() => setCurrentPage(currentPage + 1)}
-              disabled={currentPage === totalPages}
-            />
-          </PaginationItem>
-        </PaginationContent>
-      </Pagination>
+          <div>
+            {currentItems.map((book) => (
+              <div key={book._id} className="w-full ">
+                <WishlistCard
+                  id={book._id}
+                  title={book.title}
+                  imageUrl={book.imageUrl}
+                  author={book.author}
+                  price={book.price}
+                />
+              </div>
+            ))}
+          </div>
+          <Pagination className="mb-4">
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious
+                  onClick={() => setCurrentPage(currentPage - 1)}
+                  disabled={currentPage === 1}
+                />
+              </PaginationItem>
+              {Array.from({ length: totalPages }, (_, index) => (
+                <PaginationItem key={index}>
+                  <PaginationLink
+                    isActive={currentPage === index + 1}
+                    onClick={() => setCurrentPage(index + 1)}
+                  >
+                    {index + 1}
+                  </PaginationLink>
+                </PaginationItem>
+              ))}
+              <PaginationItem>
+                <PaginationNext
+                  onClick={() => setCurrentPage(currentPage + 1)}
+                  disabled={currentPage === totalPages}
+                />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
+        </div>
+      ) : (
+        <div className="flex flex-col justify-center items-center mx-auto space-y-4 py-8">
+          <Image src={wishlistImage} alt="Wishlist" width={500} />
+          <h1 className="text-2xl font-medium">
+            Please add your favourite book's
+          </h1>
+        </div>
+      )}
     </div>
   );
 };

@@ -133,7 +133,7 @@ export default function Store({ allBooksData, allCategoryData }) {
 
         {isCategoryVisible && (
           <div className="mt-6 p-2.5 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-            <div className="flex-1">
+            <div className="flex flex-col">
               <h3 className="font-semibold">CATEGORIES</h3>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 py-3">
                 {allCategoryData.map((category, index) => (
@@ -150,7 +150,7 @@ export default function Store({ allBooksData, allCategoryData }) {
               </div>
             </div>
 
-            <div className="flex-1">
+            <div className="flex flex-col">
               <h3 className="font-semibold">PRICE</h3>
               <div className="space-y-2">
                 <div className="flex items-center space-x-1">
@@ -176,46 +176,54 @@ export default function Store({ allBooksData, allCategoryData }) {
           </div>
         )}
       </div>
-      <div className="flex flex-wrap justify-center w-full py-4 px-2 sm:px-4">
-        {currentItems.map((book) => (
-          <div key={book._id} className="w-full sm:w-1/2 lg:w-1/3 p-3">
-            <BookCard
-              id={book._id}
-              title={book.title}
-              imageUrl={book.imageUrl}
-              author={book.author}
-              price={book.price}
-            />
+      {currentItems ? (
+        <div>
+          <div className="flex flex-wrap justify-center w-full py-4 px-2 sm:px-4">
+            {currentItems.map((book) => (
+              <div key={book._id} className="w-full sm:w-1/2 lg:w-1/3 p-3">
+                <BookCard
+                  id={book._id}
+                  title={book.title}
+                  imageUrl={book.imageUrl}
+                  author={book.author}
+                  price={book.price}
+                />
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
 
-      <Pagination className="mb-4 mx-auto">
-        <PaginationContent>
-          <PaginationItem>
-            <PaginationPrevious
-              onClick={() => setCurrentPage(currentPage - 1)}
-              disabled={currentPage === 1}
-            />
-          </PaginationItem>
-          {Array.from({ length: totalPages }, (_, index) => (
-            <PaginationItem key={index}>
-              <PaginationLink
-                isActive={currentPage === index + 1}
-                onClick={() => setCurrentPage(index + 1)}
-              >
-                {index + 1}
-              </PaginationLink>
-            </PaginationItem>
-          ))}
-          <PaginationItem>
-            <PaginationNext
-              onClick={() => setCurrentPage(currentPage + 1)}
-              disabled={currentPage === totalPages}
-            />
-          </PaginationItem>
-        </PaginationContent>
-      </Pagination>
+          <Pagination className="mb-4 mx-auto">
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious
+                  onClick={() => setCurrentPage(currentPage - 1)}
+                  disabled={currentPage === 1}
+                />
+              </PaginationItem>
+              {Array.from({ length: totalPages }, (_, index) => (
+                <PaginationItem key={index}>
+                  <PaginationLink
+                    isActive={currentPage === index + 1}
+                    onClick={() => setCurrentPage(index + 1)}
+                  >
+                    {index + 1}
+                  </PaginationLink>
+                </PaginationItem>
+              ))}
+              <PaginationItem>
+                <PaginationNext
+                  onClick={() => setCurrentPage(currentPage + 1)}
+                  disabled={currentPage === totalPages}
+                />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
+        </div>
+      ) : (
+        <div className="flex justify-center items-center">
+          <h1 className="text-3xl font-semibold">No Products</h1>
+        </div>
+      )}
     </div>
   );
 }
