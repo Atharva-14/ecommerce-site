@@ -58,7 +58,7 @@ const Cart = () => {
         <Separator />
 
         {loading && !cartItems.length ? (
-          <div className="py-2">
+          <div className="py-2 flex flex-col space-y-5">
             <SkeletonCard />
             <SkeletonCard />
           </div>
