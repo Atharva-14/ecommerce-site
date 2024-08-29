@@ -21,12 +21,18 @@ export default function Login() {
       password: passwordInput.current.value,
     };
     setLoading(true);
-    const { success } = await logInUser(formData);
 
-    if (success) {
-      router.push("/cart");
-    } else {
-      console.log("Error Occured");
+    try {
+      const { success } = await logInUser(formData);
+      if (success) {
+        router.push("/");
+      } else {
+        console.log("Login failed: Incorrect credentials");
+      }
+    } catch (error) {
+      console.error("An error occurred during login:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -36,14 +42,20 @@ export default function Login() {
       email: "johnsnow@dev.com",
       password: "1234567890",
     };
-    setLoading(true);
-    const { success } = await logInUser(formData);
 
-    if (success) {
+    setLoading(true);
+
+    try {
+      const { success } = await logInUser(formData);
+      if (success) {
+        router.push("/");
+      } else {
+        console.log("Login failed: Incorrect credentials");
+      }
+    } catch (error) {
+      console.error("An error occurred during login:", error);
+    } finally {
       setLoading(false);
-      router.push("/cart");
-    } else {
-      console.log("Error Occured");
     }
   };
 
@@ -61,6 +73,7 @@ export default function Login() {
             placeholder="johndoe@email.com"
             type="email"
             ref={emailInput}
+            required
           />
         </LabelInputContainer>
         <LabelInputContainer className="mb-4">
@@ -70,6 +83,7 @@ export default function Login() {
             placeholder="••••••••"
             type="password"
             ref={passwordInput}
+            required
           />
         </LabelInputContainer>
 

@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import SearchModal from "../UI/SearchModal";
 import { usePathname } from "next/navigation";
-import { useRouter } from "next/router";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,19 +12,22 @@ import {
   DropdownMenuTrigger,
 } from "@/components/UI/dropdown-menu";
 import Avatar from "boring-avatars";
+import { useDispatch } from "react-redux";
+import { cartActions } from "@/store/cart-slice";
 
 export default function MainNavigation() {
   const path = usePathname();
-  const route = useRouter();
   const [isSearchOpen, setSearchOpen] = useState(false);
   const { logoutUser, user } = useAuth();
 
   const [scrollPosition, setScrollPosition] = useState(0);
   const [isScrollingUp, setIsScrollingUp] = useState(true);
+  const [isAvatarHovered, setIsAvatarHovered] = useState(false);
+  const dispatch = useDispatch();
 
   const logout = () => {
-    logoutUser();
-    route.push("/");
+    logoutUser(dispatch);
+    dispatch(cartActions.resetCartState());
   };
 
   const openSearch = () => setSearchOpen(true);
@@ -114,7 +116,7 @@ export default function MainNavigation() {
               </button>
 
               {user ? (
-                <div className="flex space-x-5">
+                <div className="flex space-x-5 relative">
                   <Link
                     href="/cart"
                     className={`flex items-center px-2 py-1 border rounded-md border-gray-300 ${
@@ -133,9 +135,20 @@ export default function MainNavigation() {
                     </p>
                   </Link>
 
+                  {/* Avatar with Tooltip */}
                   <DropdownMenu>
-                    <DropdownMenuTrigger>
+                    <DropdownMenuTrigger
+                      onMouseEnter={() => setIsAvatarHovered(true)}
+                      onMouseLeave={() => setIsAvatarHovered(false)}
+                      className="relative group"
+                    >
                       <Avatar name={user?.firstName} variant="beam" />
+                      {isAvatarHovered && (
+                        <div className="absolute opacity-55 top-[50px] left-1 transform -translate-x-1/2 bg-gray-800 text-white dark:text-white text-sm rounded-md p-2 shadow-md">
+                          <p>{user?.firstName + " " + user?.lastName}</p>
+                          <p>{user?.email}</p>
+                        </div>
+                      )}
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>
                       <DropdownMenuLabel>My Account</DropdownMenuLabel>

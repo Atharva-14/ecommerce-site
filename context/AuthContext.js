@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useRouter } from "next/router";
 
 const { createContext, useContext, useState, useEffect } = require("react");
 
@@ -7,6 +8,7 @@ const AuthContext = createContext(null);
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState();
   const [token, setToken] = useState();
+  const router = useRouter();
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -188,6 +190,8 @@ export const AuthProvider = ({ children }) => {
     sessionStorage?.removeItem("authToken");
     setUser();
     setToken();
+
+    router.push("/login");
   };
 
   return (

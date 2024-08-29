@@ -18,7 +18,9 @@ const initialState = {
 const cartSlice = createSlice({
   name: "cart",
   initialState: initialState,
-  reducers: {},
+  reducers: {
+    resetCartState: () => initialState,
+  },
   extraReducers: (builder) => {
     //Handling fetch cart items
     builder

@@ -9,8 +9,10 @@ import { useAuth } from "@/context/AuthContext";
 import { cn } from "@/lib/utils";
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Head from "next/head";
+import NewAddressModal from "@/components/Address/NewAddressModal";
+import { getCartItems } from "@/store/async-thunk";
 
 const Checkout = () => {
   const { user } = useAuth();
@@ -20,8 +22,10 @@ const Checkout = () => {
   const [cartValue, setCartValue] = useState(0);
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [isModalOpen, setModalOpen] = useState(false);
+  const [isAddressModalOpen, setAddressModalOpen] = useState(false);
   const total = useRef();
   const couponInput = useRef();
+  const dispatch = useDispatch();
   const userId = user?._id;
 
   const cartItems = useSelector((state) => state.cart.bookCart);
@@ -29,10 +33,12 @@ const Checkout = () => {
 
   useEffect(() => {
     if (user?._id) {
+      dispatch(getCartItems(user?._id));
+
       setCartValue(totalCartValue);
     }
     couponInput.current.value = "SAVE20";
-  }, [user, cartItems]);
+  }, [user, dispatch, totalCartValue, couponInput]);
 
   const handleCoupon = () => {
     const coupon = couponInput.current.value;
@@ -100,9 +106,21 @@ const Checkout = () => {
     }
   };
 
+  const openAddressModal = (address = null) => {
+    setSelectedAddress(address);
+    setAddressModalOpen(true);
+  };
+
+  const closeAddressModal = () => setAddressModalOpen(false);
+
   return (
     <>
       <OrderPlacedModal open={isModalOpen} onClose={closeOrderCompleteModal} />
+      <NewAddressModal
+        open={isAddressModalOpen}
+        onClose={closeAddressModal}
+        addressData={selectedAddress}
+      />
       <div className="w-full mx-auto px-4 sm:px-6 lg:px-8">
         <Head>
           <title>Checkout - eBookHeaven</title>
@@ -127,37 +145,51 @@ const Checkout = () => {
                 <h2 className="text-2xl font-bold">SELECT AN ADDRESS</h2>
               </div>
               <div className="w-2/3">
-                <RadioGroup
-                  value={selectedAddress}
-                  onValueChange={(value) => setSelectedAddress(value)}
-                >
-                  {user?.address.map((item, index) => (
-                    <div
-                      className="flex items-center space-x-2 focus:bg-orange-400"
-                      key={index}
-                    >
-                      <RadioGroupItem
-                        value={item}
-                        id={index}
-                        className="border-black w-fit"
-                      />
-                      <Label htmlFor={index} className="text-base font-normal">
-                        <b>{item.fullName}</b>{" "}
-                        {item.line1 +
-                          ", " +
-                          item.line2 +
-                          ", " +
-                          item.city +
-                          ", " +
-                          item.state +
-                          ", " +
-                          item.pincode +
-                          ", " +
-                          item.country}
-                      </Label>
-                    </div>
-                  ))}
-                </RadioGroup>
+                {user?.address?.length > 0 ? (
+                  <RadioGroup
+                    value={selectedAddress}
+                    onValueChange={(value) => setSelectedAddress(value)}
+                  >
+                    {user?.address.map((item, index) => (
+                      <div
+                        className="flex items-center space-x-2 focus:bg-orange-400"
+                        key={index}
+                      >
+                        <RadioGroupItem
+                          value={item}
+                          id={index}
+                          className="border-black w-fit"
+                        />
+                        <Label
+                          htmlFor={index}
+                          className="text-base font-normal"
+                        >
+                          <b>{item.fullName}</b>{" "}
+                          {item.line1 +
+                            ", " +
+                            item.line2 +
+                            ", " +
+                            item.city +
+                            ", " +
+                            item.state +
+                            ", " +
+                            item.pincode +
+                            ", " +
+                            item.country}
+                        </Label>
+                      </div>
+                    ))}
+                  </RadioGroup>
+                ) : (
+                  <div className="flex flex-col w-fit mx-auto p-6 justify-center items-center">
+                    <p className="text-sm text-gray-500">
+                      No addresses available.
+                    </p>
+                    <Button onClick={() => openAddressModal(null)}>
+                      Add a New Address
+                    </Button>
+                  </div>
+                )}
               </div>
             </div>
             <div className="w-full flex justify-between">
@@ -165,7 +197,7 @@ const Checkout = () => {
                 <p className="text-2xl font-medium text-gray-500">02</p>
                 <h2 className="text-2xl font-bold">PAYMENT METHOD</h2>
               </div>
-              <div className="w-2/3 flex flex-col my-auto">
+              <div className="w-2/3 flex flex-col my-auto p-6">
                 <RadioGroup className="flex justify-evenly">
                   <div
                     className="py-2.5 px-6 flex space-x-4 items-center rounded-lg bg-gray-300 hover:bg-gray-400"

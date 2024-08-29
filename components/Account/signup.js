@@ -26,12 +26,19 @@ export default function Signup() {
     };
 
     setLoading(true);
-    const { success } = await signupUser(formData);
 
-    if (success) {
-      router.push("/");
-    } else {
-      console.log("Signup Error Occured");
+    try {
+      const { success } = await signupUser(formData);
+
+      if (success) {
+        router.push("/");
+      } else {
+        console.log("Signup Error Occured");
+      }
+    } catch (error) {
+      console.error("An error occurred during Signup:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -50,6 +57,7 @@ export default function Signup() {
               placeholder="John"
               type="text"
               ref={firstNameInput}
+              required
             />
           </LabelInputContainer>
           <LabelInputContainer>
@@ -59,6 +67,7 @@ export default function Signup() {
               placeholder="Doe"
               type="text"
               ref={lastNameInput}
+              required
             />
           </LabelInputContainer>
         </div>
@@ -69,6 +78,7 @@ export default function Signup() {
             placeholder="johndoe@email.com"
             type="email"
             ref={emailInput}
+            required
           />
         </LabelInputContainer>
         <LabelInputContainer className="mb-4">
@@ -78,6 +88,7 @@ export default function Signup() {
             placeholder="••••••••"
             type="password"
             ref={passwordInput}
+            required
           />
         </LabelInputContainer>
 
