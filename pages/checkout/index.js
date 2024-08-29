@@ -131,7 +131,7 @@ const Checkout = () => {
           <meta property="og:title" content="Checkout - eBookHeaven" />
         </Head>
         <div className="p-10 bg-gradient-to-t from-slate-50 via-zinc-200 to-slate-300">
-          <h1 cclassName="text-xl md:text-3xl font-extrabold text-center">
+          <h1 className="text-xl md:text-3xl font-extrabold text-center">
             CHECKOUT
           </h1>
         </div>
@@ -198,9 +198,9 @@ const Checkout = () => {
                 <h2 className="text-2xl font-bold">PAYMENT METHOD</h2>
               </div>
               <div className="w-2/3 flex flex-col my-auto p-6">
-                <RadioGroup className="flex justify-evenly">
+                <RadioGroup className="flex flex-col md:flex-row justify-evenly">
                   <div
-                    className="py-2.5 px-6 flex space-x-4 items-center rounded-lg bg-gray-300 hover:bg-gray-400"
+                    className="py-2.5 px-6 flex space-x-4 mx-auto items-center rounded-lg bg-gray-300 hover:bg-gray-400"
                     onClick={() => setPaymentMethod("cash")}
                   >
                     <Label htmlFor="r1" className="flex items-center">
@@ -214,7 +214,7 @@ const Checkout = () => {
                     />
                   </div>
                   <div
-                    className="py-2.5 px-6 flex space-x-4 items-center rounded-lg bg-gray-300 hover:bg-gray-400"
+                    className="py-2.5 px-6 flex space-x-4 mx-auto items-center rounded-lg bg-gray-300 hover:bg-gray-400"
                     onClick={() => setPaymentMethod("card")}
                   >
                     <Label htmlFor="r2" className="flex items-center">

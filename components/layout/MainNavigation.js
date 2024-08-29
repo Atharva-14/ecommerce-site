@@ -135,7 +135,6 @@ export default function MainNavigation() {
                     </p>
                   </Link>
 
-                  {/* Avatar with Tooltip */}
                   <DropdownMenu>
                     <DropdownMenuTrigger
                       onMouseEnter={() => setIsAvatarHovered(true)}
