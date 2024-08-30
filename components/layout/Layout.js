@@ -1,6 +1,5 @@
 import Footer from "./Footer";
 import MainNavigation from "./MainNavigation";
-
 export const metadata = {
   title: "eBookHaven",
   description: "All types of books are available here.",

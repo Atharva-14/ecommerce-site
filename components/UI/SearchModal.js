@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import Link from "next/link";
 import axios from "axios";
 import debounce from "lodash.debounce";
 import { SkeletonList } from "./Skeleton/SkeletonList";
@@ -28,7 +27,6 @@ export default function SearchModal({ open, onClose }) {
   }, []);
 
   const fetchResults = async (searchQuery) => {
-    // Prevent fetching if query is empty
     if (!searchQuery.trim()) {
       setSearchResults([]);
       setIsDivVisible(false);
@@ -44,7 +42,6 @@ export default function SearchModal({ open, onClose }) {
         { params: { query: searchQuery } }
       );
 
-      // Simulate delay of 1 second (1000 milliseconds)
       setTimeout(() => {
         setIsDivVisible(true);
         setSearchResults(response.data);
@@ -65,8 +62,7 @@ export default function SearchModal({ open, onClose }) {
       dialog.current.showModal();
     } else {
       dialog.current.close();
-      // Reset query and hide results when modal closes
-      setQuery(""); // Clear the input field
+      setQuery("");
     }
 
     if (query.trim()) {
@@ -122,9 +118,15 @@ export default function SearchModal({ open, onClose }) {
     <dialog ref={dialog} onClose={onClose}>
       {open ? (
         <div className="fixed inset-0 bg-black bg-opacity-75 z-50 flex items-start justify-center p-4 pt-12">
-          <div className="w-full max-w-3xl p-4 bg-white rounded-lg shadow-lg overflow-y-auto max-h-[90vh]">
-            <div className="flex items-center border-2 border-gray-300 p-1 rounded-lg">
-              <i className="bx bx-search text-2xl" undefined></i>
+          <div className="w-full max-w-3xl p-4 bg-white rounded-lg shadow-lg overflow-y-auto max-h-[90vh] relative">
+            <button
+              onClick={onClose}
+              className="absolute top-0 right-2 text-4xl text-gray-600 md:hidden"
+            >
+              &times;
+            </button>
+            <div className="flex items-center border-2 border-gray-300 p-1 mt-6 rounded-lg">
+              <i className="bx bx-search text-2xl"></i>
               <Input
                 className="border-none px-3 py-2 text-xl font-medium focus:outline-none focus:border-transparent focus:ring-0 focus:ring-offset-0 focus:ring-opacity-0"
                 type="text"
@@ -154,7 +156,6 @@ export default function SearchModal({ open, onClose }) {
                       key={book._id}
                     >
                       <div
-                        href={`/books/${book._id}`}
                         className="w-full cursor-pointer"
                         onClick={() => {
                           router.push(`/books/${book._id}`);
@@ -174,7 +175,7 @@ export default function SearchModal({ open, onClose }) {
               <div className="mt-4">
                 <h4 className="mb-2">Recent Searches</h4>
                 {recentSearches.length > 0 ? (
-                  <ul className="space-y-2 overflow-y-auto ">
+                  <ul className="space-y-2 overflow-y-auto">
                     {recentSearches.map((search, index) => (
                       <li
                         key={index}
