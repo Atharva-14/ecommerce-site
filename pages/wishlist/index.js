@@ -60,10 +60,7 @@ const Wishlist = () => {
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredWishlist.slice(
-    indexOfFirstItem,
-    indexOfLastItem
-  );
+  const currentItems = filteredWishlist.slice(indexOfFirstItem, indexOfLastItem);
 
   const totalPages = Math.ceil(filteredWishlist.length / itemsPerPage);
 
@@ -71,76 +68,78 @@ const Wishlist = () => {
     <div className="flex flex-col mx-auto w-7/12 py-4">
       <Head>
         <title>{user ? `${user?.firstName}'s Wishlist` : "Wishlist"}</title>
-        <meta
-          name="description"
-          content="View and manage your wishlist items."
-        />
+        <meta name="description" content="View and manage your wishlist items." />
         <meta name="robots" content="noindex, nofollow" />
       </Head>
       <h1 className="font-semibold text-4xl mb-2">
         {user?.firstName}'s Wishlist
       </h1>
 
-      {loading && (
+      {/* Show loading skeleton while loading */}
+      {loading ? (
         <div>
           <SkeletonWishlist />
           <SkeletonWishlist />
           <SkeletonWishlist />
-        </div>
-      )}
-
-      {currentItems.length >= 1 ? (
-        <div>
-          <div>
-            <PriceDropdown onChange={handleOptionClick} />
-          </div>
-          <div>
-            {currentItems.map((book) => (
-              <div key={book._id} className="w-full ">
-                <WishlistCard
-                  id={book._id}
-                  title={book.title}
-                  imageUrl={book.imageUrl}
-                  author={book.author}
-                  price={book.price}
-                />
-              </div>
-            ))}
-          </div>
-          <Pagination className="mb-4">
-            <PaginationContent>
-              <PaginationItem>
-                <PaginationPrevious
-                  onClick={() => setCurrentPage(currentPage - 1)}
-                  disabled={currentPage === 1}
-                />
-              </PaginationItem>
-              {Array.from({ length: totalPages }, (_, index) => (
-                <PaginationItem key={index}>
-                  <PaginationLink
-                    isActive={currentPage === index + 1}
-                    onClick={() => setCurrentPage(index + 1)}
-                  >
-                    {index + 1}
-                  </PaginationLink>
-                </PaginationItem>
-              ))}
-              <PaginationItem>
-                <PaginationNext
-                  onClick={() => setCurrentPage(currentPage + 1)}
-                  disabled={currentPage === totalPages}
-                />
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination>
         </div>
       ) : (
-        <div className="flex flex-col justify-center items-center mx-auto space-y-4 py-8">
-          <Image src={wishlistImage} alt="Wishlist" width={500} />
-          <h1 className="text-2xl font-medium">
-            Please add your favourite book's
-          </h1>
-        </div>
+        <>
+          {/* Show wishlist items if available */}
+          {currentItems.length >= 1 ? (
+            <div>
+              <div>
+                <PriceDropdown onChange={handleOptionClick} />
+              </div>
+              <div>
+                {currentItems.map((book) => (
+                  <div key={book._id} className="w-full">
+                    <WishlistCard
+                      id={book._id}
+                      title={book.title}
+                      imageUrl={book.imageUrl}
+                      author={book.author}
+                      price={book.price}
+                    />
+                  </div>
+                ))}
+              </div>
+              <Pagination className="mb-4">
+                <PaginationContent>
+                  <PaginationItem>
+                    <PaginationPrevious
+                      onClick={() => setCurrentPage(currentPage - 1)}
+                      disabled={currentPage === 1}
+                    />
+                  </PaginationItem>
+                  {Array.from({ length: totalPages }, (_, index) => (
+                    <PaginationItem key={index}>
+                      <PaginationLink
+                        isActive={currentPage === index + 1}
+                        onClick={() => setCurrentPage(index + 1)}
+                      >
+                        {index + 1}
+                      </PaginationLink>
+                    </PaginationItem>
+                  ))}
+                  <PaginationItem>
+                    <PaginationNext
+                      onClick={() => setCurrentPage(currentPage + 1)}
+                      disabled={currentPage === totalPages}
+                    />
+                  </PaginationItem>
+                </PaginationContent>
+              </Pagination>
+            </div>
+          ) : (
+            // Show this message only if no wishlist items are present and loading has finished
+            <div className="flex flex-col justify-center items-center mx-auto space-y-4 py-8">
+              <Image src={wishlistImage} alt="Wishlist" width={500} />
+              <h1 className="text-2xl font-medium">
+                Please add your favourite book's
+              </h1>
+            </div>
+          )}
+        </>
       )}
     </div>
   );

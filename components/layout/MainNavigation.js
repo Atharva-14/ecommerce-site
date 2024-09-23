@@ -19,10 +19,10 @@ export default function MainNavigation() {
   const path = usePathname();
   const [isSearchOpen, setSearchOpen] = useState(false);
   const { logoutUser, user } = useAuth();
-
   const [scrollPosition, setScrollPosition] = useState(0);
   const [isScrollingUp, setIsScrollingUp] = useState(true);
   const [isAvatarHovered, setIsAvatarHovered] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false); // State for mobile menu
   const dispatch = useDispatch();
 
   const logout = () => {
@@ -71,11 +71,24 @@ export default function MainNavigation() {
     >
       <div className="sm:py-2 mx-auto flex items-center justify-between h-14 lg:h-16 px-4 md:px-8 max-w-7xl border-b border-gray-300">
         <SearchModal open={isSearchOpen} onClose={closeSearch} />
+        
+        {/* Logo */}
         <Link href="/" className="font-semibold text-xl">
           eBookHeaven
         </Link>
 
-        <div className="flex items-center space-x-4 md:space-x-6 lg:space-x-8">
+        {/* Hamburger Menu (Mobile) */}
+        <div className="lg:hidden">
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="text-3xl focus:outline-none"
+          >
+            <i className="bx bx-menu"></i>
+          </button>
+        </div>
+
+        {/* Links and Avatar for Desktop */}
+        <div className="hidden lg:flex items-center space-x-4 md:space-x-6 lg:space-x-8">
           <Link
             href="/"
             className={`text-lg ${
@@ -97,6 +110,7 @@ export default function MainNavigation() {
             Store
           </Link>
 
+          {/* Search Button */}
           <button
             onClick={openSearch}
             className="bg-gray-100 dark:bg-gray-800 hover:bg-gray-50 max-w-[150px] md:max-w-[200px] lg:max-w-[250px] sm:text-sm ring-2 ring-inset ring-gray-200 rounded-lg px-2 py-2 flex justify-between items-center transition-all cursor-pointer"
@@ -112,6 +126,7 @@ export default function MainNavigation() {
             </span>
           </button>
 
+          {/* User Avatar / Dropdown */}
           {user ? (
             <div className="flex items-center space-x-4 lg:space-x-6 relative">
               <Link
@@ -185,6 +200,75 @@ export default function MainNavigation() {
             </Link>
           )}
         </div>
+
+        {/* Mobile Menu */}
+        {menuOpen && (
+          <div className="lg:hidden flex flex-col absolute top-full left-0 w-full bg-white shadow-lg z-50">
+            <Link
+              href="/"
+              className="block px-4 py-2 text-lg hover:bg-gray-200"
+              onClick={() => setMenuOpen(false)}
+            >
+              Home
+            </Link>
+            <Link
+              href="/store"
+              className="block px-4 py-2 text-lg hover:bg-gray-200"
+              onClick={() => setMenuOpen(false)}
+            >
+              Store
+            </Link>
+            <Link
+              href="/cart"
+              className="block px-4 py-2 text-lg hover:bg-gray-200"
+              onClick={() => setMenuOpen(false)}
+            >
+              Cart
+            </Link>
+            {user ? (
+              <>
+                <Link
+                  href="/profile"
+                  className="block px-4 py-2 text-lg hover:bg-gray-200"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  Profile
+                </Link>
+                <Link
+                  href="/wishlist"
+                  className="block px-4 py-2 text-lg hover:bg-gray-200"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  Wishlist
+                </Link>
+                <Link
+                  href="/orders"
+                  className="block px-4 py-2 text-lg hover:bg-gray-200"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  Orders
+                </Link>
+                <button
+                  onClick={() => {
+                    logout();
+                    setMenuOpen(false);
+                  }}
+                  className="block w-full text-left px-4 py-2 text-lg hover:bg-gray-200"
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <Link
+                href="/login"
+                className="block px-4 py-2 text-lg hover:bg-gray-200"
+                onClick={() => setMenuOpen(false)}
+              >
+                Sign In
+              </Link>
+            )}
+          </div>
+        )}
       </div>
     </nav>
   );
